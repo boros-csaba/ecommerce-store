@@ -15,6 +15,12 @@ The bracelets are made from gemstone beads and charms. My wife comes up with the
 ![Bracelet](examples/bracelet.jpg)
 ### Automated marketing email funnels
 Users are assigned randomly to email marketing funnels and emails are sent out to them regularly based on the content of the assigned funnel. Having multiple funnels allows for optimizing and comparing the marketing emails efficiency. The emails are sent using sendgrid. 
+### Custom beads bracelet designer tool with live preview
+Customers can create their own bracelets in a designer tool in the shop. This is also custom built by me and it has a huge success in terms of sales. Customers can choose the types of beads, write any text with black or white letters and add additional charms to the bracelet.
+![Bracelet designer](examples/name-bracelets.jpg)
+### Strings bracelet designer tool with live preview
+The color of each string is customizable and the end result is immediately visible.
+![String bracelet](examples/string-bracelets.jpg)
 ### Responsive UI
 The website is designed and implemented using SCSS and jQuery. The cart events are handled using AJAX so the entire page is not reloaded when an item is added or removed from the cart.
 ![Desktop](examples/website.jpg)
