@@ -3,3 +3,5 @@ This is a custom ASP.NET MVC Core ecommerce website built from scratch. The webs
 
 ## Responsive UI
 The website is designed and implemented using SCSS and jQuery. The cart events are handled using AJAX so the entire page is not reloaded when an item is added or removed from the cart.
+![Desktop](examples/website.jpg)
+![Mobile](examples/mobile.JPG)
