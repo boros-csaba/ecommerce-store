@@ -26,7 +26,7 @@ namespace elenora.Services
         {
             if (!configuration.GetValue<bool>("Settings:EnableEmails")) return;
 
-            var client = new SendGridClient("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");
+            var client = new SendGridClient("***");
             var message = new SendGridMessage
             {
                 From = new SendGrid.Helpers.Mail.EmailAddress("info@elenora.hu", "Elenora"),
