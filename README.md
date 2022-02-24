@@ -11,15 +11,15 @@ This is a custom ASP.NET MVC Core ecommerce website built from scratch. The webs
 ## Features
 ### Automated rendering of photo-realistic product images
 The code for the automated jewelry renderer can be found in this repo: https://github.com/boros-csaba/3d-bracelet-render-image-generator
-The bracelets are made from gemstone beads and charms. My wife comes up with the design for the bracelets and writes down the beads in a Google Sheet. An automated task picks up the changes and generates a rendered image of the bracelet and automatically uploads it to the store. Here is an example image of a bracelet:
+The bracelets are made from gemstone beads and charms. My wife comes up with the design for the bracelets and writes down the beads in a Google Sheet. An automated task picks up the changes and generates a rendered image of the bracelet and automatically uploads it to the store. Here is an example image of a bracelet:  
 ![Bracelet](examples/bracelet.jpg)
 ### Automated marketing email funnels
 Users are assigned randomly to email marketing funnels and emails are sent out to them regularly based on the content of the assigned funnel. Having multiple funnels allows for optimizing and comparing the marketing emails efficiency. The emails are sent using sendgrid. 
 ### Custom beads bracelet designer tool with live preview
-Customers can create their own bracelets in a designer tool in the shop. This is also custom built by me and it has a huge success in terms of sales. Customers can choose the types of beads, write any text with black or white letters and add additional charms to the bracelet.
+Customers can create their own bracelets in a designer tool in the shop. This is also custom built by me and it has a huge success in terms of sales. Customers can choose the types of beads, write any text with black or white letters and add additional charms to the bracelet.  
 ![Bracelet designer](examples/name-bracelets.jpg)
 ### Strings bracelet designer tool with live preview
-The color of each string is customizable and the end result is immediately visible.
+The color of each string is customizable and the end result is immediately visible.  
 ![String bracelet](examples/string-bracelets.jpg)
 ### Responsive UI
 The website is designed and implemented using SCSS and jQuery. The cart events are handled using AJAX so the entire page is not reloaded when an item is added or removed from the cart.
