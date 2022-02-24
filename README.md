@@ -3,16 +3,18 @@ This is a custom ASP.NET MVC Core ecommerce website built from scratch. The webs
 
 ## Integrations with 3rd party apps
  - Barion payment processor (this is a payment processor similar to PayPal, popular in Europe)
- - Facebook Conversions API for sending purchase and other events to facebook for ads optimisations
+ - Facebook Conversions API for sending purchase and other events to facebook for ad optimizations
  - SendGrid for sending automated emails for order status and marketing messages
  - GLS Shipping integration
  - Google analytics and GA4 integrations
 
 ## Features
-### Automated rendered photo-realisting product images
+### Automated rendering of photo-realistic product images
 The code for the automated jewelry renderer can be found in this repo: https://github.com/boros-csaba/3d-bracelet-render-image-generator
 The bracelets are made from gemstone beads and charms. My wife comes up with the design for the bracelets and writes down the beads in a Google Sheet. An automated task picks up the changes and generates a rendered image of the bracelet and automatically uploads it to the store. Here is an example image of a bracelet:
 ![Bracelet](examples/bracelet.jpg)
+### Automated marketing email funnels
+Users are assigned randomly to email marketing funnels and emails are sent out to them regularly based on the content of the assigned funnel. Having multiple funnels allows for optimizing and comparing the marketing emails efficiency. The emails are sent using sendgrid. 
 ### Responsive UI
 The website is designed and implemented using SCSS and jQuery. The cart events are handled using AJAX so the entire page is not reloaded when an item is added or removed from the cart.
 ![Desktop](examples/website.jpg)
