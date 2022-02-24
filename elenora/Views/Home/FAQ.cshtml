@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Gyakori kérdések";
+}
+
+<div class="narrow-page page-container faq-page">
+    <h1>Gyakori kérdések</h1>
+
+    <div>
+        @await Component.InvokeAsync("Faq", FaqLocationEnum.FaqPage)
+    </div>
+
+    <div class="faq-more-info">Ha további kérdésed van, írj egy emailt az info@elenora.hu email címünkre és szívesen válaszolunk!</div>
+</div>

@@ -1,0 +1,38 @@
+﻿@model elenora.ViewModels.ProductImageViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.MainImageUrl))
+{
+    <picture class="@Model.PictureClass">
+        <source srcset="/images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-128.webp 128w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-256.webp 256w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-512.webp 512w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-1024.webp 1024w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-2048.webp 2048w"
+                sizes="@Model.Sizes"
+                type="image/webp" />
+        <source srcset="/images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-128.jpg 128w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-256.jpg 256w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-512.jpg 512w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-1024.jpg 1024w,
+                        /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-2048.jpg 2048w"
+                sizes="@Model.Sizes"
+                type="image/jpg" />
+        <img src="/images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-1024.jpg"
+             srcset="/images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-128.jpg 128w,
+                     /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-256.jpg 256w,
+                     /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-512.jpg 512w,
+                     /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-1024.jpg 1024w,
+                     /images/products/@Model.IdString/@Model.IdString@(Model.ImageNr == null ? "" : "-" + Model.ImageNr)-2048.jpg 2048w"
+             sizes="@Model.Sizes"
+             class="@Model.ImageClass"
+             alt="@Model.AltText"/>
+    </picture>
+}
+else
+{
+    <picture class="@Model.PictureClass">
+        <source srcset="@Helper.GetWebPImage(Model.MainImageUrl)" type="image/webp">
+        <source srcset="@Helper.GetJpgImage(Model.MainImageUrl)" type="image/jpeg">
+        <img src="@Helper.GetJpgImage(Model.MainImageUrl)" alt="@Model.AltText" class="@Model.ImageClass">
+    </picture>
+}

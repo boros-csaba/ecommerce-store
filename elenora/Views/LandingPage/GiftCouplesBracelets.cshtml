@@ -1,0 +1,70 @@
+﻿@using elenora.ViewModels;
+@model elenora.ViewModels.LandingPageViewModel
+@{
+    ViewData["Title"] = "Ajándék Páros Karkötők";
+    ViewData["Description"] = "Közeledik az évforduló vagy a szülinap ? Lepd meg párod egy páros karkötővel amivel még jobban ki tudjátok mutatni, hogy mennyire összeilletek.";
+    ViewData["HeadTags"] = "<link rel='stylesheet' href='/css/landing-page.min.css?v=1' />";
+}
+
+<script>
+    fbq('track', 'ViewContent', {
+        content_name: 'GiftCouplesBracelets'
+    });
+</script>
+
+@{
+    Func<ProductViewModel, Microsoft.AspNetCore.Html.IHtmlContent> ProductInfo =
+    @<div class="product-row">
+         <div class="only-mobile-title">
+             <span class="product-name">@item.Name</span>
+         </div>
+         <div class="product-image">
+             <picture>
+                 <source srcset="@Helper.GetWebPImage(item.CatalogImage1)" type="image/webp">
+                 <source srcset="@Helper.GetJpgImage(item.CatalogImage1)" type="image/jpeg">
+                 <img src="@Helper.GetJpgImage(item.CatalogImage1)" alt="@item.Name">
+             </picture>
+             <a class="white-button only-desktop" href="/karkoto/@item.IdString">Részletek</a>
+         </div>
+         <div class="description">
+             <div class="only-desktop">
+                 <span class="product-name">@item.Name</span>
+             </div>
+             <h3>@Helper.GetFormattedMoney(item.Price) Ft</h3>
+             <span class="bracelet-size-label">FÉRFI MÉRET</span>
+             <select id="@(item.Id)product-bracelet-size">
+                 <option value="1">XS (14 cm)</option>
+                 <option value="2">S (15-16 cm)</option>
+                 <option value="3">M (17-18 cm)</option>
+                 <option value="4" selected>L (19 cm)</option>
+                 <option value="5">XL (20 cm)</option>
+                 <option value="6">XXL (21 cm)</option>
+             </select>
+             <span class="bracelet-size-label">NŐI MÉRET</span>
+             <select id="@(item.Id)product-bracelet-size2">
+                 <option value="1">XS (14 cm)</option>
+                 <option value="2">S (15-16 cm)</option>
+                 <option value="3" selected>M (17-18 cm)</option>
+                 <option value="4">L (19 cm)</option>
+                 <option value="5">XL (20 cm)</option>
+                 <option value="6">XXL (21 cm)</option>
+             </select>
+             <a class="add-to-cart-button" onclick="return addToCart(this, @item.Id, '@item.IdString', '@item.Id', '@Html.Raw(item.Name)', '@Html.Raw(item.CategoryName)', '@item.Price');">@Helper.GetString("Kosárba teszem", (string)ViewData["Website"])</a>
+             <a class="white-button only-mobile-button" href="/karkoto/@item.IdString">Részletek</a>
+         </div>
+    </div>;
+}
+<div class="landing-page-wrapper">
+    <div class="narrow-page landing-page">
+        <h1>A legtökéletesebb ajándékot keresed kedvesednek?</h1>
+        <h2>Ajándékozd meg egyedi páros karkötővel, mely mindig összeköt majd benneteket!</h2>
+
+        <div class="products-list">
+            @foreach (var product in Model.Products)
+            {
+                @ProductInfo(product)
+            }
+        </div>
+    </div>
+</div>
+

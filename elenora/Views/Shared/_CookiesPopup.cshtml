@@ -1,0 +1,28 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@if (HttpContextAccessor.HttpContext.Request.Cookies["cookieConsent"] != "true")
+{
+    <div class="cookie-popup">
+        <span>
+            Az oldal cookie-kat használ a forgalom mérésére és a felhasználói élmény biztosításához.
+            <a href="/cookie-hasznalat">Részletek</a>
+        </span>
+        <a class="cookie-popup-button" onclick="return acceptCookies();">Rendben</a>
+    </div>
+    <script type="text/javascript">
+        function acceptCookies() {
+            $(".cookie-popup").hide("fast");
+            $(".cookie-popup").css("height", "0px");
+            $.ajax({
+                url: "/cookie-hasznalat",
+                method: "POST",
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("Error");
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }
+    </script>
+}

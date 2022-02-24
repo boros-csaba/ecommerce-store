@@ -1,0 +1,340 @@
+﻿@using elenora.ViewModels
+@using elenora; 
+@using elenora.Models; 
+@model elenora.ViewModels.BraceletDesignerViewModel
+@{
+    ViewData["Title"] = "Tervezz egyedi feliratos karkötőt! - Elenora";
+    ViewData["WithoutTitleSuffix"] = true;
+    ViewData["Description"] = "<b>Nehéz megtalálni a legjobb személyre szabott ajándékot ? Tervezz percek alatt gyönyörű, egyedi ásvány karkötőt magadnak, vagy lepj meg vele valakit! Csak válassz egy ásvány gyöngyöt, add meg a feliratot és adj hozzá kiegészítőket.";
+    ViewData["MetaViewport"] = "width=device-width, initial-scale=1, maximum-scale=1";
+    ViewData["HeadTags"] = "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css' integrity='sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=' crossorigin='anonymous' />";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/name-bracelet-designer.min.css" asp-append-version="true" type="text/css" />
+}
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'viewProductDetails',
+        ecommerce: {
+            currencyCode: 'HUF',
+            detail: {
+                products: [{
+                    id: 'custom-bracelet',
+                    name: 'Egyedi karkötő',
+                    category: 'Egyedi karkötő',
+                    price: '6990'
+                }]
+            }
+        }
+    });
+</script>
+
+<div class="narrow-page name-bracelet-designer-page">
+    <div class="name-bracelet-designer-wrapper">
+        <span class="bracelet-preview-title">Ilyen lesz a karkötőd:</span>
+        <div class="name-bracelet-designer">
+            <div class="bracelet-preview-wrapper">
+                <div class="bracelet-preview bracelet-preview-beads"></div>
+                <div class="bracelet-preview bracelet-preview-shadow"></div>
+            </div>
+            <div class="bracelet-designer-inner">
+                <div class="designer-tabs">
+                    <span id="designer-tab-1" class="active-tab">1. Gyöngyök</span>
+                    <span id="designer-tab-2">2. Felirat</span>
+                    <span id="designer-tab-3">3. Áttekintés</span>
+                </div>
+                <div class="designer-tab-content">
+                    <div id="tab-1" class="bracelet-beads-tab">
+                        <span class="designer-tab-title mobile-only">1. lépés: válassz egy gyöngyöt:</span>
+                        <div id="standard-beads" class="designer-bead-selectors"></div>
+                        @*
+                        <div class="bead-selectors-title-container" onclick="togglePremiumBeads()">
+                            <span class="bead-selectors-title">Prémium gyöngyök (+2 490 Ft)</span>
+                            <div class="bead-selectors-expand-button" id="premium-beads-button">+</div>
+                        </div>
+                        <div id="premium-beads" class="designer-bead-selectors"></div>
+                        *@
+
+                        <span class="designer-selectable-styles-title">Választható stílusok</span>
+                        <div class="designer-selectable-styles-container">
+                            <div class="designer-style-selector">
+                                <img src="/images/misc/designer_simple.png" alt="Karkötő stílus" />
+                            </div>
+                            <div class="designer-style-selector">
+                                <img src="/images/misc/designer_alternating.png" alt="Karkötő stílus" />
+                            </div>
+                            <div class="designer-style-selector">
+                                <img src="/images/misc/designer_double_alternating.png" alt="Karkötő stílus" />
+                            </div>
+                            <div class="designer-style-selector">
+                                <img src="/images/misc/designer_two_halves.png" alt="Karkötő stílus" />
+                            </div>
+                        </div>
+
+
+                        <a class="bracelet-designer-button desktop-only dark-button switch-next-tab-2">Következő lépés</a>
+                    </div>
+                    <div id="tab-2" style="display: none;">
+                        <div class="bracelet-text-tab">
+                            <span class="designer-tab-title mobile-only">2. lépés:  add meg a szöveget:</span>
+                            <div class="braceled-designer-text-inner">
+                                <div class="bracelet-text-input">
+                                    <img class="bracelet-input-component" src="/images/components/fekete-korong.png" style="width: 5.39px;">
+                                    <div class="bracelet-input-component">E</div>
+                                    <div class="bracelet-input-component">L</div>
+                                    <div class="bracelet-input-component">E</div>
+                                    <div class="bracelet-input-component">N</div>
+                                    <div class="bracelet-input-component">O</div>
+                                    <div class="bracelet-input-component">R</div>
+                                    <div class="bracelet-input-component">A</div>
+                                    <img class="bracelet-input-component" src="/images/components/fekete-korong.png" style="width: 5.39px;">
+                                    <div class="cursor"><div></div></div>
+                                </div>
+                                <small class="bracelet-text-input-message">Max 15 karakter</small>
+                                <div class="bracelet-designer-keyboard">
+                                    <div class="bracelet-designer-keyboard-row">
+                                        <div class="bracelet-designer-keyboard-button">Q</div>
+                                        <div class="bracelet-designer-keyboard-button">W</div>
+                                        <div class="bracelet-designer-keyboard-button">E</div>
+                                        <div class="bracelet-designer-keyboard-button">R</div>
+                                        <div class="bracelet-designer-keyboard-button">T</div>
+                                        <div class="bracelet-designer-keyboard-button">Z</div>
+                                        <div class="bracelet-designer-keyboard-button">U</div>
+                                        <div class="bracelet-designer-keyboard-button">I</div>
+                                        <div class="bracelet-designer-keyboard-button">O</div>
+                                        <div class="bracelet-designer-keyboard-button">P</div>
+                                    </div>
+                                    <div class="bracelet-designer-keyboard-row">
+                                        <div class="bracelet-designer-keyboard-button">A</div>
+                                        <div class="bracelet-designer-keyboard-button">S</div>
+                                        <div class="bracelet-designer-keyboard-button">D</div>
+                                        <div class="bracelet-designer-keyboard-button">F</div>
+                                        <div class="bracelet-designer-keyboard-button">G</div>
+                                        <div class="bracelet-designer-keyboard-button">H</div>
+                                        <div class="bracelet-designer-keyboard-button">J</div>
+                                        <div class="bracelet-designer-keyboard-button">K</div>
+                                        <div class="bracelet-designer-keyboard-button">L</div>
+                                    </div>
+                                    <div class="bracelet-designer-keyboard-row">
+                                        <div class="bracelet-designer-keyboard-button">Y</div>
+                                        <div class="bracelet-designer-keyboard-button">X</div>
+                                        <div class="bracelet-designer-keyboard-button">C</div>
+                                        <div class="bracelet-designer-keyboard-button">V</div>
+                                        <div class="bracelet-designer-keyboard-button">B</div>
+                                        <div class="bracelet-designer-keyboard-button">N</div>
+                                        <div class="bracelet-designer-keyboard-button">M</div>
+                                        <div class="bracelet-designer-keyboard-backspace">&#8592;</div>
+                                    </div>
+                                </div>
+                                <div class="bracelet-text-color-selector">
+                                    <span>Betűk színe:</span>
+                                    <div class="white-letters-selection selected-color"></div>
+                                    <div class="black-letters-selection"></div>
+                                </div>
+                                <span>Addj hozzá kiegészítőket:</span>
+                                <div class="selectable-extras"></div>
+                            </div>
+                            <div class="braceled-designer-text-description">
+                                Írd be a szöveget amit szeretnél a karkötőben látni. Válassz hozzá kiegészítőket tetszőleges helyre. A kiegészítőket bárhova teheted, csak helyezd oda a szövegben a kurzort. A szövegmezőben tudod szerkeszteni és törölni a kiegészítőket is.
+                            </div>
+                        </div>
+                        <a class="bracelet-designer-button desktop-only dark-button switch-next-tab-3">Következő lépés</a>
+                    </div>
+                    <div id="tab-3" style="display: none;">
+                        <div class="bracelet-size-tab">
+                        </div>
+
+                        <div class="complementary-products-container">
+                            <div class="complementary-product-info">
+                                <h2 class="section-title">Együtt szebb!</h2>
+                                <h3>Válassz kiegészítő karkötőt is!</h3>
+                                <small>
+                                    Az alábbi képeken a szöveg nélküli karkötők a kiegészítők, az árak csak a kiegészítő karkötőre vonatkoznak!
+                                </small>
+                            </div>
+                            <div class="complementary-products-inner-container"></div>
+                            <div class="custom-bracelet-price-container">
+                                <div class="custom-bracelet-price-inner-container">
+                                    <div>
+                                        <h2>Összesen</h2>
+                                        <h2 class="custom-bracelet-total">5 490 Ft</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="bracelet-designer-button bracelet-designer-cart-button desktop-only dark-button">@Helper.GetString("Kosárba teszem", (string)ViewData["Website"])</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-bracelet-bead-information-container"></div>
+
+    <partial name="_BraceletSizeSelector" model="new BraceletSizeSelectorModel { ProductType = ProductTypeEnum.Bracelet, Inline = true, ShowHelpIcon = true }" />
+    <a class="next-step-button mobile-only switch-next-tab-2">Következő lépés</a>
+
+    <div class="sections-container">
+        <div class="section half-section">
+            <h2 class="section-title">Valódi ásványok</h2>
+            <span>Csak legjobb minőségű, valódi ásvány gyöngyökkel dolgozunk. Mivel a kövek természetesek, ezért az egyes gyöngyök színe és mintája különbözhet, így minden karkötőnk egyedi! Mindig ellenőrizzük a karkötőinket, hogy kiszűrjük a deformált vagy repedt gyöngyöket, és igyekszünk csak hasonló mintájú gyöngyöket használni a karkötőkben.</span>
+        </div>
+        <div class="section half-section">
+            <span class="section-title">Szállítási idő</span>
+            <span>@Html.Raw(Model.DeliveryTimeFaqAnswer)</span>
+        </div>
+        <div class="section">
+            <span class="section-title">Gyakran ismételt kérdések</span>
+            @await Component.InvokeAsync("Faq", FaqLocationEnum.BraceletDesigner)
+        </div>
+        <div class="section">
+            <small class="components-warning">Figyelem! Az ásványok nem gyógyászati eszközök és a leírtak nem számítanak orvosi tanácsadásnak. Az ásványok hatásai csak anekdotikusan bizonyítottak. (A Btk. 187. törvény módosítására hivatkozva erre fel kell hívnunk figyelmet.)</small>
+        </div>
+    </div>
+
+    <span class="custom-bracelet-video-link">
+        Ha szükséged lenne egy kis segítségre, nézd meg az <a href="https://www.youtube.com/watch?v=bmr6lJIFCNI" target="_blank">útmutató videót.</a><br />
+    </span>
+
+    <span class="section-title">Példa karkötők</span>
+    <div class="preview-images">
+        <div class="preview-images-carousel owl-carousel owl-theme">
+            @foreach (var exampleImage in Model.ExampleImages)
+            {
+                <div>
+                    <a href="https://www.instagram.com/elenora.ekszer/" target="_blank">
+                        <picture class="preview-image-visible">
+                            <source srcset="@Helper.GetWebPImage("/images/example-bracelets/" + exampleImage.Item1)" type="image/webp">
+                            <source srcset="@Helper.GetJpgImage("/images/example-bracelets/" + exampleImage.Item1)" type="image/jpeg">
+                            <img src="@Helper.GetJpgImage("/images/example-bracelets/" + exampleImage.Item1)" alt="@exampleImage.Item2" title="@exampleImage.Item2">
+                        </picture>
+                        <span>@exampleImage.Item2</span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <h2 class="bracelet-designer-info-title bracelet-designer-info-title-center"></h2>
+    @await Component.InvokeAsync("Testimonials")
+    <partial name="_CollectionsButtons" />
+
+    <div class="bottom-buttons-navigation">
+        <span id="designer-tab-bottom-1" class="designer-tab active-tab">1. Gyöngy</span>
+        <span id="designer-tab-bottom-2" class="designer-tab">2. Felirat</span>
+        <span id="designer-tab-bottom-3" class="designer-tab">3. Áttekintés</span>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var addToCartText = "@Helper.GetString("Kosárba teszem", (string)ViewData["Website"])";
+
+    var isInputValid = true;
+    var beadSize = 38;
+    var letterSize = 32;
+    var letterMarginTop = 3;
+    var showWhiteLetters = true;
+    var beads = [
+        @foreach(var bead in Model.Beads)
+        {
+            <text>
+            {
+                id: @bead.Id,
+                idString: '@bead.IdString',
+                url: '@bead.ImageUrl',
+                name: '@bead.Name',
+                description: '@bead.Description?.Replace("<br />", "")',
+                longDescription: '@bead.LongDescription.Replace("<br />", "NewLine")',
+                soldOut: '@bead.SoldOut' === 'True',
+                complementaryProducts: [
+                    @foreach (var complementaryProduct in bead.ComplementaryProducts)
+                    {
+                        <text>
+                        {
+                            id: @complementaryProduct.Id,
+                            name: '@complementaryProduct.Name',
+                            price: @complementaryProduct.Price,
+                            imageUrl: '@complementaryProduct.ImageUrl.Replace(".webp", "")'
+                        },
+                        </text>
+                    }
+                ],
+                imageFrequencies: [@string.Join(", ", bead.ImageFrequencies)]
+            },
+            </text>
+        }
+    ];
+    var extras = [
+        { id: 79, url: 'fekete-sziv', width: 28, marginTop: 5, visible: true },
+        { id: 114, url: 'rose-gold-sziv', width: 28, marginTop: 5, visible: true },
+        { id: 94, url: 'betu-sziv-telt', width: 32, marginTop: 3, visible: true },
+        { id: 95, url: 'betu-sziv-ures', width: 28, marginTop: 5, visible: true },
+        { id: 132, url: 'betu-sziv-telt-fekete', width: 32, marginTop: 3, visible: true },
+        { id: 133, url: 'betu-sziv-ures-fekete', width: 28, marginTop: 5, visible: true },
+        { id: 85, url: 'ezust-mini-golyo', width: 16, marginTop: 11, visible: true },
+        { id: 126, url: 'matt-feher-achat-6mm', width: 28, marginTop: 5, visible: true },
+        { id: 127, url: 'matt-fekete-achat-6mm', width: 28, marginTop: 5, visible: true },
+        { id: 128, url: 'fekete-hematit-6mm', width: 28, marginTop: 5, visible: true },
+        { id: 129, url: 'fekete-korong', width: 9, marginTop: 8, visible: true },
+        { id: 82, url: 'rosegold-korong', width: 10, marginTop: 8, visible: true },
+        { id: 84, url: 'rosegold-mini-golyo', width: 28, marginTop: 5, visible: true },
+        { id: 130, url: 'feher-rondell', width: 12, marginTop: 5, visible: true },
+        { id: 131, url: 'rozsaszin-rondell', width: 14, marginTop: 5, visible: true }
+    ];
+    var whiteLetters = [
+        @foreach(var letter in Model.WhiteLetters)
+        {
+            <text>{ id: @letter.Item1, letter: '@letter.Item2' },</text>
+        }
+    ];
+    var blackLetters = [
+        @foreach(var letter in Model.BlackLetters)
+        {
+            <text>{ id: @letter.Item1, letter: '@letter.Item2' },</text>
+        }
+    ];
+
+    var selectedBead = null;
+    var selectedSecondaryBead = null;
+
+    var previewBeadsMaxCount = 21;
+    var selectedTab = 1;
+    var selectedStyle = @((int)Model.StyleType);
+    var selectedBeadId = @(Model.SelectedBeadId == 0 ? 23 : Model.SelectedBeadId);
+    var selectedSecondaryBeadId = @Model.SelectedSecondaryBeadId;
+    var validCharacters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+    var cartItemId = @(Model.CartItemId.HasValue ? Model.CartItemId.Value : 0);
+    var cartItemSelectedBeadId = @Model.SelectedBeadId;
+    var cartItemBraceletSize = @((int)Model.BraceletSize);
+    var cartItemSelectedComponents = [
+        @foreach(var componentId in Model.SelectedComponentIds)
+        {
+            <text>@componentId,</text>
+        }
+    ];
+    var selectedComplementaryProducts = [
+        @foreach(var complementaryProductId in Model.SelectedComplementaryProductIds)
+        {
+            <text>@complementaryProductId,</text>
+        }
+    ];
+
+
+    function togglePremiumBeads() {
+        if ($("#premium-beads-button").html() == "+") {
+            $("#premium-beads").slideUp();
+            $("#premium-beads-button").html("-");
+        }
+        else {
+            $("#premium-beads").slideDown();
+            $("#premium-beads-button").html("+");
+        }
+    }
+</script>
+<script type="text/javascript" src="/CustomBraceletDesignerJs.js" asp-append-version="true"></script>

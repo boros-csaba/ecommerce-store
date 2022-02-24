@@ -1,0 +1,112 @@
+﻿@model Tuple<int, int>
+
+<div class="checkout-status-container">
+    <div class="checkout-status-dots">
+        <div class="step-space-empty"></div>
+        <div onclick='@(IsButtonClickable(1, Model.Item1, Model.Item2) ? "goToCheckoutStep(1, false)" : "")' class="checkout-step @GetButtonClasses(1, Model.Item1, Model.Item2)">1</div>
+        <div class="step-space"></div>
+        <div class="step-space"></div>
+        <div onclick='@(IsButtonClickable(2, Model.Item1, Model.Item2) ? "goToCheckoutStep(2, false)" : "")' class="checkout-step @GetButtonClasses(2, Model.Item1, Model.Item2)">2</div>
+        <div class="step-space"></div>
+        <div class="step-space"></div>
+        <div onclick='@(IsButtonClickable(3, Model.Item1, Model.Item2) ? "goToCheckoutStep(3, false)" : "")' class="checkout-step @GetButtonClasses(3, Model.Item1, Model.Item2)">3</div>
+        <div class="step-space"></div>
+        <div class="step-space"></div>
+        <div onclick='@(IsButtonClickable(4, Model.Item1, Model.Item2) ? "goToCheckoutStep(4, false)" : "")' class="checkout-step @GetButtonClasses(4, Model.Item1, Model.Item2)">4</div>
+        <div class="step-space-empty"></div>
+    </div>
+    <div class="checkout-status-texts">
+        <div onclick='@(IsButtonClickable(1, Model.Item1, Model.Item2) ? "goToCheckoutStep(1, false)" : "")' class="@GetButtonClasses(1, Model.Item1, Model.Item2)">
+            @Helper.GetString("Kosár", (string)ViewData["Website"])
+        </div>
+        <div onclick='@(IsButtonClickable(2, Model.Item1, Model.Item2) ? "goToCheckoutStep(2, false)" : "")' class="@GetButtonClasses(2, Model.Item1, Model.Item2)">
+            Szállítási<br />
+            mód
+        </div>
+        <div onclick='@(IsButtonClickable(3, Model.Item1, Model.Item2) ? "goToCheckoutStep(3, false)" : "")' class="@GetButtonClasses(3, Model.Item1, Model.Item2)">
+            Számlázási<br />
+            adatok
+        </div>
+        <div onclick='@(IsButtonClickable(4, Model.Item1, Model.Item2) ? "goToCheckoutStep(4, false)" : "")' class="@GetButtonClasses(4, Model.Item1, Model.Item2)">
+            Összegzés
+        </div>
+    </div>
+</div>
+
+<script>
+    function goToCheckoutStep(step, validate) {
+        var redirectUrl = "";
+        if (step == 1) {
+            redirectUrl = "/rendeles/kosar";
+        }
+        else if (step == 2) {
+            redirectUrl = "/rendeles/szallitasi-mod";
+        }
+        else if (step == 3) {
+            redirectUrl = "/rendeles/szamlazasi-adatok";
+        }
+        else if (step == 4) {
+            redirectUrl = "/rendeles/osszegzes";
+        }
+        saveCheckoutStep(validate, redirectUrl);
+    }
+
+    function saveCheckoutStep(validate, redirectUrl) {
+        var saveUrl = getCheckoutStepSaveUrl();
+        if (saveUrl == null) {
+            window.location.href = redirectUrl;
+            return;
+        }
+        $(".checkout-validation-error").removeClass("checkout-validation-error");
+        var data = getCheckoutStepData();
+        data.validate = validate;
+        $("#loading").css("display", "flex");
+
+        $.ajax({
+            url: saveUrl,
+            method: "POST",
+            data: data,
+            success: function (data, _textStatus, _jqXHR) {
+                if (data.length > 0) {
+                    $(".checkout-status-texts")[0].scrollIntoView({ behavior: "smooth", block: "start" });
+                    for (var i = 0; i < data.length; i++) {
+                        $("#" + data[i].field).addClass("checkout-validation-error");
+                    }
+                    $("#phone").change();
+                }
+                else {
+                    completeStep();
+                    window.location.href = redirectUrl;
+                }
+                $("#loading").css("display", "none");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error");
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+</script>
+
+@functions {
+    public bool IsButtonActive(int buttonStep, int currentStep, int status)
+    {
+        if (buttonStep == currentStep) return true;
+        return (buttonStep < currentStep || buttonStep <= status);
+    }
+
+    public bool IsButtonClickable(int buttonStep, int currentStep, int status)
+    {
+        if (buttonStep == currentStep) return false;
+        return IsButtonActive(buttonStep, currentStep, status) || buttonStep <= status + 1;
+    }
+
+    public string GetButtonClasses(int buttonStep, int currentStep, int status) {
+        var classes = new List<string>();
+        if (IsButtonActive(buttonStep, currentStep, status)) classes.Add("completed-step");
+        if (IsButtonClickable(buttonStep, currentStep, status)) classes.Add("clickable-step");
+        return string.Join(" ", classes);
+    }
+}

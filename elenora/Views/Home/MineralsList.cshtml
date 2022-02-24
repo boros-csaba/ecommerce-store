@@ -1,0 +1,36 @@
+﻿@using elenora.ViewModels
+@model List<MineralsListItemViewModel>
+@{
+    ViewData["Title"] = "Ásvány lexikon";
+    ViewData["Description"] = "Ásvány lexikon";
+}
+
+<div class="medium-page">
+    <h1 class="minerals-list-title">Ásvány lexikon</h1>
+    <div class="minerals-list">
+        @foreach (var mineral in Model)
+        {
+            <div class="minerals-list-item">
+                <div class="mineral-title-row">
+                    <h2>@mineral.Name</h2>
+                    <div>
+                        @foreach (var image in mineral.Images)
+                        {
+                            <picture>
+                                <source srcset="@Helper.GetWebPImage(image)" type="image/webp">
+                                <source srcset="@Helper.GetJpgImage(image)" type="image/jpeg">
+                                <img src="@Helper.GetJpgImage(image)" alt="@mineral.Name">
+                            </picture>
+                        }
+                    </div>
+                </div>
+                <span>@Html.Raw(mineral.Description)</span>
+                @if (!string.IsNullOrWhiteSpace(mineral.ArticlesDescription))
+                {
+                    <br />
+                    <span>@Html.Raw(mineral.ArticlesDescription)</span>
+                }
+            </div>
+        }
+    </div>
+</div>

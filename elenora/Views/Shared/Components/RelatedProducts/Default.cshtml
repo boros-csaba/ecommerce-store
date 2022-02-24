@@ -1,0 +1,49 @@
+﻿@using elenora.ViewModels
+@model List<ProductListItemViewModel>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+
+<div class="section">
+    <span class="section-title">Nézd meg ezeket is!</span>
+    <div class="related-products owl-carousel owl-theme">
+        @foreach (var product in Model)
+        {
+            <div class="item">
+                <partial name="_ProductListItem" model="product" />
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        initRelatedProducts();
+        window.addEventListener("resize", initRelatedProducts);
+    });
+
+    function initRelatedProducts() {
+        $('.owl-carousel').owlCarousel({
+            responsiveClass: true,
+            nav: true,
+            autoWidth: true,
+            center: true,
+            loop: true,
+            navText: ["<div class='nav-btn prev-slide'>&lsaquo;</div>", "<div class='nav-btn next-slide'>&rsaquo;</div>"],
+            responsive: {
+                0: {
+                    items: 2
+                },
+                880: {
+                    items: 4
+                },
+                1000: {
+                    items: 5
+                },
+                1220: {
+                    items: 6
+                }
+            }
+        });
+        $('.owl-carousel').trigger('play.owl.autoplay', [5000]);
+    }
+</script>

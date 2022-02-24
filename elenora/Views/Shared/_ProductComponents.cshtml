@@ -1,0 +1,33 @@
+﻿@using elenora.ViewModels
+@model ProductComponentsViewModel
+
+<div class="components-container">
+    <span class="components-main-description">A valódi ásványgyöngyök mintázata és színe eltérő lehet, de a karkötőkben  igyekszünk úgy válogatni a gyöngyöket, hogy a lehető legszebb legyen az összhatás.</span>
+    @foreach (var component in Model.Components)
+    {
+    <div class="component">
+        <div class="component-image">
+            <picture>
+                <source srcset="@Helper.GetWebPImage(component.ImageUrl)" type="image/webp">
+                <source srcset="@Helper.GetPngImage(component.ImageUrl)" type="image/png">
+                <img src="@Helper.GetPngImage(component.ImageUrl)" alt="@component.Name">
+            </picture>
+            <h3>@component.Name</h3>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(component.ExampleImageDescription))
+        {
+            <span>@Html.Raw(component.ExampleImageDescription)</span>
+        }
+        @if (!string.IsNullOrWhiteSpace(component.ExampleImageUrl))
+        {
+            <picture class="component-example-image">
+                <source srcset="@Helper.GetWebPImage(component.ExampleImageUrl)" type="image/webp">
+                <source srcset="@Helper.GetJpgImage(component.ExampleImageUrl)" type="image/jpeg">
+                <img src="@Helper.GetJpgImage(component.ExampleImageUrl)" alt="@component.Name" class="component-example-image">
+            </picture>
+        }
+        <span>@Html.Raw(component.Description)</span>
+    </div>
+    }
+    <small class="components-warning">Figyelem! Az ásványok nem gyógyászati eszközök és a leírtak nem számítanak orvosi tanácsadásnak. Az ásványok hatásai csak anekdotikusan bizonyítottak. (A Btk. 187. törvény módosítására hivatkozva erre fel kell hívnunk a figyelmet.)</small>
+</div>

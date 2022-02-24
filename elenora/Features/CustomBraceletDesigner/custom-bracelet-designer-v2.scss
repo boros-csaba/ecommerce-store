@@ -1,0 +1,26 @@
+﻿#cbd-v2-container {
+    width: 100%;
+    max-width: 1000px;
+    height: calc(100vh - 77px);
+    margin: 0 auto;
+
+    .cbd-v2-message-container {
+        margin: 0 0 0 5px;
+
+        .cbd-v2-message {
+            display: inline-flex;
+            max-width: 75%;
+            padding: 7px 12px;
+            border-radius: 18px;
+            color: #050505;
+            background-color: #e4e6eb;
+            margin: 2px 0;
+            font-size: 0.875rem;
+        }
+    }
+
+    #cbd-v2-example-images-container {
+        margin-top: 10px;
+        margin-bottom: -10px;
+    }
+}

@@ -1,0 +1,37 @@
+﻿@using elenora.Models
+@model List<Faq>
+
+@foreach (var faq in Model)
+{
+    <div class="expandable-content">
+        <div class="expandable-content-title" onclick="toggleFaqContent(this, @faq.Id, @ViewBag.FaqLocationId)">
+            <span>@faq.Title</span>
+            <div class="expandable-content-expand">+</div>
+        </div>
+        <div class="expandable-content-value">@Html.Raw(faq.FormattedAnswer)</div>
+    </div>
+}
+
+<script type="text/javascript">
+    function toggleFaqContent(element, faqId, locationId) {
+        if ($(element).next().css("display") == "none") {
+            $(".expandable-content-value").slideUp("slow");
+            $(element).next().slideDown("slow");
+            $(element).find(".expandable-content-expand").html("-");
+            $.ajax({
+                url: "/gyakori-kerdesek/" + faqId + "-" + locationId,
+                method: "POST",
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("Error");
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }
+        else {
+            $(".expandable-content-value").slideUp("slow");
+            $(element).find(".expandable-content-expand").html("+");
+        }
+    }
+</script>

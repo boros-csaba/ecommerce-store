@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Szállítási információk";
+}
+
+<div class="narrow-page page-container">
+    <h1>SZÁLLÍTÁSI INFORMÁCIÓK</h1>
+
+    A 13 óráig beérkezett rendeléseket hétköznapokon jellemzően még aznap, a 13 óra utáni rendeléseket pedig a következő munkanapon postázzuk.
+    A szállítási idő általában 1-3 munkanap. A rendeléseket beérkezési sorrendben készítjük el, megnövekedett forgalom esetében 1-2 nap csúszás lehetséges. 
+    Három fizetési mód közül lehet választani, bankkártyás fizetés (Barion), banki átutalás és utánvét (csak GLS szállítás esetében lehtséges a futárnál fizetni).
+    Banki átutalás esetében csak az utalás beérkezése után kezdjük el feldolgozni a rendelést.
+
+    <h2 style="margin-bottom: 5px;">Szállítási módok és díjjak:</h2>
+    <ul style="padding-left: 20px;">
+        <li>
+            <b>GLS futárszolgálat</b><br />
+            A csomag feladása utáni munkanapon 8 és 17 óra között viszi a futár a rendelésedet.
+            SMS-ben értesítést küldünk a csomag feladásáról, illetve a kézbesítés előtt 1 órával ismét értesíteni fog a futár.
+            A GLS választásával lehetőség van a futárnál is fizetni utánvéttel, ha a számlázási adatoknál az utánvét fizetési módot választod.
+            <ul>
+                <li>
+                    A GLS szállítás díja @Helper.GetFormattedMoney(Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) Ft.
+                </li>
+                <li>
+                    Az utánvéttel való fizetés +@Helper.GetFormattedMoney(Settings.GLS_PAYMENT_PRICE) Ft.
+                </li>
+            </ul>
+        </li>
+        <li style="margin-top: 10px;">
+            <b>Magyar posta</b><br />
+            A csomagot elsőbbségi ajánlott levélként adjuk fel, ezért általában már másnapra meg is érkezik.
+            A postás két alkalommal megpróbálja személyesen átadni a csomagot, ha ez nem sikerül, akkor egy szelvényt dob a postládába, amivel a postán átveheted a csomagot.
+            A csomag feladása után emailben elküldjük a küldemény azonosító kódját, amellyel nyomon követheted a rendelésedet. Fontos megjegyezni, hogy a Posta nem küld értesítést a kiszállítás előtt!
+            <ul>
+                <li>
+                    A postázás díja @Helper.GetFormattedMoney(Settings.GLS_CSOMAGPONT_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) Ft.
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <br />
+    <div>
+        A <b>@Helper.GetFormattedMoney(Settings.FREE_SHIPPING_THRESHOLD) Ft feletti</b> rendelések esetében a szállítás <b>INGYENS</b>
+        @if (Settings.FREE_SHIPPING_INCLUDES_PAYMENT)
+        {
+            <text>, függetlenül a választott szállítási és fizetési módtól.</text>
+        }
+        <br />
+    </div>
+    <br />
+    Ha kérdésed van a szállítással kapcsolatban, írj egy emailt az info@elenora.hu email címünkre és szívesen válaszolunk!
+</div>

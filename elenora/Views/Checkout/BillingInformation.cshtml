@@ -1,0 +1,278 @@
+﻿@model elenora.ViewModels.CheckoutModel
+@{
+    ViewData["Title"] = "Szállítási mód";
+    ViewData["HideCartDrawerButton"] = true;
+}
+
+<div class="two-part-page">
+    <div class="main-part">
+        <div class="part-inner-container">
+
+            <partial name="_CheckoutStatus" model="@(new Tuple<int, int>(3, Model.OrderStatus))" />
+
+            <div class="part-header">
+                <h2>3. Számlázási adatok</h2>
+            </div>
+
+            <label for="name">Teljes név</label>
+            <input type="text" name="name" id="name" value="@Model.BillingName" class="text-input" />
+            <div class="checkout-zip-country-container">
+                <div class="checkout-zip-container">
+                    <label for="zipCode">Irányítószám</label>
+                    <input type="number" onkeyup="onZipChange(this, 'city')" name="zipCode" id="zipCode" value="@Model.BillingZip" class="text-input" />
+                </div>
+                <div class="checkout-country-container">
+                    <label for="city">Város</label>
+                    <input type="text" name="city" id="city" value="@Model.BillingCity" class="text-input" />
+                </div>
+            </div>
+            <label for="name">Cím</label>
+            <input type="text" name="address" id="address" value="@Model.BillingAddress" class="text-input" />
+            <span id="address-error" class="checkout-validation-error-message">Nem adtál meg házszámot!</span>
+            <label for="phone">Telefon</label>
+            <div class="checkout-phone">
+                <span>06</span>
+                <input type="text" id="phone" value="@Model.Phone" class="text-input" />
+            </div>
+            <span id="phone-error" class="checkout-validation-error-message">A telefonszám 9 számjegyű kell legyen és az első két számjegy 20, 30, 31, 50 vagy 70 lehet!</span>
+            <label for="remark">Megjegyzés <small>(Nem kötelező)</small></label>
+            <textarea type="text" rows="3" name="remark" id="remark" placeholder="Megjegyzések a rendeléssel vagy szállítással kapcsolatban.">@Model.Remark</textarea>
+
+            <input type="checkbox" value="True" name="differentShippingAddress" id="differentShippingAddress" onchange="toggleShippingAddress(this);" />
+            <label><b>Szállítás másik címre?</b></label>
+
+            <div id="different-shipping-address">
+                <label for="name">Teljes név</label>
+                <input type="text" name="name" id="shipping-name" value="@Model.ShippingName" class="text-input" />
+                <div class="checkout-zip-country-container">
+                    <div class="checkout-zip-container">
+                        <label for="zipCode">Irányítószám</label>
+                        <input type="number" onkeyup="onZipChange(this, 'shipping-city')" name="zipCode" id="shipping-zipCode" value="@Model.ShippingZip" class="text-input" />
+                    </div>
+                    <div class="checkout-country-container">
+                        <label for="city">Város</label>
+                        <input type="text" name="city" id="shipping-city" value="@Model.ShippingCity" class="text-input" />
+                    </div>
+                </div>
+                <label for="name">Cím</label>
+                <input type="text" name="address" id="shipping-address" value="@Model.ShippingAddress" class="text-input" />
+            </div>
+
+            <div class="checkout-options-container">
+                <div class="checkout-options-row clickable" onclick="return setCheckboxSelection(1)">
+                    <input type="checkbox" onchange="return selectPaymentOption(1);" id="payment-option-1" />
+                    Kártyás fizetés (Barion)
+                </div>
+                <div class="checkout-options-details" id="payment-option-1-description">
+                    A biztonságos kártyás fizetést a Barion rendszere támogatja. A bankkártya adatai nem jutnak el hozzánk.<br />
+                    <img src="~/images/barion-footer.png" class="checkout-options-barion-image" />
+                </div>
+
+                <div class="checkout-options-row clickable" onclick="return setCheckboxSelection(2)">
+                    <input type="checkbox" onchange="return selectPaymentOption(2);" id="payment-option-2" />
+                    Banki átutalás
+                </div>
+                <div class="checkout-options-details" id="payment-option-2-description">
+                    E-mailben elküldjük a bankszámlaszámot és a további szükséges információt. A rendelést csak a pénz beérkezését követően szállítjuk.
+                </div>
+                
+                <div class="checkout-options-row clickable checkout-options-last-row" onclick="return setCheckboxSelection(3)">
+                    <input type="checkbox" onchange="return selectPaymentOption(3);" id="payment-option-3" />
+                    Utánvét
+                    <span class="checkout-option-price">@Model.GlsShippingPrice</span>
+                </div>
+                <div class="checkout-options-details checkout-options-details-last" id="payment-option-3-description">
+                    <div class="checkout-options-details-inner">
+                        @if (Model.ShippingMethod == ShippingMethodEnum.GlsCsomagpont)
+                        {
+                            <text>Utánvét esetében a kiválasztott csomagponton kell kifizetni a rendelést a csomag átvételekor.</text>
+                        }
+                        else
+                        {
+                            <text>Utánvét esetében a futárnál kell kifizetni a rendelést a csomag átvételekor.</text>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-buttons-container">
+                <a class="checkout-main-button" onclick="return goToCheckoutStep(4, true);">RENDELÉS ÖSSZEGZÉSE</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="sidebar-part">
+        <partial name="_CartContent" model="@Model.Cart" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'checkout',
+        ecommerce: {
+            currencyCode: 'HUF',
+            checkout: {
+                actionField: {
+                    step: 3
+                },
+                products: [@Html.Raw(Helper.GetProductInfoJson(Model.Cart.CartItems))]
+            }
+        }
+    });
+
+
+    $(function () {
+        @if (Model.DifferentShippingAddress)
+        {
+            <text>$("#different-shipping-address").prop("checked", true);</text>
+        }
+        $("#payment-option-@((int)Model.PaymentMethod)").attr("checked", "checked").change();
+    });
+
+    function toggleShippingAddress(element) {
+        if ($(element).is(":checked")) {
+            $("#different-shipping-address").show("fast");
+        }
+        else {
+            $("#different-shipping-address").hide("fast");
+        }
+    }
+
+    function selectPaymentOption(id) {
+        var subTotal = getValueFromMoneyString($("#cart-subtotal").html());
+        var shippingPrice = 0;
+        if (subTotal < @Settings.FREE_SHIPPING_THRESHOLD) {
+            @if (Model.ShippingMethod == ShippingMethodEnum.GlsCsomagpont) { <text>shippingPrice = parseInt(@Settings.GLS_CSOMAGPONT_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])); </text> }
+            @if (Model.ShippingMethod == ShippingMethodEnum.GLS) { <text>shippingPrice = parseInt(@Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])); </text> }
+        }
+
+        var newTotal = parseInt(subTotal, 10);
+        if (id == 1) {
+            $("#payment-option-1").prop("checked", true);
+            $("#payment-option-2").prop("checked", false);
+            $("#payment-option-3").prop("checked", false);
+            $("#payment-option-1-description").show("slow");
+            $("#payment-option-2-description").hide("fast");
+            $("#payment-option-3-description").hide("fast");
+        }
+        else if (id == 2) {
+            $("#payment-option-2").prop("checked", true);
+            $("#payment-option-1").prop("checked", false);
+            $("#payment-option-3").prop("checked", false);
+            $("#payment-option-2-description").show("slow");
+            $("#payment-option-1-description").hide("fast");
+            $("#payment-option-3-description").hide("fast");
+        }
+        else if (id == 3) {
+            $("#payment-option-3").prop("checked", true);
+            $("#payment-option-2").prop("checked", false);
+            $("#payment-option-1").prop("checked", false);
+            $("#payment-option-3-description").show("slow");
+            $("#payment-option-2-description").hide("fast");
+            $("#payment-option-1-description").hide("fast");
+            @if (!Settings.FREE_SHIPPING_INCLUDES_PAYMENT)
+            {
+                <text>shippingPrice += parseInt('@Settings.GLS_PAYMENT_PRICE');</text>
+            }
+            else
+            {
+                <text>if (@Settings.FREE_SHIPPING_THRESHOLD > newTotal) {
+                shippingPrice += parseInt('@Settings.GLS_PAYMENT_PRICE');
+            }
+                </text>
+            }
+        }
+        if (shippingPrice > 0) {
+            $("#shipping-price").html("<b>" + getFormattedMoneyString(shippingPrice) + " Ft</b>");
+        }
+        else {
+            $("#shipping-price").html("<b>INGYENES</b>");
+        }
+        updateFreeLavaBraceletPromotionCartContent(newTotal + shippingPrice);
+        $("#cart-total").html(getFormattedMoneyString(newTotal + shippingPrice) + " Ft");
+    }
+
+    function getCheckoutStepSaveUrl() {
+        return "/rendeles/szamlazasi-adatok";
+    }
+
+    function getCheckoutStepData() {
+        var billingName = $("#name").val();
+        var billingZip = $("#zipCode").val();
+        var billingCity = $("#city").val();
+        var billingAddress = $("#address").val();
+        var phone = $("#phone").val();
+        var remark = $("#remark").val();
+        var differenctShippingAddress = false;
+        var shippingName = null;
+        var shippingZip = null;
+        var shippingCity = null;
+        var shippingAddress = null;
+        if ($("#differentShippingAddress").is(":checked")) {
+            differenctShippingAddress = true;
+            shippingName = $("#shipping-name").val();
+            shippingZip = $("#shipping-zipCode").val();
+            shippingCity = $("#shipping-city").val();
+            shippingAddress = $("#shipping-address").val();
+        }
+        var paymentMethod = 1;
+        if ($("#payment-option-2").is(":checked")) {
+            paymentMethod  = 2;
+        }
+        else if ($("#payment-option-3").is(":checked")) {
+            paymentMethod = 3;
+        }
+        return {
+            validate: false,
+            BillingName: billingName,
+            BillingZip: billingZip,
+            BillingCity: billingCity,
+            BillingAddress: billingAddress,
+            Phone: phone,
+            Remark: remark,
+            DifferentShippingAddress: differenctShippingAddress,
+            ShippingName: shippingName,
+            ShippingZip: shippingZip,
+            ShippingCity: shippingCity,
+            ShippingAddress: shippingAddress,
+            PaymentMethod: paymentMethod
+        };
+    }
+
+    function setCheckboxSelection(checkboxNr) {
+        if ($("#shipping-method-" + checkboxNr).is(":checked")) return;
+        selectPaymentOption(checkboxNr);
+    }
+
+    function onZipChange(element, cityId) {
+        var zip = $(element).val();
+        if (!zip.startsWith("1") || zip.length < 4) return;
+        if ($("#" + cityId).val().length == 0) {
+            $("#" + cityId).val("Budapest");
+        }
+    }
+
+    function completeStep() {
+        var paymentOption = "Barion";
+        if ($("#payment-option-2").is(":checked")) {
+            paymentOption = "Utalás";
+        }
+        else if ($("#payment-option-3").is(":checked")) {
+            paymentOption = "Utánvét";
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'checkout_option',
+            ecommerce: {
+                currencyCode: 'HUF',
+                checkout_option: {
+                    actionField: {
+                        step: 3,
+                        option: paymentOption
+                    }
+                }
+            }
+        });
+    }
+</script>

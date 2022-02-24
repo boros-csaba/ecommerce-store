@@ -1,0 +1,21 @@
+﻿@model elenora.ViewModels.SearchListViewModel;
+@{
+    ViewData["Title"] = Model.SearchTerm;
+}
+
+<div class="wide-page">
+    <div class="separator">
+        <div></div>
+        <h3>Keresési eredmények: @Model.SearchTerm</h3>
+        <div></div>
+    </div>
+
+    <div class="products-list">
+        @foreach (var product in Model.Products)
+        {
+            <partial name="_ProductListItem" model="product" />
+        }
+    </div>
+
+    <partial name="_TryBraceletDesigner" model="true" />
+</div>

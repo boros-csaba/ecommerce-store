@@ -1,0 +1,209 @@
+﻿@model elenora.ViewModels.CheckoutModel
+@{
+    ViewData["Title"] = "Szállítási mód";
+    ViewData["HideCartDrawerButton"] = true;
+}
+
+@section styles {
+    <link rel="stylesheet" href="/gls.css" type="text/css" />
+}
+
+<div class="two-part-page">
+    <div class="main-part">
+        <div class="part-inner-container">
+
+            <partial name="_CheckoutStatus" model="@(new Tuple<int, int>(2, Model.OrderStatus))" />
+
+            <div class="part-header">
+                <h2>2. Szállítási mód</h2>
+            </div>
+
+            <label for="email">E-mail cím</label>
+            <input type="email" name="email" id="email" value="@Model.Email" class="text-input" />
+
+            <div class="checkout-options-container">
+                <div class="checkout-options-row clickable" onclick="return setCheckboxSelection(2)">
+                    <input type="checkbox" onchange="return selectShippingMethod(2);" id="shipping-method-2" />
+                    GLS Házhozszállítás
+                    <span class="checkout-option-price">@(Model.Total - Model.Cart.ShippingPrice >= Settings.FREE_SHIPPING_THRESHOLD || Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"]) == 0 ? "INGYENES" : Helper.GetFormattedMoney(Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) + " Ft")</span>
+                </div>
+                <div class="checkout-options-details" id="shipping-method-2-description">
+                    <div class="checkout-options-details-inner">
+                        A csomag feladása utáni munkanapon 8 és 17 óra között viszi a futár a rendelésedet.<br />
+                        SMS-ben értesítést küldünk a csomag feladásáról, illetve a kézbesítés előtt 1 órával ismét értesíteni fog a futár.<br />
+                        A GLS választásával lehetőség van a futárnál is fizetni utánvéttel, ha a számlázási adatoknál az utánvét fizetési módot választod.
+                    </div>
+                </div>
+
+                <div class="checkout-options-row checkout-options-last-row clickable" onclick="return setCheckboxSelection(3)">
+                    <input type="checkbox" onchange="return selectShippingMethod(3);" id="shipping-method-3" />
+                    GLS Csomagpont
+                    <span class="checkout-option-price">@(Model.Total - Model.Cart.ShippingPrice >= Settings.FREE_SHIPPING_THRESHOLD || Settings.GLS_CSOMAGPONT_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"]) == 0 ? "INGYENES" : Helper.GetFormattedMoney(Settings.GLS_CSOMAGPONT_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) + " Ft")</span>
+                </div>
+                <div class="checkout-options-details-last" id="shipping-method-3-description">
+                    <div class="checkout-options-details-inner">
+                        A csomagot majd a kiválasztott csomagponton veheted át. <br />
+                        SMS-ben értesítést küldünk a csomag feladásáról amely tartalmazza az azonosító számátot is, amellyel nyomon követhető a csomag.
+                        <br />
+                        <br />
+                        <b class="gls-selection-head" id="shippingPointAddressInformation">
+                            @if (string.IsNullOrWhiteSpace(Model.ShippingPointAddressInformation))
+                            {
+                                <text>Válassz egy csomagpontot!</text>
+                            }
+                            else
+                            {
+                                <text>Kiválasztott csomagpont:</text>
+                            }
+                        </b>
+                        <br />
+                        <br />
+                        <b class="gls-selection">@Html.Raw(Model.ShippingPointAddressInformation)</b>
+                        <input type="hidden" class="gls-selection-id" />
+                    </div>
+                    <div id="big-canvas" class="gls-map"></div>
+                </div>
+            </div>
+
+            <div class="checkout-buttons-container">
+                <a class="checkout-main-button" onclick="return goToCheckoutStep(3, true);">TOVÁBB A SZÁMLÁZÁSI ADATOKHOZ</a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-part">
+        <partial name="_CartContent" model="@Model.Cart" />
+    </div>
+</div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyD3_feLq-Ww5ljzH2yIfpS7oRufzJOTwXI"></script>
+<script type="text/javascript" src="/psmap.js"></script>
+
+<script type="text/javascript">
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'checkout',
+        ecommerce: {
+            currencyCode: 'HUF',
+            checkout: {
+                actionField: {
+                    step: 2
+                },
+                products: [@Html.Raw(Helper.GetProductInfoJson(Model.Cart.CartItems))]
+            }
+        }
+    });
+
+    $(function () {
+        var selectedShippingMethod = @((int)Model.ShippingMethod);
+        if (selectedShippingMethod == 1) selectedShippingMethod = 2;
+        $("#shipping-method-" + selectedShippingMethod).attr("checked", "checked").change();
+    });
+
+    function selectShippingMethod(id) {
+        var subTotal = getValueFromMoneyString($("#cart-subtotal").html());
+        var shippingPrice = 0;
+        var newTotal = parseInt(subTotal, 10);
+        if (id == 3) {
+            $("#shipping-method-3").prop("checked", true);
+            $("#shipping-method-2").prop("checked", false);
+            $("#shipping-method-3-description").show("slow");
+            $("#shipping-method-2-description").hide("fast");
+            if (newTotal < @Settings.FREE_SHIPPING_THRESHOLD) {
+                shippingPrice += parseInt('@Settings.GLS_CSOMAGPONT_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])');
+            }
+            initGLSPSMap();
+        }
+        else if (id == 2) {
+            $("#shipping-method-2").prop("checked", true);
+            $("#shipping-method-3").prop("checked", false);
+            $("#shipping-method-2-description").show("slow");
+            $("#shipping-method-3-description").hide("fast");
+            if (newTotal < @Settings.FREE_SHIPPING_THRESHOLD) {
+                shippingPrice += parseInt('@Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])');
+            }
+            @if (Model.PaymentMethod == PaymentMethodEnum.PayAtDelivery && !Settings.FREE_SHIPPING_INCLUDES_PAYMENT)
+            {
+                <text>shippingPrice += parseInt('@Settings.GLS_PAYMENT_PRICE');</text>
+            }
+        }
+
+        if (newTotal < @Settings.FREE_SHIPPING_THRESHOLD) shippingPrice = 0;
+
+        if (shippingPrice > 0) {
+            $("#shipping-price").html("<b>" + getFormattedMoneyString(shippingPrice) + " Ft</b>");
+        }
+        else {
+            $("#shipping-price").html("<b>INGYENES</b>");
+        }
+        $("#cart-total").html(getFormattedMoneyString(newTotal + shippingPrice) + " Ft");
+    }
+
+    function getCheckoutStepSaveUrl() {
+        return "/rendeles/szallitasi-mod";
+    }
+
+    function getCheckoutStepData() {
+        var shippingMode = 2;
+        if ($("#shipping-method-3").is(":checked")) {
+            shippingMode = 3;
+        }
+        var emailAddress = $("#email").val();
+
+        var shippingPointText = $(".gls-selection").html();
+        var shippingPointId = $(".gls-selection-id").val();
+        if (shippingPointId != null && shippingPointId.length > 0) {
+            shippingPointText += "<br />" + shippingPointId;
+        }
+
+        return {
+            validate: false,
+            ShippingMethod: shippingMode,
+            emailAddress: emailAddress,
+            shippingPointAddressInformation: shippingPointText
+        };
+    }
+
+    function setCheckboxSelection(checkboxNr) {
+        if ($("#shipping-method-" + checkboxNr).is(":checked")) return;
+        selectShippingMethod(checkboxNr);
+    }
+
+    function completeStep() {
+        var option = 'Posta';
+        if ($("#shipping-method-2").is(":checked")) {
+            option = 'GLS';
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'checkout_option',
+            ecommerce: {
+                currencyCode: 'HUF',
+                checkout_option: {
+                    actionField: {
+                        step: 2,
+                        option: option
+                    }
+                }
+            }
+        });
+    }
+
+    var glsMap;
+    function initGLSPSMap() {
+        glsMap = new GLSPSMap();
+        glsMap.init('HU', 'big-canvas', '1116,Budapest,HU', 0);
+        google.maps.event.trigger(glsMap, 'resize');
+    }
+
+    function glsPSMap_OnSelected_Handler(data) {
+        $('#ajaxresult').html(data.pclshopid);
+        $(".gls-selection-head").html("Kiválasztott csomagpont:");
+        $("#shippingPointAddressInformation").removeClass("checkout-validation-error");
+        var text = data.name + "<br />";
+        text += data.address + "<br />";
+        text += data.city;
+        $(".gls-selection").html(text);
+        $(".gls-selection-id").val(data.pclshopid);
+    }
+</script>

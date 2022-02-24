@@ -1,0 +1,109 @@
+﻿<div class="popup-consent">
+    <input type="checkbox" id="popup-consent" />
+    Hozzájárulok ahhoz, hogy a www.elenora.hu a nevemet és e-mail címemet hírlevelezési céllal kezelje és a részemre gazdasági reklámot is tartalmazó email hírleveleket küldjön.
+</div>
+
+<script>
+    var minutes = 59;
+    var seconds = 59;
+
+    $(function () {
+        setInterval(popupCountdown, 1000);
+        $(".popup-no-button").click(closePopup);
+        $(".popup-close-button").click(closePopup);
+        $(".popup-button").click(submitPopup);
+        setTimeout(showPopup, 10000);
+    });
+
+    function showPopup() {
+        $.ajax({
+            url: "/popup-megjelenes",
+            method: "POST",
+            data: { sourcePage: window.location.href },
+            success: function (_data, _textStatus, _jqXHR) {
+                $(".popup").show();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error");
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+
+    function popupCountdown() {
+        if (minutes == 0 && seconds == 0) return;
+        seconds--;
+        if (seconds < 0) {
+            seconds = 59;
+            minutes--;
+        }
+        if (minutes < 0) minutes = 0;
+        if (seconds < 0) seconds = 0;
+
+        var result = "00:";
+        if (minutes < 10) {
+            result = result + "0" + minutes;
+        }
+        else {
+            result = result + minutes;
+        }
+        result = result + ":";
+        if (seconds < 10) {
+            result = result + "0" + seconds;
+        }
+        else {
+            result = result + seconds;
+        }
+        $(".popup-countdown").html(result);
+    }
+
+    function closePopup() {
+        $(".popup-1").hide("fast");
+    }
+
+    function submitPopup() {
+        if ($(".popup-button").html().indexOf("img") > 0) {
+            return;
+        }
+
+        if (!$("#popup-consent").prop("checked") == true) {
+            $("#popup-consent").parent().addClass("validation-error");
+            $("#popup-consent").change(function () {
+                console.log("texxt");
+                if ($("#popup-consent").prop("checked") == true) {
+                    $("#popup-consent").parent().removeClass("validation-error");
+                }
+            });
+            return;
+        }
+
+        $(".popup-button").html('<img src="/images/loading-white.gif" width="18px" height="18px" style="margin: 0 50px" />');
+        var emailAddress = $(".popup-email").val();
+        if (emailAddress == null || emailAddress.length < 1 || emailAddress.indexOf("@@") < 0) {
+            $(".popup-email").css("border-color", "red");
+            $(".popup-button").html("Kérem a kupont!");
+            return;
+        }
+
+        $.ajax({
+            url: "/popup-kupon",
+            method: "POST",
+            data: { emailAddress: emailAddress },
+            success: function (_data, _textStatus, _jqXHR) {
+                $(".popup-button").hide();
+                $(".popup-no-button").hide();
+                $(".popup-consent").hide();
+                $(".popup-email").hide();
+                $(".popup-success").show();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error");
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+</script>

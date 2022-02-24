@@ -1,0 +1,21 @@
+﻿@model List<elenora.ViewModels.ArticleSummaryViewModel>;
+@{
+    ViewData["Title"] = "Cikkek";
+}
+
+<div class="narrow-page page-container articles-page">
+    <h1>Cikkek</h1>
+    @foreach (var article in Model)
+    {
+        <div class="article">
+            <a href="/cikkek/@(article.IdString)">
+                <img src="/images/articles/@(article.ImageUrl)" alt="@article.Title" />
+            </a>
+            <h2>
+                <a href="/cikkek/@(article.IdString)">@article.Title</a>
+            </h2>
+            <span>@article.Description</span>
+            <a class="read-article" href="/cikkek/@(article.IdString)">Elolvasom</a>
+        </div>
+    }
+</div>

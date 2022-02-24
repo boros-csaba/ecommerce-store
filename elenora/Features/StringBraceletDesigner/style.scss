@@ -1,0 +1,198 @@
+﻿$small-breakpoint: 600px;
+$font-title: 'Montserrat', sans-serif;
+
+.string-bracelet-designer-page {
+    display: flex;
+    align-items: center;
+
+    .bracelet-types {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        justify-items: center;
+        align-content: center;
+
+        span {
+            font-size: 1.6rem;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            margin: 10px 10px 0 10px;
+            text-transform: uppercase;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            @media (max-width: $small-breakpoint) {
+                font-size: 1.3rem;
+            }
+        }
+
+        .selected-bracelet-type {
+            &::after {
+                content: "";
+                display: block;
+                height: 10px;
+                width: 100%;
+                background: #d9eeda;
+                z-index: -1;
+                margin: -11px 0 0 0;
+
+                @media (max-width: $small-breakpoint) {
+                    h3 {
+                        height: 8px;
+                        margin: -9px 0 0 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .bracelet-designer-wrapper {
+        margin: 0 auto;
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+
+        svg {
+            max-width: 100%;
+        }
+
+        object {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .marker-dot {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            border-width: 1px;
+            border-color: #333;
+            border-radius: 100%;
+            border-style: solid;
+            background-color: #999;
+            float: left;
+            margin-right: 5px;
+            background-image: url(/images/edit-pencil.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+            animation: pulse-white 2s infinite;
+        }
+
+        .marker-dot-selected {
+            background-color: #81C784;
+        }
+
+        @keyframes pulse-white {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            }
+        }
+
+        .many-strings-marker-flaps {
+            left: 30%;
+            top: 8%;
+        }
+
+        .many-strings-marker-knot {
+            top: 13%;
+            left: 53%;
+        }
+
+        .many-strings-marker-lines {
+            top: 36%;
+            left: 81%;
+        }
+
+        .braided-marker-flaps {
+            left: 30%;
+            top: 7%;
+        }
+
+        .braided-marker-knot {
+            top: 13%;
+            left: 53%;
+        }
+
+        .braided-marker-lines {
+            top: 35%;
+            left: 81%;
+        }
+
+        .add-to-cart-button {
+            margin: 20px auto;
+            display: block;
+        }
+
+        .bracelet-designer-price {
+            margin: 0 auto 20px auto;
+            font-family: $font-title;
+            text-align: center;
+        }
+
+        .color-selectors-description {
+            margin: 5px 0 0 0;
+            text-align: center;
+        }
+    }
+
+    .color-selectors-wrapper {
+        display: flex;
+        visibility: hidden;
+        width: 100%;
+        flex-wrap: wrap;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        text-align: center;
+
+        .flex-wrap-new-row {
+            width: 100%;
+        }
+
+        .color-selector {
+            width: 23px;
+            height: 23px;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #333;
+            border-radius: 100%;
+            margin: 5px;
+        }
+
+        .color-selector-selected {
+            &:before {
+                content: '';
+                background: transparent;
+                width: 29px;
+                height: 29px;
+                display: block;
+                position: relative;
+                top: -4px;
+                left: -4px;
+                border-color: #333;
+                border-style: solid;
+                border-width: 1px;
+                border-radius: 100%;
+            }
+        }
+    }
+}

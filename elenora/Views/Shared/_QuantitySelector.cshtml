@@ -1,0 +1,21 @@
+﻿@using elenora.ViewModels
+@model QuantitySelectorViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.ElementId))
+{
+    <div class="number-input">
+        <span class="@(Model.Quantity == 1 ? "number-imput-delete" : "") number-input-button number-input-minus" onclick="return changeCartItemQuantity(@Model.CartItemId, -1, @Model.UnitPrice);">
+            @(Model.Quantity == 1 ? "" : "-")
+        </span>
+        <span class="number-input-value cart-item-quantity-@Model.CartItemId">@Model.Quantity</span>
+        <span class="number-input-button number-input-plus" onclick="return changeCartItemQuantity(@Model.CartItemId, 1, @Model.UnitPrice);">+</span>
+    </div>
+}
+else
+{
+    <div class="number-input">
+        <span class="number-input-button number-input-minus" onclick="return changeQuantitySelectorValue('@Model.ElementId', -1);">-</span>
+        <span class="number-input-value" id="@Model.ElementId">@Model.Quantity</span>
+        <span class="number-input-button number-input-plus" onclick="return changeQuantitySelectorValue('@Model.ElementId', 1);">+</span>
+    </div>
+}

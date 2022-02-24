@@ -1,0 +1,133 @@
+﻿@using elenora.ViewModels
+@model CartViewModel
+
+<div class="part-inner-container">
+    @foreach (var item in Model.CartItems)
+    {
+        <div class="checkout-product-row">
+            <div class="checkout-product-image">
+                @if (item.IsCustomBracelet)
+                {
+                    <picture class="main-image image-with-preview">
+                        <img class="product-image" src="/product-images/@(item.Id)-@(Model.CustomerId).jpg?t=@item.Timestamp&s=120" />
+                    </picture>
+                    <img src="/images/search-white.png" class="product-image-magnify" />
+                }
+                else if (item.IsStringBracelet)
+                {
+                    item.StringBracelet.CssClass = "checkout-product-image";
+                    <partial name="_StringBraceletImage" model="item.StringBracelet" />
+                }
+                else if (item.ProductType == ProductTypeEnum.ExtraBracelet)
+                {
+                    <picture class="main-image">
+                        <source srcset="@Helper.GetWebPImage(item.ProductImgageUrl)" type="image/webp">
+                        <source srcset="@Helper.GetJpgImage(item.ProductImgageUrl)" type="image/jpeg">
+                        <img src="@Helper.GetJpgImage(item.ProductImgageUrl)">
+                    </picture>
+                }
+                else
+                {
+                    <a href="/karkoto/@item.ProductIdString">
+                        <partial name="_ProductImage" model='new ProductImageViewModel(item, "main-image", "", "65px")' />
+                    </a>
+                }
+            </div>
+            <div>
+                @if (item.IsCustomBracelet)
+                {
+                    <a href="/egyedi-karkoto-keszito?b=@item.Id">
+                        <h2>
+                            <b>@(item.Quantity > 1 ? $"{item.Quantity} *"  : "") @item.ProductName</b>
+                            <img src="/images/edit.svg" alt="Szerkesztés" />
+                        </h2>
+                    </a>
+                }
+                else if (item.IsStringBracelet)
+                {
+                    <h2><b>@(item.Quantity > 1 ? $"{item.Quantity} *"  : "") @item.ProductName</b></h2>
+                }
+                else if (item.ProductType == ProductTypeEnum.ExtraBracelet)
+                {
+                    <h2><b>@(item.Quantity > 1 ? $"{item.Quantity} *"  : "") @item.ProductName</b></h2>
+                }
+                else
+                {
+                    <a href="/karkoto/@item.ProductIdString"><h2><b>@(item.Quantity > 1 ? $"{item.Quantity} *"  : "") @item.ProductName</b></h2></a>
+                }
+                <span class="product-bracelet-size-wrapper-small">
+                    @if (item.ProductType != ProductTypeEnum.SingleSizeBracelet)
+                    {
+                        <partial name="_BraceletSizeSelector" model="new BraceletSizeSelectorModel { ProductType = item.ProductType, Inline = true, Size = item.BraceletSize, Size2 = item.BraceletSize2, CartItemId = item.Id }" />
+                    }
+                </span>
+            </div>
+            <div class="checkout-product-price">
+                <h2>
+                    @if (item.OriginalUnitPrice != null)
+                    {
+                        <span class="product-original-price">@(Helper.GetFormattedMoney(item.TotalOriginalPrice.Value)) Ft</span>
+                        <br />
+                    }
+                    <b>@Helper.GetFormattedMoney(item.TotalPrice) Ft</b>
+                </h2>
+            </div>
+        </div>
+        @foreach (var complementaryProduct in item.ComplementaryProducts)
+        {
+            <div class="checkout-complementary-item">
+                <picture class="image-with-preview">
+                    <source srcset="@Helper.GetWebPImage(complementaryProduct.ImageUrl)" type="image/webp">
+                    <source srcset="@Helper.GetJpgImage(complementaryProduct.ImageUrl)" type="image/jpeg">
+                    <img class="complementary-product-image" src="@Helper.GetJpgImage(complementaryProduct.ImageUrl)">
+                </picture>
+                <img src="/images/search-white.png" class="product-image-magnify" />
+                <div>
+                    <h3>@complementaryProduct.Name</h3>
+                    <span>@Helper.GetFormattedMoney(complementaryProduct.Price) Ft</span>
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.Promotions.Any(p => p.Type == PromotionEnum.GiftLavaBracelet))
+    {
+        <partial name="~/Views/Promotions/_FreeLavaBracelet_CartContent.cshtml" model="Model" />
+    }
+
+    <div class="checkout-product-row coupon">
+        <div class="coupon-image">KUPON</div>
+        <div>
+            <h2><b class="coupon-name">@Model.CouponName</b></h2>
+            <span class="coupon-description">@Model.CouponDescription</span>
+        </div>
+        <div class="checkout-product-price">
+            <div class="coupon-amount-line">
+                <h2><b class="coupon-amount">@Helper.GetFormattedMoney(Model.CouponAmount) Ft</b></h2>
+            </div>
+        </div>
+    </div>
+    @if (!Model.HasCoupon || Model.CouponAmount == 0)
+    {
+        <script>
+            $(function () {
+                $(".coupon").hide();
+            })
+        </script>
+    }
+
+    <div class="checkout-product-hr"></div>
+    <div class="checkout-product-row checkout-product-info-row">
+        <h2><b>Részösszeg</b></h2>
+        <h2><b id="cart-subtotal" class="cart-total">@(Helper.GetFormattedMoney(Model.Total - Model.ShippingPrice)) Ft</b></h2>
+    </div>
+    <div class="checkout-product-row checkout-product-info-row">
+        <h2><b>Szállítás</b></h2>
+        <h2 id="shipping-price"><b>@(Model.ShippingPrice > 0 ? $"{Helper.GetFormattedMoney(Model.ShippingPrice)} Ft" : "INGYENES")</b></h2>
+    </div>
+    <div class="checkout-product-hr"></div>
+    <div class="checkout-product-row checkout-product-info-row">
+        <h1>Végösszeg</h1>
+        <h1 id="cart-total" class="cart-total">@(Helper.GetFormattedMoney(Model.Total)) Ft</h1>
+    </div>
+</div>

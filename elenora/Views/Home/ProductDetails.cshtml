@@ -1,0 +1,269 @@
+﻿@using elenora.ViewModels
+@model ProductViewModel
+@{
+    ViewData["Title"] = Model.Name;
+    ViewData["Description"] = Model.ShortDescription;
+    ViewData["HeadTags"] = "";
+    ViewData["CanShowPopup"] = true;
+}
+
+@section styles {
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css' integrity='sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=' crossorigin='anonymous' />
+    <link rel='stylesheet' type='text/css' href='//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' />
+}
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'viewProductDetails',
+        eventID: '@ViewBag.FbEventId',
+        external_id: '@ViewBag.FbExternalId',
+        ecommerce: {
+            currencyCode: 'HUF',
+            detail: {
+                products: [{
+                    id: '@Html.Raw(Model.IdString)',
+                    name: '@Html.Raw(Model.Name)',
+                    category: '@Html.Raw(Model.CategoryName)',
+                    price: '@Model.Price'
+                }]
+            }
+        }
+    });
+</script>
+
+<div class="medium-page product-details-page">
+    <div class="main-product-area">
+        <div class="product-images">
+
+            <div class="mobile-only">
+                <partial name="~/Views/Promotions/_GiftBracelet_Button.cshtml" model="Model.Promotions" />
+                <h1 class="product-details-title">@Model.Name</h1>
+            </div>
+
+            <div class="product-images-inner">
+                <div class="more-images">
+                    <div>
+                        <partial name="_ProductImage" model='new ProductImageViewModel(Model, "", "", "(min-width: 600px) 80px, 60px")' />
+                    </div>
+                    <div>
+                        <partial name="_ProductImage" model='new ProductImageViewModel(Model, "", "", "(min-width: 600px) 80px, 60px", 1)' />
+                    </div>
+                    <div>
+                        <partial name="_ProductImage" model='new ProductImageViewModel(Model, "", "", "(min-width: 600px) 80px, 60px", 2)' />
+                    </div>
+                </div>
+                <div class="carousel">
+                    <div class="item" onclick="showGallery(0, items)">
+                        <partial name="_ProductImage" model='new ProductImageViewModel(Model, "", "", "(min-width: 600px) 500px, calc(100vw - 20px)")' />
+                        <img src="/images/search-white.png" class="product-main-image-magnify" />
+                    </div>
+                    <div class="item" onclick="showGallery(1, items)">
+                        <partial name="_ProductImage" model='new ProductImageViewModel(Model, "", "", "(min-width: 600px) 500px, calc(100vw - 20px)", 1)' />
+                        <img src="/images/search-white.png" class="product-main-image-magnify" />
+                    </div>
+                    <div class="item" onclick="showGallery(2, items)">
+                        <partial name="_ProductImage" model='new ProductImageViewModel(Model, "", "", "(min-width: 600px) 500px, calc(100vw - 20px)", 2)' />
+                        <img src="/images/search-white.png" class="product-main-image-magnify" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-details">
+            <div class="desktop-only">
+                <partial name="~/Views/Promotions/_GiftBracelet_Button.cshtml" model="Model.Promotions" />
+                <h1 class="product-details-title product-details-title-desktop">@Model.Name</h1>
+            </div>
+            <h3>
+                @if (Model.OriginalPrice != null)
+                {
+                    <span class="product-original-price">@Helper.GetFormattedMoney(Model.OriginalPrice.Value) Ft</span>
+                }
+                <span class="@(Model.OriginalPrice != null ? "product-discounted-price": "")">@Helper.GetFormattedMoney(Model.Price) Ft</span>
+            </h3>
+            <partial name="_BraceletSizeSelector" model="new BraceletSizeSelectorModel { ProductType = Model.ProductType, Inline = false }" />
+
+            @if (Model.ShowQuantitySelector)
+            {
+                <span class="label">MENNYISÉG</span>
+                <div>
+                    <partial name="_QuantitySelector" model='new QuantitySelectorViewModel { Quantity = 1, ElementId = "product-details-quantity" }' />
+                    @if (Model.InWishlist)
+                    {
+                        <img src="~/images/heart-color-filled.png" class="favourite-button" onclick="return toggleWishlisted(this, @Model.Id, '@Model.IdString', true);" />
+                    }
+                    else
+                    {
+                        <img src="~/images/heart-color.png" class="favourite-button" onclick="return toggleWishlisted(this, @Model.Id, '@Model.IdString', true);" />
+                    }
+                </div>
+            }
+
+            <partial name="_ProductDetailsBraceletText" model="Model.ProductType" />
+
+            @if (Model.SoldOut)
+            {
+                <div>
+                    <br />
+                    <span style="color: red;">ELFOGYOTT!</span>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a class="add-to-cart-button" id="top-buy-button" onclick="return addToCart(this, @Model.Id, '@Model.IdString', '@Html.Raw(Model.Name)', '@Html.Raw(Model.CategoryName)', '@Model.Price');">@Helper.GetString("Kosárba teszem", (string)ViewData["Website"])</a>
+                </div>
+            }
+
+            <div class="product-details-shipping">
+                @if (Settings.IS_FREE_SHIPPING_MODE)
+                {
+                    <text>• Ingyenes házhozszállítás<br /></text>
+                }
+                else
+                {
+                    <text>• Ingyenes házhozszállítás @Helper.GetFormattedMoney(Settings.FREE_SHIPPING_THRESHOLD) Ft felett<br /></text>
+                }
+                • 30 napos visszavásárlási garancia<br />
+                • Gyors szállítás (2-5 munkanap)
+            </div>
+        </div>
+
+        <div class="product-guarantees-container">
+            <div>
+                <img src="~/images/handmade.svg" alt="Minőségi kézzel készített karkötők" />
+                <h2>Kézzel készített minőségi karkötők</h2>
+            </div>
+            <div>
+                @if (Settings.IS_FREE_SHIPPING_MODE)
+                {
+                    <img src="~/images/free-shepping.svg" alt="Ingyenes szállítás" />
+                    <h2>Ingyenes szállítás</h2>
+                }
+                else
+                {
+                    <img src="~/images/free-shepping.svg" alt="Ingyenes szállítás 9 000 Ft felett" />
+                    <h2>Ingyenes szállítás @Html.Raw(Helper.GetWithNonBreakingSpaces(Helper.GetFormattedMoney(Settings.FREE_SHIPPING_THRESHOLD))) Ft felett</h2>
+                }
+            </div>
+            <div>
+                <img src="~/images/guarantee.svg" alt="30 napos méret és visszavásárlási garancia" />
+                <h2>30 napos visszafizetési garancia</h2>
+            </div>
+        </div>
+
+        @if (!Settings.IS_FREE_SHIPPING_MODE)
+        {
+            <div class="product-shipping-information">
+                <div>
+                    <span class="product-shipping-information-title">Szállítási információk</span>
+                </div>
+                <div>
+                    <span class="product-shipping-information-name">GLS házhozszállítás (1-3 munkanap)</span>
+                    <span class="product-shipping-information-price">@Helper.GetFormattedMoney(Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) Ft</span>
+                </div>
+                <div>
+                    <span class="product-shipping-information-name">GLS csomagpont (1-3 munkanap)</span>
+                    <span class="product-shipping-information-price">@Helper.GetFormattedMoney(Settings.GLS_CSOMAGPONT_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) Ft</span>
+                </div>
+                <div>
+                    @Helper.GetFormattedMoney(Settings.FREE_SHIPPING_THRESHOLD) Ft feletti rendelésekre a szállítás ingyenes!
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="product-extra-information-container">
+        @Html.Raw(Model.HtmlDescription)
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Video360Path))
+    {
+        <video class="product-video-360" width="512" height="512" autoplay loop muted playsinline>
+            <source src="@Model.Video360Path" type="video/mp4" />
+        </video>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.VideoHandPath))
+    {
+        <video class="product-video-hand" width="512" height="512" autoplay loop muted playsinline>
+            <source src="@Model.VideoHandPath" type="video/mp4" />
+        </video>
+    }
+
+    <partial name="_ProductComponents" model="new ProductComponentsViewModel { Components = Model.Components, ShowHoroscopes = true }" />
+
+    <div class="product-size-description">
+        <h2>Karkötő mérete</h2>
+        Mérd körbe a csuklód legszélesebb pontját, ahol a karkötőt is hordani fogod.
+        Ha nem magadnak rendelsz és nem tudod a pontos méretet, "M"-es méretű karkötőt rendelj (férfi esetében "L"-es méretű), a legtöbb csuklóra megfelelő ez a méret.
+        Mérethiba esetén vedd fel velünk a kapcsolatot.
+        Amennyiben két méret közötti méretű a csuklód, válaszd inkább a nagyobb méretet, nem jó, ha túl szoros a karkötő.
+        Tudsz rendeli egyéni méretet is, annyi a teendőd, hogy megrendeléskor írj megjegyzést, hogy mekkora méretű ékszert szeretnél vagy vedd fel velünk a kapcsolatot elérhetőségünk egyikén.
+    </div>
+
+    @if (!Model.SoldOut)
+    {
+        <div class="bottom-buy-button">
+            <a class="add-to-cart-button" id="top-buy-button" onclick="return addToCart(this, @Model.Id, '@Model.IdString', '@Html.Raw(Model.Name)', '@Html.Raw(Model.CategoryName)', '@Model.Price');">@Helper.GetString("Kosárba teszem", (string)ViewData["Website"])</a>
+        </div>
+    }
+
+    <div class="sections-container">
+
+        <div class="section">
+            <partial name="~/Views/Promotions/_GiftBracelet_Description.cshtml" model="Model.Promotions" />
+        </div>
+
+        <div class="section">
+            <span class="section-title">Gyakran ismételt kérdések</span>
+            <div class="product-details-faq">
+                <div class="product-details-faq-inner">
+                    @await Component.InvokeAsync("Faq", FaqLocationEnum.ProductDetails)
+                </div>
+            </div>
+        </div>
+
+        @await Component.InvokeAsync("RelatedProducts", new { productId = Model.Id, productType = Model.ProductType })
+
+        <div class="section">
+            @await Component.InvokeAsync("Testimonials")
+        </div>
+
+        <partial name="_CollectionsButtons" />
+    </div>
+
+</div>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script>
+    var items = [
+        {
+            src: '/images/products/@Model.IdString/@Model.IdString-2048.jpg',
+            w: 2048,
+            h: 2048
+        },
+        {
+            src: '/images/products/@Model.IdString/@Model.IdString-1-2048.jpg',
+            w: 2048,
+            h: 2048
+        },
+        {
+            src: '/images/products/@Model.IdString/@Model.IdString-2-2048.jpg',
+            w: 2048,
+            h: 2048
+        },
+    ];
+
+    $(document).ready(function () {
+        $('.carousel').slick({
+            arrows: false,
+            dots: true
+        });
+
+        $('.more-images div').click(function () {
+            $('.carousel')[0].slick.slickGoTo(parseInt($(this).index()));
+        });
+    });
+</script>

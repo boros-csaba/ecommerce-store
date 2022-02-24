@@ -1,0 +1,143 @@
+﻿@model elenora.ViewModels.HomePageViewModel
+@{
+    ViewData["Title"] = "Elenora - Ásvány karkötők";
+    ViewData["WithoutTitleSuffix"] = true;
+    ViewData["CanShowPopup"] = true;
+}
+
+<div class="wide-page">
+
+    <partial name="_CollectionsButtons" />
+
+    <div class="home-page-category-row">
+        <div class="row-description-container">
+            <h1>@Helper.GetString("Női karkötők", (string)ViewData["Website"])</h1>
+            <span>Szépség és elegancia az ásványok erejével</span>
+            <a class="white-button center" href="/noi-karkotok">Tovább a Női karkötőkhöz</a>
+        </div>
+        <div class="row-image-container">
+            <div class="row-image-inner">
+                <picture class="row-image">
+                    <source srcset="/images/noi-karkoto.webp" type="image/webp">
+                    <source srcset="/images/noi-karkoto.png" type="image/png">
+                    <img src="/images/noi-karkoto.png" alt="@Helper.GetString("Női karkötők", (string)ViewData["Website"])" class="row-image">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-page-category-row second-row">
+        <div class="row-description-container">
+            <h1>@Helper.GetString("Férfi karkötők", (string)ViewData["Website"])</h1>
+            <span>Magabiztos stílus a tökéletes megjelenéshez</span>
+            <a class="white-button center" href="/ferfi-karkotok">Tovább a Férfi karkötőkhöz</a>
+        </div>
+        <div class="row-image-container">
+            <div class="row-image-inner">
+                <picture class="row-image">
+                    <source srcset="/images/ferfi-karkoto.webp" type="image/webp">
+                    <source srcset="/images/ferfi-karkoto.png" type="image/png">
+                    <img src="/images/ferfi-karkoto.png" alt="@Helper.GetString("Férfi karkötők", (string)ViewData["Website"])" class="row-image">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-page-category-row">
+        <div class="row-description-container">
+            <h1>@Helper.GetString("Páros karkötők", (string)ViewData["Website"])</h1>
+            <span>Összetartó erő összeillő stílusban</span>
+            <a class="white-button center" href="/paros-karkotok">Tovább a Páros karkötőkhöz</a>
+        </div>
+        <div class="row-image-container">
+            <div class="row-image-inner">
+                <picture class="row-image">
+                    <source srcset="/images/paros-karkoto.webp" type="image/webp">
+                    <source srcset="/images/paros-karkoto.png" type="image/png">
+                    <img src="/images/paros-karkoto.png" alt="@Helper.GetString("Páros karkötők", (string)ViewData["Website"])" class="row-image">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-page-category-row second-row">
+        <div class="row-description-container">
+            <h1>@Helper.GetString("Horoszkóp karkötők", (string)ViewData["Website"])</h1>
+            <span>A csillagjegyek és az ásványok harmóniája</span>
+            <a class="white-button center" href="/horoszkop-karkotok">Tovább a Horoszkóp karkötőkhöz</a>
+        </div>
+        <div class="row-image-container">
+            <div class="row-image-inner">
+                <picture class="row-image">
+                    <source srcset="/images/horoszkop-karkoto.webp" type="image/webp">
+                    <source srcset="/images/horoszkop-karkoto.png" type="image/png">
+                    <img src="/images/horoszkop-karkoto.png" alt="@Helper.GetString("Horoszkóp karkötők", (string)ViewData["Website"])" class="row-image">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-page-category-row">
+        <div class="row-description-container">
+            <h1>@Helper.GetString("Ásványkarkötő tervező", (string)ViewData["Website"])</h1>
+            <span>Saját igényekre szabva, névre szólóan</span>
+            <a class="white-button center" href="/egyedi-karkoto-keszito">Tovább az ásványkarkötő tervezőhöz</a>
+        </div>
+        <div class="row-image-container">
+            <div class="row-image-inner">
+                <picture class="row-image">
+                    <source srcset="/images/egyedi-karkoto.webp" type="image/webp">
+                    <source srcset="/images/egyedi-karkoto.png" type="image/png">
+                    <img src="/images/egyedi-karkoto.png" alt="@Helper.GetString("Egyedi karkötők", (string)ViewData["Website"])" class="row-image">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-page-category-row second-row">
+        <div class="row-description-container">
+            <h1>@Helper.GetString("Kötött karkötő tervező", (string)ViewData["Website"])</h1>
+            <span>Színes, könnyed, vidám megjelenés</span>
+            <a class="white-button center" href="/fonott-karkoto-keszito">Tovább a kötött karkötő tervezőhöz</a>
+        </div>
+        <div class="row-image-container">
+            <div class="row-image-inner">
+                <picture class="row-image">
+                    <source srcset="/images/kotott-karkoto.webp" type="image/webp">
+                    <source srcset="/images/kotott-karkoto.png" type="image/png">
+                    <img src="/images/kotott-karkoto.png" alt="@Helper.GetString("Kötött karkötők", (string)ViewData["Website"])" class="row-image">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <div class="separator">
+        <div></div>
+        <h3>Akciós karkötők</h3>
+        <div></div>
+    </div>
+
+    <div class="products-list">
+        @foreach (var product in Model.DiscountedBracelets)
+        {
+            <div><partial name="_ProductListItem" model="product" /></div>
+        }
+    </div>
+
+    <div class="separator">
+        <div></div>
+        <h3>Kiemelt termékek</h3>
+        <div></div>
+    </div>
+
+    <div class="products-list">
+        @foreach (var product in Model.FeaturedProducts)
+        {
+            <div><partial name="_ProductListItem" model="product" /></div>
+        }
+    </div>
+
+    <partial name="_Guarantees" />
+
+    @await Component.InvokeAsync("Testimonials")
+</div>

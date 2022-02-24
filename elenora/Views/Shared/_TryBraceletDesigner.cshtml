@@ -1,0 +1,24 @@
+﻿@model bool
+
+<div class="separator">
+    <div></div>
+    <h3>Egyedi karkötő készítő</h3>
+    <div></div>
+</div>
+
+@if (Model)
+{
+    <span style="text-align: center">Nem találod, amit keresel? Próbáld ki a karkötő készítőnket és tervezd meg a saját karkötődet!</span>
+}
+
+<div class="custom-bracelet-banner">
+    <a href="/egyedi-karkoto-keszito">
+        <picture>
+            <source srcset="/images/custom-bracelet-banner.webp" type="image/webp">
+            <source srcset="/images/custom-bracelet-banner.png" type="image/png">
+            <img src="/images/custom-bracelet-banner.png" alt="Egyedi karkötő készítő">
+        </picture>
+    </a>
+</div>
+
+<a class="white-button center" href="/egyedi-karkoto-keszito">Tovább a karkötő készítőhöz</a>

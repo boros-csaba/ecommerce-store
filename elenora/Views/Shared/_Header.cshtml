@@ -1,0 +1,163 @@
+﻿<partial name="_SearchBar" />
+
+<div class="header-top-bar-container">
+    @await Component.InvokeAsync("HeaderNotification")
+    <div class="header-top-bar">
+        <span></span>
+        @if (Settings.IS_FREE_SHIPPING_MODE)
+        {
+            <h3 id="header-top-bar-text">Ingyenes szállítás!</h3>
+        }
+        else if ((bool)ViewData["IsFreeShippingPromotion"])
+        {
+            <h3 id="header-top-bar-text">Akció! A szállítás ingyenes @(((DateTime)ViewData["IsFreeShippingPromotionEndDate"]).ToString("yyyy.MM.dd"))-ig!</h3>
+        }
+        else
+        {
+            <h3 id="header-top-bar-text"><a href="/szallitasi-informaciok">Ingyenes szállítás @Settings.FREE_SHIPPING_THRESHOLD Ft felett!</a></h3>
+        }
+        <span class="text-right">Ügyfélszolgálat: +36 20 426 4445 | info@elenora.hu</span>
+    </div>
+</div>
+
+<header>
+    <input type="checkbox" class="menu-toggle-checkbox" id="menu-toggle-checkbox" />
+    <label class="menu-toggle-button" for="menu-toggle-checkbox">
+        <span class="menu-toggle-icon"></span>
+    </label>
+
+    @if ((bool)ViewData["IsChristmasMode"] == true)
+    {
+        <a class="logo logo-christmas" href="/">
+            <img src="~/images/logo-christmas.svg" alt="Elenora logo" />
+        </a>
+    }
+    else
+    {
+        <a class="logo" href="/">
+            <img src="~/images/logo.svg" alt="Elenora logo" />
+        </a>
+    }
+
+    <div class="header-buttons">
+        <img class="search-icon" src="~/images/search.png" onclick="return showSearchBar();" />
+        <a href="/kivansag-lista">
+            <img class="wishlist-icon" src="~/images/heart.png" />
+        </a>
+        @if ((bool?)ViewData["HideCartDrawerButton"] != true)
+        {
+            <div class="cart-icon-wrapper">
+                <img class="cart-icon" src="~/images/cart.png" onclick="return showCartDrawer();" />
+                <span onclick="return showCartDrawer();" class="cart-items-count"></span>
+            </div>
+        }
+    </div>
+
+    <ul class="menu">
+        <li>
+            <div class="dropdown">
+                <a class="dropdown-button">ÉKSZEREK</a>
+                <div class="dropdown-content">
+                    <a href="/noi-karkotok">@Helper.GetString("Női", (string)ViewData["Website"])</a>
+                    <a href="/ferfi-karkotok">@Helper.GetString("Férfi", (string)ViewData["Website"])</a>
+                    <a href="/paros-karkotok">@Helper.GetString("Páros", (string)ViewData["Website"])</a>
+                    <a href="/karkotok-asvanyok-szerint">@Helper.GetString("Ásványok szerint", (string)ViewData["Website"])</a>
+                    <a href="/horoszkop-karkotok">@Helper.GetString("Horoszkóp", (string)ViewData["Website"])</a>
+                    <a href="/fonott-karkoto-keszito">@Helper.GetString("Kötött", (string)ViewData["Website"])</a>
+                    @if ((bool)ViewData["IsChristmasMode"] == true)
+                    {
+                        <a href="/karacsonyi-csomagok">Karácsonyi csomagok</a>
+                    }
+                </div>
+            </div>
+        </li>
+        <li class="simple-menu-item">
+            <a href="/egyedi-karkoto-keszito">EGYEDI KARKÖTŐ KÉSZÍTŐ</a>
+        </li>
+        <li class="simple-menu-item">
+            <a href="/asvany-lexikon">ÁSVÁNY LEXIKON</a>
+        </li>
+        @*
+            <li class="simple-menu-item">
+                <a href="#">AKCIÓK</a>
+            </li>
+            <li class="simple-menu-item">
+                <a href="#">NŐNAPI KÍNÁLAT</a>
+            </li>
+        *@
+    </ul>
+</header>
+
+<script>
+    $(window).scroll(function () {
+        setHeaderSizeAndPosition();
+    });
+
+    $(function () {
+        setHeaderSizeAndPosition();
+        animateHeaderTopBarText();
+    });
+
+    function setHeaderSizeAndPosition() {
+        var topBarHeight = 24;
+        var actualTopBarHeight = $(".header-top-bar-container").outerHeight();
+        if (actualTopBarHeight > topBarHeight) topBarHeight = actualTopBarHeight;
+
+        if ($("html").scrollTop() > 250) {
+            $('header').addClass("sticky");
+        }
+        else {
+            $('header').removeClass("sticky");
+        }
+        if ($("html").scrollTop() > topBarHeight) {
+            $("header").css("margin", "0px");
+            $(".header-top-bar-container").css("visibility", "hidden");
+        }
+        else {
+            $("header").css("margin", (topBarHeight - $("html").scrollTop())  + "px 0 0 0");
+            $(".header-top-bar-container").css("visibility", "visible");
+        }
+    }
+
+    var headerTopBarText;
+    function animateHeaderTopBarText() {
+        headerTopBarText = $("#header-top-bar-text").text();
+        $("#header-top-bar-text").html("");
+        headerTopBarTextAnimationTick();
+    }
+
+    var isDeletingTopBarText = false;
+    var headerTopBarTextIndex = 0;
+    function headerTopBarTextAnimationTick() {
+        var newText = "";
+        duration = 100;
+        if (isDeletingTopBarText) {
+            headerTopBarTextIndex--;
+            if (headerTopBarTextIndex < 0) {
+                isDeletingTopBarText = false;
+                duration = 500;
+                $("#header-top-bar-text").html(" ");
+            }
+            else {
+                newText = headerTopBarText.substring(0, headerTopBarTextIndex);
+                $("#header-top-bar-text").html(newText);
+                duration = 60;
+                if (headerTopBarText[headerTopBarTextIndex] == " ") duration = 30;
+            }
+        }
+        else {
+            headerTopBarTextIndex++;
+            if (headerTopBarTextIndex > headerTopBarText.length) {
+                isDeletingTopBarText = true;
+                duration = 2000;
+            }
+            else {
+                newText = headerTopBarText.substring(0, headerTopBarTextIndex);
+                $("#header-top-bar-text").html(newText);
+                if (headerTopBarText[headerTopBarTextIndex] == " ") duration = 50;
+            }
+        }
+        setTimeout(function () { headerTopBarTextAnimationTick() }, duration);
+    }
+
+</script>

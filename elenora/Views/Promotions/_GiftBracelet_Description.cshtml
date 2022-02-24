@@ -1,0 +1,16 @@
+﻿@model List<Promotion>
+
+@if (Model.Any(p => p.Type == PromotionEnum.GiftLavaBracelet))
+{
+    var promotion = Model.First(p => p.Type == PromotionEnum.GiftLavaBracelet);
+<span id="gift-bracelet-promo-description" class="gift-bracelet-promo-description">
+    @if (promotion.EndDate.HasValue)
+    {
+        <text>Akciónk keretén belül minden rendelés mellé ajándékba adunk egy lávakő karkötőt.Az akció csak a @(promotion.EndDate.Value.ToString("yyyy.MM.dd")) éjfélig leadott rendelésekre vonatkozik!</text>
+    }
+    else
+    {
+        <text>Minden 8 000 Ft forint feletti rendelés mellé ajándékba adunk egy lávakő karkötőt!</text>
+    }
+</span>
+}

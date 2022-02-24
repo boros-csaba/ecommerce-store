@@ -1,0 +1,13 @@
+﻿@using elenora.Features.StringBraceletDesigner
+@model StringBraceletViewModel
+@{
+    Layout = null;
+}
+@if (Model.BraceletType == BraceletTypeEnum.ManyStringsBracelet)
+{
+    <partial name="~/Views/StringBraceletDesigner/_ManyStringsBracelet.cshtml" model="Model" />
+}
+else
+{
+    <partial name="~/Views/StringBraceletDesigner/_BraidedBracelet.cshtml" model="Model" />
+}

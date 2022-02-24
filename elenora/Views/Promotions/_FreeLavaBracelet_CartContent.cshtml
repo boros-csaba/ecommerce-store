@@ -1,0 +1,57 @@
+﻿@using elenora.ViewModels
+@model CartViewModel
+@{
+    var promotion = Model.Promotions.First(p => p.Type == PromotionEnum.GiftLavaBracelet);
+}
+<div class="checkout-product-row" id="free-lava-bracelet-promotion-cart-content">
+    <div class="checkout-product-image">
+        <picture class="main-image">
+            <img class="" src="/images/products/lavako-asvanykarkoto/lavako-asvanykarkoto-128.jpg" />
+        </picture>
+    </div>
+    <div>
+        <h2><b><span style="background: #f4f1e8">AJÁNDÉK</span> LÁVAKŐ KARKÖTŐ</b></h2>
+        <span class="product-bracelet-size-wrapper-small">
+            @if (promotion.EndDate.HasValue)
+            {
+                if (promotion.RemainingTime.TotalHours > 100)
+                {
+                    <b style="margin: 4px 0 0 0; display: block; line-height: 1">Az akció csak @promotion.EndDate.Value.ToString("yyyy.MM.dd")-ig tart!</b>
+                }
+                else
+                {
+                    <small style="line-height: 1; display: block">Az akció hamarosan lejár:</small>
+                    <b style="margin: 0; display: block">
+                        <span style="background: #f4f1e8; font-size: 0.8rem">
+                            <partial name="~/Views/Promotions/_CountdownTimer.cshtml" model="@promotion.RemainingTime" />
+                        </span>
+                    </b>
+                }
+            }
+        </span>
+    </div>
+    <div class="checkout-product-price">
+        <h2>
+            <span class="product-original-price">1 990 Ft</span>
+            <br />
+            <b>INGYEN</b>
+        </h2>
+    </div>
+</div>
+@if (promotion.MinOrderValue > 0)
+{
+    <script type="text/javascript">
+        function updateFreeLavaBraceletPromotionCartContent(cartTotal) {
+        if (cartTotal < parseInt('@promotion.MinOrderValue')) {
+            $("#free-lava-bracelet-promotion-cart-content").hide();
+        }
+        else {
+            $("#free-lava-bracelet-promotion-cart-content").show();
+        }
+    }
+
+    $(function () {
+        updateFreeLavaBraceletPromotionCartContent(@Model.Total);
+    });
+    </script>
+} 

@@ -1,0 +1,30 @@
+﻿@using elenora.Features.ProductList
+@model ProductCategoryModel
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Description;
+}
+
+<div class="wide-page">
+    <div class="separator">
+        <div></div>
+        <h3>@Model.Title</h3>
+        <div></div>
+    </div>
+
+    @foreach (var subcategory in Model.Subcategories)
+    {
+        <div class="separator">
+            <div></div>
+            <h3>@subcategory.Title</h3>
+            <div></div>
+        </div>
+        <div class="products-list">
+            @foreach (var product in subcategory.Products)
+            {
+                <partial name="_ProductListItem" model="product" />
+            }
+        </div>
+        <a class="white-button center" href="/@Model.IdString/@subcategory.IdString">Megnézem a kollekciót</a>
+    }
+</div>

@@ -1,0 +1,55 @@
+﻿@using elenora.ViewModels
+@model HoroscopePageViewModel
+@{
+    ViewData["Title"] = "Horoszkóp Karkötők";
+    ViewData["Description"] = "Válassz a horoszkópodhoz illő karkötőt, amely olyan valódi ásvány gyöngyöt tartalmaz, ami erősíti és támogatja a csillagjegyed személyiség jegyeit!";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/horoscope.min.css" asp-append-version="true" type="text/css" />
+}
+
+<div class="wide-page horoscope-page">
+    <div class="horoscope-main-description">
+        Mivel nagyon gyakran felmerülő kérdés, ezért összegyűjtöttük egy oldalra az ásványokat a horoszkópok szerint.  Csak <b>válassz egy csillagjegyet</b> majd a csillagjegyhez tartozó ásványok közül válaszd ki azt amelyik a legjobban tetszik.
+    </div>
+
+    <partial name="_HoroscopeSelectors" model="Model.Horoscopes" />
+
+    <div class="horoscope-beads-wrapper">
+        <h1 class="selected-horoscope-title"></h1>
+        <span class="selected-horoscope-date-range"></span>
+        <div class="beads-list">
+            <div class="bead-information">
+                <h2 class="bead-name"></h2>
+                <span class="bead-description"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="all-horoscope-bracelets">
+        @foreach (var section in Model.Sections)
+        {
+            <div class="separator">
+                <div></div>
+                <h3>@(section.HoroscopeName) karkötők</h3>
+                <div></div>
+            </div>
+            <div class="products-list">
+                @foreach (var product in section.Products)
+                {
+                    <div><partial name="_ProductListItem" model="product" /></div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="horoscope-bracelets-wrapper">
+    </div>
+
+    <partial name="_Guarantees" />
+
+    <div class="try-bracelet-designer-container">
+        <partial name="_TryBraceletDesigner" model="true" />
+    </div>
+</div>

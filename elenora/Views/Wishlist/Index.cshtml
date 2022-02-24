@@ -1,0 +1,20 @@
+﻿@model List<elenora.ViewModels.ProductListItemViewModel>
+@{
+    ViewData["Title"] = "Kívánság listám";
+    ViewData["IsWishlistPage"] = true;
+}
+
+<div class="wide-page">
+    <div class="separator">
+        <div></div>
+        <h3>Kívánság listám</h3>
+        <div></div>
+    </div>
+
+    <div class="products-list">
+        @foreach (var product in Model)
+        {
+            <partial name="_ProductListItem" model="product" />
+        }
+    </div>
+</div>

@@ -1,0 +1,213 @@
+﻿@model elenora.ViewModels.OrderConfirmationViewModel
+@{
+    ViewData["Title"] = "Tranzakció feldolgozás";
+    var paymentReceivedNodeVisibility = Model.OrderStatus == OrderStatusEnum.PaymentReceived ? "flex" : "none";
+    var orderInProgressNodeVisibility = (Model.OrderStatus == OrderStatusEnum.PaymentReceived || (Model.PaymentMethod == PaymentMethodEnum.PayAtDelivery && Model.OrderStatus == OrderStatusEnum.OrderPlaced)) ? "flex" : "none";
+    var paymentErrorNodeVisibility = (Model.PaymentMethod == PaymentMethodEnum.Barion && Model.TransactionStatus != "New" && Model.TransactionStatus != "Succeeded") ? "flex" : "none";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/order-confirmation.min.css" asp-append-version="true" type="text/css" />
+}
+
+<div class="order-confirmation-page narrow-page page-container">
+    <h1>Köszönjük a rendelésedet!</h1>
+    <h2>Rendelés száma: <b>@Model.OrderId</b></h2>
+
+    <div class="order-progress">
+
+        <div class="progress-node">
+            <div class="progress-indicator progress-indicator-done"></div>
+            <div class="progress-info">
+                <span class="progress-info-title">A rendelés beérkezett hozzánk</span>
+            </div>
+        </div>
+
+        @if (Model.PaymentMethod == PaymentMethodEnum.BankTransfer && Model.OrderStatus == OrderStatusEnum.OrderPlaced)
+        {
+            <div class="progress-node-separator"></div>
+            <div class="progress-node">
+                <div class="progress-indicator progress-indicator-pending"></div>
+                <div class="progress-info">
+                    <span class="progress-info-title">Még nem érkezett be az utalás</span>
+                </div>
+            </div>
+            <div class="progress-node-extra-info">
+                A beérkezett utalások feldolgozása akár több óra is lehet. Amint beérkezett és feldolgoztuk az utalásodat emailben is értesítünk!<br />
+                Ha még nem tetted meg, akkor a rendelés összegét az alábbi számlára utald: <br />
+                Név: Boros Csaba EV<br />
+                Bankszámlaszám: <br />
+                HU71 1040 4072 8676 7588 6969 1006<br />
+                Számlavezető bank: K&H<br />
+                Utalandó összeg: <b>@Helper.GetFormattedMoney(Model.Total) Ft</b><br />
+                A megjegyzésben kérlek tűntesd fel a rendelésed számát: <b>@Model.OrderId</b>
+
+                <div>
+                    <br />
+                    Ha mégsem utalásasl fizetnél, akkor választhatsz más fizetési módot:
+                    @if (Model.Total - Model.ShippingPrice < Settings.FREE_SHIPPING_THRESHOLD)
+                    {
+                        <br />
+                        @if (Model.ShippingMethod != ShippingMethodEnum.GLS)
+                        {
+                            <text>Fizetés a futárnál utánvéttel csak GLS szállítással együtt lehetséges, aminek az ára <b>@Helper.GetFormattedMoney(Settings.GLS_PAYMENT_PRICE + Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) Ft</b></text>
+                        }
+                        else
+                        {
+                            <text>Az utánvéttel való fizetés felára <b>@Helper.GetFormattedMoney(Settings.GLS_PAYMENT_PRICE) Ft</b></text>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.ShippingMethod != ShippingMethodEnum.GLS)
+                        {
+                            <text>Fizetés a futárnál utánvéttel csak GLS szállítással együtt lehetséges.</text>
+                        }
+                        if (!Settings.FREE_SHIPPING_INCLUDES_PAYMENT)
+                        {
+                            <text>Az utánvéttel való fizetés felára <b>@Helper.GetFormattedMoney(Settings.GLS_PAYMENT_PRICE) Ft</b></text>
+                        }
+                    }
+                </div>
+                <a class="payment-button" href="/rendeles/kartyas-fizetes/@Model.CustomerId-@Model.Id?s=orderconfirmation">Fizetés bankkártyával</a>
+                <a class="payment-button" href="/rendeles/fizetesi-mod/@Model.OrderId-@Model.CustomerIdString?pm=@((int)PaymentMethodEnum.PayAtDelivery)">Fizetés a futárnál</a>
+            </div>
+        }
+
+        <div class="progress-node-separator progress-node-payed" style="display: @paymentReceivedNodeVisibility"></div>
+        <div class="progress-node progress-node-payed" style="display: @paymentReceivedNodeVisibility">
+            <div class="progress-indicator progress-indicator-done"></div>
+            <div class="progress-info">
+                <span class="progress-info-title">A rendelés ki lett fizetve</span>
+            </div>
+        </div>
+
+        <div class="progress-node-separator progress-node-payment-error" style="display: @paymentErrorNodeVisibility"></div>
+        <div class="progress-node progress-node-payment-error" style="display: @paymentErrorNodeVisibility">
+            <div class="progress-indicator progress-indicator-error"></div>
+            <div class="progress-info">
+                <span class="progress-info-title">Sikertelen fizetés!</span>
+            </div>
+        </div>
+        <div class="progress-node-extra-info progress-node-payment-error" style="display: @paymentErrorNodeVisibility">
+            <div>
+                <div>
+                    A bankkártyás fizetés sikertelen volt. Újra próbálhatod a bankkártyás fizetést vagy választhatsz más fizetési módot:<br />
+                    @if (Model.Total - Model.ShippingPrice < Settings.FREE_SHIPPING_THRESHOLD)
+                    {
+                        @if (Model.ShippingMethod != ShippingMethodEnum.GLS)
+                        {
+                            <text>Fizetés a futárnál utánvéttel csak GLS szállítással együtt lehetséges, aminek az ára <b>@Helper.GetFormattedMoney(Settings.GLS_PAYMENT_PRICE + Settings.GLS_SHIPPING_PRICE((bool)ViewData["IsFreeShippingPromotion"])) Ft</b></text>
+                        }
+                        else
+                        {
+                            <text>Az utánvéttel való fizetés felára <b>@Helper.GetFormattedMoney(Settings.GLS_PAYMENT_PRICE) Ft</b></text>
+                        }
+                    }
+                </div>
+                <a class="payment-button" href="/rendeles/kartyas-fizetes/@Model.CustomerId-@Model.Id?s=orderconfirmation">Fizetés bankkártyával</a>
+                <a class="payment-button" href="/rendeles/fizetesi-mod/@Model.OrderId-@Model.CustomerIdString?pm=@((int)PaymentMethodEnum.BankTransfer)">Fizetés utalással</a>
+                <a class="payment-button" href="/rendeles/fizetesi-mod/@Model.OrderId-@Model.CustomerIdString?pm=@((int)PaymentMethodEnum.PayAtDelivery)">Fizetés a futárnál</a>
+            </div>
+        </div>
+
+        <div class="progress-node-separator progress-node-in-progress" style="display: @orderInProgressNodeVisibility"></div>
+        <div class="progress-node progress-node-in-progress" style="display: @orderInProgressNodeVisibility">
+            <div class="progress-indicator progress-indicator-pending progress-node-in-progress"></div>
+            <div class="progress-info">
+                <span class="progress-info-title">A csomag előkészítés alatt van</span>
+            </div>
+        </div>
+
+        @if (Model.OrderStatus == OrderStatusEnum.OrderPlaced && Model.PaymentMethod == PaymentMethodEnum.Barion && Model.TransactionStatus == "New")
+        {
+            <div class="progress-node-separator"></div>
+            <div class="progress-node pending-transaction-node">
+                <div class="progress-indicator progress-indicator-pending"></div>
+                <div class="progress-info">
+                    <span id="transaction-status" class="progress-info-title">Tranzakció feldolgozása.</span>
+                </div>
+            </div>
+            <div class="progress-node-separator"></div>
+            <script type="text/javascript">
+                $(function () {
+                    setInterval(function () {
+                        if ($(".pending-transaction-node").css("display") == "none") return;
+                        if ($("#transaction-status").html().endsWith("......")) $("#transaction-status").html("Tranzakció feldolgozása.");
+                        else if ($("#transaction-status").html().endsWith(".....")) $("#transaction-status").html("Tranzakció feldolgozása......");
+                        else if ($("#transaction-status").html().endsWith("....")) $("#transaction-status").html("Tranzakció feldolgozása.....");
+                        else if ($("#transaction-status").html().endsWith("...")) $("#transaction-status").html("Tranzakció feldolgozása....");
+                        else if ($("#transaction-status").html().endsWith("..")) $("#transaction-status").html("Tranzakció feldolgozása...");
+                        else if ($("#transaction-status").html().endsWith(".")) {
+                            $("#transaction-status").html("Tranzakció feldolgozása..");
+                            $.ajax({
+                                url: "/rendeles/status/@Model.TransactionId",
+                                method: "GET",
+                                success: function (data, _textStatus, _jqXHR) {
+                                    console.log(data);
+                                    if (data == "Succeeded") {
+                                        $(".progress-node-payed").css("display", "flex");
+                                        $(".progress-node-in-progress").css("display", "flex");
+                                        $(".pending-transaction-node").css("display", "none");
+                                    }
+                                    else if (data != "New") {
+                                        $(".progress-node-payment-error").css("display", "flex");
+                                        $(".pending-transaction-node").css("display", "none");
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log("Error");
+                                    console.log(jqXHR);
+                                    console.log(textStatus);
+                                    console.log(errorThrown);
+                                }
+                            });
+                        };
+                    }, 500);
+                })
+            </script>
+        }
+
+        @if (Model.OrderStatus == OrderStatusEnum.OrderPrepared || Model.OrderStatus == OrderStatusEnum.OrderCompleted)
+        {
+            <div class="progress-node-separator"></div>
+            <div class="progress-node">
+                <div class="progress-indicator progress-indicator-done"></div>
+                <div class="progress-info">
+                    <span class="progress-info-title">Csomag összeállítva</span>
+                </div>
+            </div>
+        }
+
+        @if (Model.OrderStatus == OrderStatusEnum.OrderPrepared)
+        {
+            <div class="progress-node-separator"></div>
+            <div class="progress-node">
+                <div class="progress-indicator progress-indicator-pending"></div>
+                <div class="progress-info">
+                    <span class="progress-info-title">A csomag feladásra vár</span>
+                </div>
+            </div>
+        }
+
+        @if (Model.OrderStatus == OrderStatusEnum.OrderCompleted)
+        {
+            <div class="progress-node-separator"></div>
+            <div class="progress-node">
+                <div class="progress-indicator progress-indicator-done"></div>
+                <div class="progress-info">
+                    <span class="progress-info-title">
+                        @if (Model.ShippingMethod == ShippingMethodEnum.GLS)
+                        {
+                            <text>A csomag át lett adva a futárnak</text>
+                        }
+                        else
+                        {
+                            <text>A csomagot feladtuk a postán</text>
+                        }
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

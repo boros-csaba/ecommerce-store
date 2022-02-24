@@ -1,0 +1,60 @@
+﻿@using elenora.ViewModels
+@model CartDrawerViewModel
+@{
+    var promotion = Model.Promotions.First(p => p.Type == PromotionEnum.GiftLavaBracelet);
+}
+<div class="cart-drawer-item cart-drawer-item-promotion" id="free-lava-bracelet-promotion-cart-drawer">
+    <div class="cart-drawer-item-inner">
+        <picture>
+            <img class="product-image" src="/images/products/lavako-asvanykarkoto/lavako-asvanykarkoto-128.jpg" />
+        </picture>
+        <div class="cart-drawer-item-details">
+            <h3><span style="background: #f4f1e8">AJÁNDÉK</span> LÁVAKŐ KARKÖTŐ</h3>
+            <div class="price-container">
+                <span style="line-height: 1">
+                    <small>Minden @(promotion.MinOrderValue == 0 ? "" : Helper.GetFormattedMoney(promotion.MinOrderValue) + " Ft feletti") rendelés mellé ajándékba adunk egy lávakő karkötőt!</small>
+                    @if (promotion.EndDate.HasValue)
+                    {
+                        <br />
+                        @if (promotion.RemainingTime.TotalHours > 100)
+                        {
+                            <small><b style="margin: 4px 0 0 0; display: block">Az akció csak @promotion.EndDate.Value.ToString("yyyy.MM.dd")-ig tart!</b></small>
+                        }
+                        else
+                        {
+                            <small>Az akció hamarosan lejár:</small><br />
+                            <b style="margin: 4px 0 0 0; display: block">
+                                <span style="background: #f4f1e8; font-size: 0.8rem">
+                                    <partial name="~/Views/Promotions/_CountdownTimer.cshtml" model="@promotion.RemainingTime" />
+                                </span>
+                            </b>
+                        }
+                    } 
+                </span>
+                <span>
+                    <span class="product-original-price">1 990 Ft</span>
+                    <br />
+                    <b>INGYEN</b>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (promotion.MinOrderValue > 0)
+{
+    <script type="text/javascript">
+    function updateFreeLavaBraceletPromotion(cartTotal) {
+        if (cartTotal < parseInt('@promotion.MinOrderValue')) {
+            $("#free-lava-bracelet-promotion-cart-drawer").hide();
+        }
+        else {
+            $("#free-lava-bracelet-promotion-cart-drawer").show();
+        }
+    }
+
+    $(function () {
+        updateFreeLavaBraceletPromotion(@Model.Cart.Total);
+    });
+    </script>
+} 

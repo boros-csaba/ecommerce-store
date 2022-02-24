@@ -1,0 +1,32 @@
+﻿@model TimeSpan 
+@{
+    var id = Guid.NewGuid().ToString().Replace("-", "");
+} 
+<span id="@id"></span>
+<script type="text/javascript">
+    var timeLeft@(id) = parseInt(@Model.TotalSeconds);
+    $(function () {
+        timerText@(id)();
+        setInterval(function () {
+            timerText@(id)();
+            if (timeLeft@(id) > 0) {
+                timeLeft@(id)--;
+            }
+        }, 1000);
+    });
+
+    function timerText@(id)() {
+        var id = "@id";
+        var timeLeft = this.timeLeft@(id);
+        var hours = Math.floor(timeLeft / 60 / 60);
+        timeLeft -= hours * 60 * 60;
+        var minutes = Math.floor(timeLeft / 60);
+        timeLeft -= minutes * 60;
+        var text = "" + hours + " óra ";
+        if (minutes > 9) text = text + minutes;
+        else text = text + "0" + minutes;
+        if (timeLeft > 9) text = text + " perc " + timeLeft + " másodperc";
+        else text = text + " perc 0" + timeLeft + " másodperc";
+        $("#" + id).html(text);
+    }
+</script>

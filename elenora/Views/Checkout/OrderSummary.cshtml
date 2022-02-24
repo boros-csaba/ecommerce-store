@@ -1,0 +1,199 @@
+﻿@model elenora.ViewModels.CheckoutModel
+@{
+    ViewData["Title"] = "Összegzés";
+    ViewData["HideCartDrawerButton"] = true;
+}
+
+<div class="two-part-page order-summary-page">
+    <div class="main-part">
+        <div class="part-inner-container">
+
+            <partial name="_CheckoutStatus" model="@(new Tuple<int, int>(4, Model.OrderStatus))" />
+
+            <div class="part-header">
+                <h2>4. Összegzés</h2>
+            </div>
+
+            <div class="checkout-options-container">
+                <div class="checkout-options-row">
+                    Szállítás
+                </div>
+                <div class="checkout-options-details">
+                    @if (Model.DifferentShippingAddress)
+                    {
+                        <text>
+                            @Model.ShippingName<br />
+                            @Model.ShippingZip - @Model.ShippingCity<br />
+                            @Model.ShippingAddress
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                            @Model.BillingName<br />
+                            @Model.BillingZip - @Model.BillingCity<br />
+                            @Model.BillingAddress
+                        </text>
+                    }
+                    <text>
+                        <br />
+                        A csomagot a GLS futárszolgálat szállítja.
+                        <br />
+                        <b>@Html.Raw(Model.ShippingPointAddressInformation)</b> 
+                    </text>
+                </div>
+                <div class="checkout-options-row checkout-options-last-row">
+                    Számlázási adatok
+                </div>
+                <div class="checkout-options-details checkout-options-details-last">
+                    <div class="checkout-options-details-inner">
+                        @Model.BillingName<br />
+                        @Model.BillingZip - @Model.BillingCity<br />
+                        @Model.BillingAddress<br />
+                        @if (Model.PaymentMethod == PaymentMethodEnum.BankTransfer)
+                        {
+                            <b>Banki átutalás</b>
+                        }
+                        else if (Model.PaymentMethod == PaymentMethodEnum.Barion)
+                        {
+                            <b>Kártyás fizetés (Barion)</b>
+                        }
+                        else if (Model.PaymentMethod == PaymentMethodEnum.PayAtDelivery)
+                        {
+                            <b>Utánvét (fizetés a futárnál)</b>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary-mobile">
+                <partial name="_CartContent" model="@Model.Cart" />
+            </div>
+
+            <div class="consent-container">
+                <input type="checkbox" id="consent-1" />
+                <span>Tudomásul veszem, hogy a weboldal a most megadott személyes adataimat a GDPR, továbbá a saját <a href="/adatkezelesi-tajekoztato" target="_blank">Adatkezelési tájékoztatójának</a> feltételei szerint kezelheti.</span>
+            </div>
+
+            <div class="consent-container">
+                <input type="checkbox" id="consent-2" />
+                <span>Elolvastam és elfogadom az <a href="/aszf" target="_blank">Általános Szerződési Feltételekben</a> foglaltakat.</span>
+            </div>
+
+            <div class="consent-container">
+                <input type="checkbox" id="consent-3" />
+                <span>Hozzájárulok, hogy a weboldal a nevemet és e-mail címemet hírlevelezési céllal kezelje és a részemre gazdasági reklámot is tartalmazó email hírleveleket küldjön.</span>
+            </div>
+
+            <div class="checkout-buttons-container">
+                @using (Html.BeginForm("StartPayment", "Barion", FormMethod.Post, new { id = "submit-order-form" }))
+                {
+                    <input type="hidden" name="newsletterConsent" id="newsletterConsent" value="false" />
+                }
+                <a class="checkout-main-button" onclick="return submitOrder();">
+                    @if (Model.PaymentMethod == PaymentMethodEnum.Barion)
+                    {
+                        <text>FIZETÉS BANKKÁRTYÁVAL</text>
+                    }
+                    else
+                    {
+                        <text>RENDELÉS LEADÁSA</text>
+                    }
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-part">
+        <partial name="_CartContent" model="@Model.Cart" />
+    </div>
+</div>
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'checkout',
+        ecommerce: {
+            currencyCode: 'HUF',
+            checkout: {
+                actionField: {
+                    step: 4
+                },
+                products: [@Html.Raw(Helper.GetProductInfoJson(Model.Cart.CartItems))]
+            }
+        }
+    });
+
+    function submitOrder() {
+        if (!($("#consent-1").is(":checked"))) {
+            $("#consent-1").parent().addClass("checkout-validation-error");
+            return;
+        }
+        if (!($("#consent-2").is(":checked"))) {
+            $("#consent-2").parent().addClass("checkout-validation-error");
+            return;
+        }
+        var newsletterConsent = false;
+        if ($("#consent-3").is(":checked")) {
+            newsletterConsent = true;
+            $("#newsletterConsent").val("True");
+        }
+        $("#loading").css("display", "flex");
+
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({ ecommerce: null });
+        window.dataLayer.push({
+            event: 'purchase',
+            ecommerce: {
+                currencyCode: 'HUF',
+                purchase: {
+                    transaction_id: '@Model.OrderId',
+                    value: '@Model.Total',
+                    currency: 'HUF',
+                    tax: '0',
+                    shipping: '0',
+                    actionField: {
+                        id: '@Model.OrderId',
+                        revenue: '@Model.Total',
+                        tax: '0',
+                        shipping: '0',
+                        coupon: '@Html.Raw(Model.Cart.CouponName ?? "")'
+                    },
+                    products: [@Html.Raw(Helper.GetProductInfoJson(Model.Cart.CartItems))],
+                    items: [@Html.Raw(Helper.GetProductInfoJson(Model.Cart.CartItems))]
+                }
+            },
+            businessValue: '@Model.OrderBusinessValue',
+            itemIds: [@Html.Raw(string.Join(", ", Model.Cart.CartItems.Select(ci => $"'{ci.ProductId}'")))],
+            glamiItemNames: [@Html.Raw(string.Join(", ", Model.Cart.CartItems.Select(ci => $"'{ci.ProductName}'")))]
+        });
+
+        @if (Model.PaymentMethod == PaymentMethodEnum.Barion)
+        {
+            <text>$("#submit-order-form").submit();</text>
+        }
+        else {
+            <text>
+                $.ajax({
+                    url: "/rendeles/rendeles-elkuldese",
+                    method: "POST",
+                    data: { newsletterConsent: newsletterConsent },
+                    success: function (data, _textStatus, _jqXHR) {
+                        window.location.href = data.url;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Error");
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            </text>
+        }
+    }
+
+    function getCheckoutStepSaveUrl() {
+        return null;
+    }
+
+    function completeStep() { }
+</script>

@@ -1,0 +1,15 @@
+﻿@using elenora.ViewModels
+@model List<HoroscopeViewModel>
+
+<div class="horoscope-icons-wrapper">
+    @foreach (var horoscope in Model)
+    {
+        <a class="horoscope-icon-link" href="/horoszkop-karkotok/@(horoscope.IdString)-csillagjegy">
+            <div id="@horoscope.IdString">
+                <img src="/images/horoscope/@(horoscope.IdString).svg" title="@horoscope.Name" alt="@horoscope.Name" />
+                <h3>@horoscope.Name</h3>
+                <span>@horoscope.DateRange</span>
+            </div>
+        </a>
+    }
+</div>

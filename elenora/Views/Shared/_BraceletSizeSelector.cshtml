@@ -1,0 +1,97 @@
+﻿@model elenora.ViewModels.BraceletSizeSelectorModel
+
+<div class="product-bracelet-size-wrapper @(Model.Inline ? "product-bracelet-size-wrapper-inline" : "")">
+    @{
+        var options = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "1", Text = "XS (14 cm)" },
+            new SelectListItem { Value = "2", Text = "S (15-16 cm)" },
+            new SelectListItem { Value = "3", Text = "M (17-18 cm)" },
+            new SelectListItem { Value = "4", Text = "L (19 cm)" },
+            new SelectListItem { Value = "5", Text = "XL (20 cm)" },
+            new SelectListItem { Value = "6", Text = "XXL (21 cm)" }
+        };
+
+        @if (Model.ProductType == ProductTypeEnum.BraceletPair)
+        {
+            <div class="product-bracelet-size-inner">
+                @{
+                    var label = Model.Inline ? "Férfi méret: " : "FÉRFI MÉRET";
+                    var size = Model.Size == null ? 2 : (int)Model.Size - 1;
+                    var suffix = Model.CartItemId == null ? "" : $"-ci{Model.CartItemId}";
+
+                    <span class="bracelet-size-selector-label">@label</span>
+                    options[size].Selected = true;
+                    @if (Model.CartItemId == null)
+                    {
+                        <select asp-items="options" id="product-bracelet-size@(suffix)"></select>
+                    }
+                    else
+                    {
+                        <select asp-items="options" id="product-bracelet-size@(suffix)" onchange="changeCartItemSize(this, @Model.CartItemId, false)"></select>
+                    }
+                }
+            </div>
+            <div class="product-bracelet-size-inner">
+                @{
+                    label = Model.Inline ? "Női méret: " : "NŐI MÉRET";
+                    size = Model.Size2 == null ? 2 : (int)Model.Size2 - 1;
+                    suffix = Model.CartItemId == null ? "2" : $"-ci{Model.CartItemId}-2";
+                    var options2 = options.Select(o => new SelectListItem { Value = o.Value, Text = o.Text }).ToList();
+                    <span class="bracelet-size-selector-label">@label</span>
+                    options2[size].Selected = true;
+                    @if (Model.CartItemId == null)
+                    {
+                        <select asp-items="options2" id="product-bracelet-size@(suffix)"></select>
+                    }
+                    else
+                    {
+                        <select asp-items="options2" id="product-bracelet-size@(suffix)" onchange="changeCartItemSize(this, @Model.CartItemId, true)"></select>
+                    }
+                }
+            </div>
+        }
+        else
+        {
+            <div class="product-bracelet-size-inner">
+                @{
+                    var label = Model.Inline ? "Méret: " : "MÉRET";
+                    var size = Model.Size == null ? 2 : (int)Model.Size - 1;
+                    var suffix = Model.CartItemId == null ? (Model.UniqueId == null ? "" : $"-{Model.UniqueId}") : $"-ci{Model.CartItemId}";
+                    <span class="bracelet-size-selector-label">@label</span>
+                    options[size].Selected = true;
+                    @if (Model.CartItemId == null)
+                    {
+                        <select asp-items="options" id="product-bracelet-size@(suffix)"></select>
+                    }
+                    else
+                    {
+                        <select asp-items="options" id="product-bracelet-size@(suffix)" onchange="changeCartItemSize(this, @Model.CartItemId, false)"></select>
+                    }
+                }
+            </div>
+        }
+        @if (Model.ShowHelpIcon)
+        {
+            <img src="/images/help.svg" alt="Méret választása" class="bracelet-size-help-icon" />
+        }
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".bracelet-size-help-icon").click(function () {
+            showPopupWindow($(`
+                <span>
+                    Mérd körbe a csuklód legszélesebb pontját, ahol a karkötőt is hordani fogod.<br />
+                    Ha nem magadnak rendelsz és nem tudod a pontos méretet, "M"-es méretű karkötőt rendelj (férfi esetében "L"-es méretű), a legtöbb csuklóra megfelelő ez a méret.<br />
+                    Mérethiba esetén vedd fel velünk a kapcsolatot és <b>ingyen cseréljük</b> a karkötőt.<br />
+                    Amennyiben két méret közötti méretű a csuklód, válaszd inkább a nagyobb méretet, nem jó, ha túl szoros a karkötő.<br />
+                    Tudsz rendeli egyéni méretet is, annyi a teendőd, hogy megrendeléskor írj megjegyzést, hogy mekkora méretű ékszert szeretnél vagy vedd fel velünk a kapcsolatot elérhetőségünk egyikén.
+                </span>`));
+        });
+    });
+</script>
+
+
+

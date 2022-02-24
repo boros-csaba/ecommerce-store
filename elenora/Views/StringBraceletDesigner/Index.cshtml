@@ -1,0 +1,84 @@
+﻿@using elenora.Features.StringBraceletDesigner
+@{
+    ViewData["Title"] = "Tervezz egyedi feliratos karkötőt! - Elenora";
+    ViewData["WithoutTitleSuffix"] = true;
+    ViewData["Description"] = "<b>Nehéz megtalálni a legjobb személyre szabott ajándékot ? Tervezz percek alatt gyönyörű, egyedi ásvány karkötőt magadnak, vagy lepj meg vele valakit! Csak válassz egy ásvány gyöngyöt, add meg a feliratot és adj hozzá kiegészítőket.";
+    ViewData["MetaViewport"] = "width=device-width, initial-scale=1, maximum-scale=1";
+
+    var braceletModel = new StringBraceletViewModel { IdPrefix = "designer", Width = 600, Height = 500 };
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/StringBraceletDesigner.min.css" asp-append-version="true" type="text/css" />
+    <script src="/StringBraceletDesignerJs.js" asp-append-version="true"></script>
+}
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'viewProductDetails',
+        ecommerce: {
+            currencyCode: 'HUF',
+            detail: {
+                products: [{
+                    id: 'string-bracelet',
+                    name: 'Fonott karkötő',
+                    category: 'Fonott karkötő',
+                    price: '3490'
+                }]
+            }
+        }
+    });
+</script>
+
+<div class="narrow-page string-bracelet-designer-page">
+    <div class="bracelet-types">
+        <span id="many-strings-type-button" class="selected-bracelet-type">Több szálas</span>
+        <span>-</span>
+        <span id="braided-type-button">Fonott</span>
+    </div>
+    <div class="bracelet-designer-wrapper">
+        <div class="bracelet-designer-wrapper-inner">
+            <partial name="_ManyStringsBracelet" model="@braceletModel" />
+            <partial name="_BraidedBracelet" model="@braceletModel" />
+            <div class="marker-dot many-strings-marker-flaps"></div>
+            <div class="marker-dot many-strings-marker-knot"></div>
+            <div class="marker-dot many-strings-marker-lines"></div>
+            <div class="marker-dot braided-marker-flaps" style="display: none;"></div>
+            <div class="marker-dot braided-marker-knot" style="display: none;"></div>
+            <div class="marker-dot braided-marker-lines" style="display: none;"></div>
+        </div>
+        <div class="color-selectors-wrapper">
+            <div class="color-selector" style="background: #fffdd4"></div>
+            <div class="color-selector" style="background: #ba7fc1"></div>
+            <div class="color-selector" style="background: #9b50a9"></div>
+            <div class="color-selector" style="background: #92e6b8"></div>
+            <div class="color-selector" style="background: #c5da9f"></div>
+            <div class="color-selector" style="background: #9aedfb"></div>
+            <div class="color-selector" style="background: #ffff00"></div>
+            <div class="flex-wrap-new-row"></div>
+            <div class="color-selector" style="background: #ffffff"></div>
+            <div class="color-selector" style="background: #888888"></div>
+            <div class="color-selector" style="background: #f19ebf"></div>
+            <div class="color-selector" style="background: #5e6c98"></div>
+            <div class="color-selector" style="background: #fdcee1"></div>
+            <div class="color-selector" style="background: #ff8100"></div>
+            <div class="color-selector" style="background: #d2b385"></div>
+            <div class="flex-wrap-new-row"></div>
+            <div class="color-selector" style="background: #000000"></div>
+            <div class="color-selector" style="background: #a21818"></div>
+            <div class="color-selector" style="background: #feded2"></div>
+            <div class="color-selector" style="background: #dc7133"></div>
+            <div class="color-selector" style="background: #a26a15"></div>
+            <div class="color-selector" style="background: #f52f2f"></div>
+            <div class="color-selector" style="background: #35bed4"></div>
+            <div class="flex-wrap-new-row"></div>
+            <span class="color-selectors-description"></span>
+        </div>
+        <a class="add-to-cart-button add-to-cart-button-string-bracelet">@Helper.GetString("Kosárba teszem", (string)ViewData["Website"])</a>
+        <span class="bracelet-designer-price">CSAK 3 490 Ft</span>
+    </div>
+
+    @await Component.InvokeAsync("Testimonials")
+    <partial name="_CollectionsButtons" />
+</div>

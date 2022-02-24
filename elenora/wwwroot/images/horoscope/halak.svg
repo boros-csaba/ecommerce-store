@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="21.32933mm"
+   height="22.85391mm"
+   viewBox="0 0 21.32933 22.85391"
+   version="1.1"
+   id="svg10794"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="halak.svg">
+  <defs
+     id="defs10788" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-496.83546"
+     inkscape:cy="80.331351"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata10791">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-104.99605,-147.23376)">
+    <path
+       inkscape:connector-curvature="0"
+       id="path3049"
+       d="m 117.74714,157.1043 c 0.0344,-1.15408 0.16363,-2.18331 0.38756,-3.08768 0.22392,-0.90432 0.54475,-1.73977 0.96248,-2.5063 0.41769,-0.76652 0.93662,-1.48352 1.55675,-2.15103 0.62011,-0.66747 1.38663,-1.37586 2.2996,-2.12519 h 3.37185 c -0.94742,0.7924 -1.74411,1.51585 -2.39003,2.1704 -0.64598,0.65458 -1.20582,1.35869 -1.6795,2.11228 -0.47371,0.75364 -0.84836,1.57615 -1.12395,2.46756 -0.27562,0.89143 -0.45217,1.9314 -0.52969,3.11996 h 4.76726 v 2.98424 h -4.76726 c 0.0775,1.51585 0.34448,2.84427 0.80097,3.98542 0.45646,1.1412 1.08304,2.17257 1.87973,3.09403 0.79666,0.92157 1.81081,1.89482 3.04244,2.91968 h -3.37185 c -1.19718,-0.99907 -2.16397,-1.9594 -2.90036,-2.88105 -0.73641,-0.92157 -1.29622,-1.94863 -1.67947,-3.08133 -0.38327,-1.13258 -0.59213,-2.4783 -0.62658,-4.03728 h -4.18571 c -0.0345,1.55892 -0.24332,2.90459 -0.62659,4.03728 -0.38327,1.13257 -0.94311,2.15963 -1.67949,3.08133 -0.73639,0.92157 -1.70318,1.88188 -2.90037,2.88105 h -3.35888 c 1.27468,-1.05936 2.30391,-2.04121 3.08769,-2.94561 0.78374,-0.90434 1.40171,-1.92278 1.85388,-3.0554 0.45217,-1.13258 0.70839,-2.46539 0.76869,-3.99839 h -4.7543 v -2.98423 h 4.7543 c -0.0861,-1.52445 -0.35314,-2.84004 -0.801,-3.94679 -0.44786,-1.10673 -1.06799,-2.11656 -1.86034,-3.02948 -0.79237,-0.91292 -1.80869,-1.87756 -3.04879,-2.89401 h 3.35889 c 0.91294,0.74932 1.68163,1.45986 2.30605,2.13164 0.62442,0.6718 1.14332,1.38668 1.55676,2.14458 0.41341,0.75792 0.73207,1.5912 0.95602,2.49984 0.22392,0.90865 0.35311,1.94003 0.38756,3.09403 z"
+       style="stroke-width:0.26458332" />
+  </g>
+</svg>

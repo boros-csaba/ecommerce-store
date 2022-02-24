@@ -1,0 +1,845 @@
+﻿$font-title: 'Montserrat', sans-serif;
+$font-text: 'Open Sans', Helvetica, Arial, sans-serif;
+$accent-color: #bf818f;
+$title-color: #5b3f46;
+$small-breakpoint: 600px;
+
+@media(max-width: $small-breakpoint) {
+    .header-top-bar-container {
+        position: relative;
+    }
+
+    header {
+        position: relative !important;
+        margin: 0 !important;
+        overflow: hidden;
+    }
+
+    main {
+        margin-top: 0px !important;
+    }
+}
+
+.name-bracelet-designer-page {
+    padding: 0px;
+
+    .product-bracelet-size-wrapper {
+        display: none;
+        margin: 20px auto 10px auto;
+
+        @media(max-width: $small-breakpoint) {
+            margin: 0 auto 10px auto;
+        }
+    }
+
+    .next-step-button {
+        display: none;
+        background: #333;
+        color: white;
+        margin: 0 auto;
+        padding: 10px 15px;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+            background: #444;
+        }
+    }
+
+    .custom-bracelet-video-link {
+        text-align: center;
+        margin: 0 auto 20px auto;
+
+        a {
+            color: black;
+            text-decoration: underline;
+        }
+    }
+
+    .name-bracelet-designer-button {
+        background: #333333;
+        color: white;
+        text-transform: uppercase;
+        padding: 20px 50px;
+        cursor: pointer;
+        margin: 30px auto 30px auto;
+        font-size: 1.2rem;
+
+        &:hover {
+            background: #444444;
+        }
+    }
+
+    .name-bracelet-designer-wrapper {
+        display: none;
+
+        .bracelet-preview-title {
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+            height: 0;
+            font-family: $font-title;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .name-bracelet-designer {
+            display: flex;
+            flex-direction: column;
+
+            .bracelet-preview-wrapper {
+                width: 100%;
+                display: flex;
+                align-content: center;
+                align-items: center;
+                flex-direction: column;
+                margin-top: 20px;
+
+                .bracelet-preview {
+                    margin: 0 auto;
+                    height: 43px;
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: center;
+                    width: 100%;
+                }
+
+                .bracelet-preview-shadow {
+                    margin-top: -14px;
+                    margin-bottom: 15px;
+                    height: 20px;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+
+                    img {
+                        opacity: 0.3;
+                        width: 40px;
+                        height: 20px;
+                    }
+                }
+
+                @media(max-width: $small-breakpoint) {
+                    transform: scale(0.5);
+                    margin-top: 0px;
+                }
+            }
+
+            .bracelet-designer-inner {
+                border: 1px solid #d9d9d9;
+                border-radius: 5px;
+                margin: 0 5px;
+
+                .designer-tabs {
+                    width: 100%;
+                    display: flex;
+
+                    span {
+                        flex: 1;
+                        display: block;
+                        font-family: $font-title;
+                        font-weight: bold;
+                        text-align: center;
+                        cursor: pointer;
+                        padding: 15px 0;
+                        font-size: 0.85rem;
+                        border-bottom: 1px solid #d9d9d9;
+                        text-transform: uppercase;
+
+                        &:hover {
+                            background: #fafafa;
+                        }
+
+                        &:nth-child(1) {
+                            border-right: 1px solid #d9d9d9;
+                            border-top-left-radius: 5px;
+                        }
+
+                        &:nth-child(3) {
+                            border-left: 1px solid #d9d9d9;
+                            border-top-right-radius: 5px;
+                        }
+                    }
+
+                    .active-tab {
+                        background: #fafafa;
+                        border-width: 0;
+                    }
+                }
+
+                .designer-tab-content {
+                    padding: 0;
+                    overflow: hidden;
+                    background: #fafafa;
+
+                    .bracelet-beads-tab {
+                        padding: 0 5px;
+
+                        .bead-selectors-title-container {
+                            width: 100%;
+                            display: flex;
+                            margin: 0 10px;
+                            border-width: 0 0 1px 0;
+                            border-color: black;
+                            border-style: solid;
+                            align-items: center;
+                            align-content: center;
+
+                            .bead-selectors-title {
+                                font-family: $font-title;
+                                font-weight: bold;
+                                font-size: 0.9rem;
+                            }
+
+                            .bead-selectors-expand-button {
+                                font-weight: bold;
+                                margin: 0 0 0 auto;
+                            }
+                        }
+
+                        .designer-bead-selectors {
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: center;
+                            margin-top: 10px;
+
+                            .bead-option {
+                                display: flex;
+                                flex-direction: column;
+                                padding: 3px;
+                                position: relative;
+                                cursor: pointer;
+                                height: 83px;
+                                width: 25%;
+                                max-width: 150px;
+                                box-sizing: border-box;
+
+                                div {
+                                    display: flex;
+                                    align-content: center;
+                                    align-items: center;
+                                    justify-content: center;
+                                    justify-items: center;
+                                    padding: 6px;
+                                    position: relative;
+                                    border-radius: 5px;
+                                    margin: 0 auto;
+
+                                    img {
+                                        display: block;
+                                        width: 30px;
+                                        height: 30px;
+                                    }
+                                }
+
+                                span {
+                                    text-align: center;
+                                    width: 100%;
+                                    display: block;
+                                    font-size: 0.75rem;
+                                }
+                            }
+
+                            .sold-out {
+                                opacity: 0.6;
+
+                                &:after {
+                                    content: 'ELFOGYOTT';
+                                    text-align: center;
+                                    background: #555555;
+                                    color: white;
+                                    display: block;
+                                    position: absolute;
+                                    top: 22px;
+                                    width: 100%;
+                                    font-size: 8px;
+                                }
+                            }
+
+                            .bead-option.selected {
+
+                                div {
+                                    transform: scale(1.1);
+                                    box-shadow: 0 3px 6px rgba(0,0,0,0.23), 0 3px 6px rgba(0,0,0,0.33);
+                                    padding: 4px;
+                                    margin: 0 auto 4px auto;
+                                }
+
+                                span {
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+
+                        .designer-selectable-styles-title {
+                            display: block;
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 0.9rem;
+                            font-family: $font-title;
+                        }
+
+                        .designer-selectable-styles-container {
+                            display: flex;
+                            max-width: 500px;
+                            margin: 0 auto;
+                            justify-content: space-around;
+                            padding: 0 5px;
+
+                            .designer-style-selector {
+                                min-width: 50px;
+                                min-height: 50px;
+                                width: 25vw;
+                                max-width: 121px;
+                                box-sizing: border-box;
+                                padding: 10px;
+                                cursor: pointer;
+
+                                img {
+                                    width: 100%;
+                                    border-radius: 5px;
+                                    box-sizing: border-box;
+                                    padding: 5px;
+                                }
+
+                                &.selected {
+                                    img {
+                                        transform: scale(1.1);
+                                        box-shadow: 0 3px 6px rgba(0,0,0,.23), 0 3px 6px rgba(0,0,0,.33);
+                                    }
+                                }
+                            }
+                        }
+
+                        .bracelet-designer-button {
+                            margin: 10px 10px 15px 0;
+                            float: right;
+                            font-size: 0.9rem;
+                        }
+                    }
+
+                    .bracelet-text-tab {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        padding: 15px 0 0 0;
+
+                        @media(max-width: $small-breakpoint) {
+                            padding: 0px;
+                        }
+
+                        .bracelet-text-input {
+                            border: 1px solid #dddddd;
+                            background: white;
+                            font-size: 23px;
+                            text-transform: uppercase;
+                            line-height: 25px;
+                            padding: 10px;
+                            height: 47px;
+                            flex-direction: row;
+                            align-content: center;
+                            align-items: center;
+                            margin: 0 20px 0px 20px;
+                            width: 400px;
+                            max-width: 100%;
+                            display: flex;
+                            box-sizing: border-box;
+
+                            img {
+                                padding: 0 1px;
+                            }
+
+                            br, p, div {
+                                display: none;
+                            }
+
+                            div {
+                                display: inline-block;
+                                margin: 0px;
+                                padding: 0 1px;
+                            }
+
+                            .cursor {
+                                height: 24px;
+                                width: 1px;
+                                display: inline-block;
+                                width: 0px;
+                                padding: 0px;
+
+                                div {
+                                    height: 24px;
+                                    width: 1px;
+                                    display: inline-block;
+                                    background: black;
+                                    animation: 0.7s blink step-end infinite;
+                                    padding: 0px;
+                                }
+
+                                @keyframes blink {
+                                    from, to {
+                                        background: white;
+                                    }
+
+                                    50% {
+                                        background: black;
+                                    }
+                                }
+                            }
+                        }
+
+                        .bracelet-text-input-message {
+                            color: #666666;
+                            font-size: 0.7rem;
+                            margin: 0 0 10px 20px;
+                            display: block;
+                        }
+
+                        .bracelet-designer-keyboard {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+
+                            .bracelet-designer-keyboard-row {
+
+                                div {
+                                    border-color: #ddd;
+                                    border-width: 1px;
+                                    border-style: solid;
+                                    border-radius: 2px;
+                                    background: white;
+                                    padding: 2px 5px;
+                                    overflow: hidden;
+                                    float: left;
+                                    width: 15px;
+                                    cursor: pointer;
+                                    margin: 2px;
+                                    text-align: center;
+
+                                    @media(max-width: 345px) {
+                                        width: 14px;
+                                    }
+
+                                    @media(max-width: 335px) {
+                                        width: 13px;
+                                    }
+
+                                    @media(max-width: 325px) {
+                                        width: 12px;
+                                    }
+
+                                    @media(max-width: 315px) {
+                                        width: 11px;
+                                    }
+
+                                    @media(max-width: 305px) {
+                                        width: 10px;
+                                    }
+
+                                    @media(max-width: 295px) {
+                                        width: 9px;
+                                    }
+
+                                    &:hover {
+                                        transform: scale(1.1);
+                                    }
+                                }
+
+                                .bracelet-designer-keyboard-backspace {
+                                    margin-left: 5px;
+                                    padding: 0px 8px 4px 8px;
+                                }
+                            }
+                        }
+
+                        .bracelet-text-color-selector {
+                            margin: 20px 0;
+                            display: flex;
+                            align-items: center;
+
+                            div {
+                                width: 28px;
+                                height: 28px;
+                                cursor: pointer;
+                                border: 2px solid #999999;
+                                margin: 0 7px;
+                            }
+
+                            .selected-color {
+                                border: 4px solid $accent-color;
+                            }
+
+                            .white-letters-selection {
+                                background: white;
+                            }
+
+                            .black-letters-selection {
+                                background: black;
+                            }
+                        }
+
+                        span {
+                            margin: 0 20px;
+                        }
+
+                        .selectable-extras {
+                            margin: 0 20px;
+                            display: flex;
+                            flex-wrap: wrap;
+                            align-content: center;
+                            align-items: center;
+
+                            img {
+                                margin: 0 5px;
+                                cursor: pointer;
+
+                                &:hover {
+                                    transform: scale(1.1);
+                                }
+                            }
+
+                            @media(max-width: $small-breakpoint) {
+                                justify-content: space-evenly;
+
+                                .flex-wrap-break {
+                                    flex-basis: 100%;
+                                    height: 0;
+                                }
+
+                                img {
+                                    margin: 10px 0 0 0;
+                                }
+                            }
+                        }
+
+                        .braceled-designer-text-description {
+                            width: 50%;
+                            text-align: center;
+                            font-size: 0.8rem;
+                            padding: 30px;
+                            box-sizing: border-box;
+                        }
+
+                        @media(max-width: $small-breakpoint) {
+
+                            .braceled-designer-text-inner {
+                                width: 100%;
+                            }
+
+                            .bracelet-text-input {
+                                width: calc(100vw - 40px);
+                            }
+
+                            .braceled-designer-text-description {
+                                width: 100%;
+                                text-align: justify;
+                                padding: 20px;
+                            }
+                        }
+                    }
+
+                    .bracelet-size-tab {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        align-content: center;
+                        justify-content: space-between;
+                        padding: 20px 10px 10px 10px;
+                        justify-content: center;
+                        justify-items: center;
+
+                        @media(max-width: $small-breakpoint) {
+                            padding-top: 0px;
+                        }
+                    }
+
+                    .bracelet-designer-button {
+                        margin: 0 15px 15px 0;
+                        float: right;
+                        font-size: 0.9rem;
+                    }
+                }
+            }
+
+            @media(max-width: $small-breakpoint) {
+                .bracelet-designer-inner {
+                    border: none;
+                    margin: 0px;
+
+                    .designer-tabs {
+                        display: none;
+                    }
+
+                    .designer-tab-content {
+                        border-radius: 5px;
+                        background: white;
+
+                        .bracelet-beads-tab {
+                            padding: 0px;
+                        }
+
+                        .designer-tab-title {
+                            display: block;
+                            font-weight: bold;
+                            font-size: 0.9rem;
+                            text-align: center;
+                            width: 100%;
+                            font-family: $font-title;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .custom-bracelet-bead-information-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        .custom-bracelet-bead-information {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            padding: 10px 0 10px 0;
+            width: 50%;
+
+            .bead-information-header {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                align-content: center;
+                justify-content: center;
+                justify-items: center;
+                cursor: pointer;
+
+                picture, img {
+                    width: 50px;
+                    height: 50px;
+                    display: block;
+                }
+
+                .bead-information-header-inner {
+                    margin: 0 0 0 20px;
+
+                    h3 {
+                        margin: 0px;
+                        padding: 0px;
+                        font-family: $font-title;
+                        font-size: 0.95rem;
+                    }
+
+                    span {
+                        font-size: 0.85rem;
+                        text-align: justify;
+                    }
+                }
+
+                .bead-info-header-expand {
+                    padding: 12px;
+                    font-size: 18px;
+                    color: #555;
+                }
+            }
+
+            .bead-description {
+                display: none;
+                margin: 10px 20px 20px 20px;
+                font-size: 0.95rem;
+                text-align: center;
+            }
+
+            @media(max-width: $small-breakpoint) {
+                width: 100%;
+
+                div {
+
+                    span {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .complementary-products-container {
+        display: none;
+
+        .complementary-product-info {
+            margin: 0 auto;
+            width: 380px;
+            padding: 0 15px;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            justify-items: center;
+            text-align: center;
+            box-sizing: border-box;
+
+            h3 {
+                font-family: $font-title;
+                font-size: 0.85rem;
+                margin: 0;
+                padding: 0;
+            }
+
+            small {
+                font-size: 0.65rem;
+                margin: 5px 0 0 0;
+            }
+        }
+
+        .complementary-products-inner-container {
+
+            .complementary-product {
+                display: flex;
+                align-content: center;
+                align-items: center;
+                margin: 15px 0;
+                justify-content: center;
+                justify-items: center;
+
+                input {
+                    border: 1px solid #eee;
+                    border-radius: 5px;
+                    width: 20px;
+                    height: 20px;
+                    background: white;
+                    margin: 0 15px;
+                }
+
+                .complementary-product-image {
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 5px;
+                }
+
+                div {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0 0 0 10px;
+                    width: 250px;
+                    max-width: 100%;
+
+                    .complementary-product-title {
+                        font-family: $font-title;
+                        margin-bottom: 5px;
+                        font-size: 0.9rem;
+                        font-weight: bold;
+                    }
+
+                    .complementary-product-price {
+                        font-size: 0.9rem;
+                        margin: 0 15px 0 auto;
+                    }
+                }
+            }
+        }
+
+        .custom-bracelet-price-container {
+            margin: 0 auto;
+            width: 380px;
+            max-width: 100%;
+
+            .custom-bracelet-price-inner-container {
+                width: calc(100vw - 30px);
+                max-width: 100%;
+                margin: 15px;
+                border-width: 1px 0 0 0;
+                border-style: solid;
+                border-color: #d9d9d9;
+                padding: 10px 0 0 0;
+
+                div {
+                    display: flex;
+                    justify-content: space-between;
+
+                    h2 {
+                        font-size: 1.1rem;
+                        margin: 5px 0 0 0;
+                        padding: 0px;
+                    }
+                }
+
+                @media(min-width: $small-breakpoint) {
+                    margin-left: 0px;
+                }
+            }
+        }
+    }
+
+    .bracelet-designer-cart-button-wrapper {
+        margin: 15px auto;
+    }
+
+    .preview-images {
+        display: block;
+        width: 100%;
+
+        div {
+            padding: 0 3px;
+            box-sizing: border-box;
+
+            span {
+                width: 100%;
+                text-align: center;
+                font-size: 1rem;
+                display: block;
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+    }
+
+    .testimonials {
+        margin-top: 0px;
+    }
+
+    .bottom-buttons-navigation {
+        display: none;
+        visibility: hidden;
+
+        @media(max-width: $small-breakpoint) {
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid #d9d9d9;
+            z-index: 1;
+            box-shadow: 1px -1px 4px 0 rgba(0,0,0,.1);
+
+            .designer-tab {
+                flex: 1;
+                font-family: $title-color;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                font-size: 0.8rem;
+                padding: 13px 0;
+                text-transform: uppercase;
+            }
+
+            #designer-tab-bottom-2 {
+                border: 1px solid #d9d9d9;
+                border-width: 0 1px;
+            }
+
+            .active-tab {
+                background: #eee;
+            }
+        }
+    }
+}

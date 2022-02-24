@@ -1,0 +1,6 @@
+﻿@model List<Promotion>
+
+@if (Model.Any(p => p.Type == PromotionEnum.GiftLavaBracelet))
+{
+    <a href="#gift-bracelet-promo-description" class="gift-bracelet-promo-button">Ajándék lávakő karkötővel*</a>
+}

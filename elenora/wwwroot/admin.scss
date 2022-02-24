@@ -1,0 +1,36 @@
+﻿body {
+}
+
+.page {
+    display: flex;
+
+    .sidebar {
+        border-width: 0 1px 0 0;
+        border-color: #777777;
+        border-style: solid;
+        min-height: 100%;
+
+        a {
+            display: block;
+            padding: 2px 15px;
+        }
+    }
+
+    main {
+        width: 100%;
+
+        .subtitle {
+            font-size: 2rem;
+            margin: 10px 0 0 30px;
+        }
+    }
+}
+
+.product-grid-image {
+    width: 80px;
+
+    img {
+        width: 80px;
+        height: 80px;
+    }
+}

@@ -1,0 +1,32 @@
+﻿@model elenora.ViewModels.ArticleViewModel;
+@{
+    ViewData["Title"] = Model.Title;
+    if (Model.Content.Contains(@"<div class=""quiz""></div>"))
+    {
+        <script src="~/js/quiz.js" asp-append-version="true"></script>
+        <script type="text/javascript">
+            var quizBeads = [
+                @foreach(var bead in Model.Beads)
+                {
+                    <text>
+                    {
+                        url: '@bead.ImageUrl',
+                        name: '@bead.Name',
+                        description: '@bead.Description.Replace("<br />", "NewLine").Replace("<br />", "NewLine")',
+                    },
+                    </text>
+                }
+            ];
+            $(function () {
+                initializeQuiz();
+            });
+        </script>
+        @section styles {
+            <link rel="stylesheet" href="~/css/quiz.min.css" asp-append-version="true" type="text/css" />
+        }
+    }
+}
+
+<div class="narrow-page page-container article-page">
+    @Html.Raw(Model.Content)
+</div>

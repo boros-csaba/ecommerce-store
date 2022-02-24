@@ -1,0 +1,82 @@
+version: '3'
+
+services: 
+    database:
+        image: postgres
+        container_name: database
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: ***
+        ports: 
+            - 5432:5432
+        volumes:
+            - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
+            
+    reverse-proxy:
+        image: traefik
+        container_name: traefik
+        restart: always
+        command: 
+            - --providers.docker
+            - --entrypoints.web.address=:80
+            - --entrypoints.web-secure.address=:443
+            - --certificatesresolvers.le.acme.email=boros.csaba94@gmail.com
+            - --certificatesresolvers.le.acme.storage=/acme.json
+            - --certificatesresolvers.le.acme.tlschallenge=true
+        ports:
+            - 80:80
+            - 443:443
+            - 8080:8080
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ${PWD}/acme.json:/acme.json
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=proxy_public"
+            
+            
+    elenora:
+        image: elenora
+        container_name: elenora
+        restart: always
+        expose:
+            - "80"
+        volumes:
+            - ${PWD}/logs:/logs
+            - ${PWD}/elenora-wwwroot:/app/wwwroot
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.elenora.rule=Host(`elenora.hu`) || Host(`www.elenora.hu`)"
+            - "traefik.http.routers.elenora.entrypoints=web"
+            - "traefik.http.middlewares.elenora-redirect-to-www.redirectregex.regex=^(http://elenora[.]hu|http://www[.]elenora.hu|https://elenora[.]hu)(.*)"
+            - "traefik.http.middlewares.elenora-redirect-to-www.redirectregex.replacement=https://www.elenora.hu$${2}"
+            - "traefik.http.middlewares.elenora-redirect-to-www.redirectregex.permanent=true"
+            - "traefik.http.routers.elenora.middlewares=elenora-redirect-to-www@docker"
+            - "traefik.http.routers.elenora-secured.rule=Host(`elenora.hu`) || Host(`www.elenora.hu`)"
+            - "traefik.http.routers.elenora-secured.entrypoints=web-secure"       
+            - "traefik.http.routers.elenora-secured.middlewares=elenora-redirect-to-www@docker"            
+            - "traefik.http.routers.elenora-secured.tls=true"
+            - "traefik.http.routers.elenora-secured.tls.certresolver=le"
+            
+    boravia:
+        image: boravia
+        container_name: boravia
+        restart: always
+        expose:
+            - "80"
+        volumes:
+            - ${PWD}/logs:/logs
+            - ${PWD}/boravia-wwwroot:/app/wwwroot
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.boravia.rule=Host(`boravia.hu`) || Host(`www.boravia.hu`)"
+            - "traefik.http.routers.boravia.entrypoints=web"
+            - "traefik.http.middlewares.boravia-redirect-to-www.redirectregex.regex=^(http://boravia[.]hu|http://www[.]boravia.hu|https://boravia[.]hu)(.*)"
+            - "traefik.http.middlewares.boravia-redirect-to-www.redirectregex.replacement=https://www.boravia.hu$${2}"
+            - "traefik.http.middlewares.boravia-redirect-to-www.redirectregex.permanent=true"
+            - "traefik.http.routers.boravia.middlewares=boravia-redirect-to-www@docker"
+            - "traefik.http.routers.boravia-secured.rule=Host(`boravia.hu`) || Host(`www.boravia.hu`)"
+            - "traefik.http.routers.boravia-secured.entrypoints=web-secure"       
+            - "traefik.http.routers.boravia-secured.middlewares=boravia-redirect-to-www@docker"            
+            - "traefik.http.routers.boravia-secured.tls=true"
+            - "traefik.http.routers.boravia-secured.tls.certresolver=le"

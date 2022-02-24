@@ -1,0 +1,58 @@
+﻿@using elenora.ViewModels
+@using elenora;
+@using elenora.Models;
+@model elenora.ViewModels.BraceletDesignerViewModel
+@{
+    ViewData["Title"] = "Tervezz egyedi feliratos karkötőt! - Elenora";
+    ViewData["WithoutTitleSuffix"] = true;
+    ViewData["Description"] = "<b>Nehéz megtalálni a legjobb személyre szabott ajándékot ? Tervezz percek alatt gyönyörű, egyedi ásvány karkötőt magadnak, vagy lepj meg vele valakit! Csak válassz egy ásvány gyöngyöt, add meg a feliratot és adj hozzá kiegészítőket.";
+    ViewData["MetaViewport"] = "width=device-width, initial-scale=1, maximum-scale=1";
+    ViewData["HeadTags"] = "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css' integrity='sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=' crossorigin='anonymous' />";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/custom-bracelet-designer-v2-style.min.css" asp-append-version="true" type="text/css" />
+}
+
+<div id="cbd-v2-container">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'viewProductDetails',
+        ecommerce: {
+            currencyCode: 'HUF',
+            detail: {
+                products: [{
+                    id: 'custom-bracelet-v2',
+                    name: 'Egyedi karkötő',
+                    category: 'Egyedi karkötő',
+                    price: '6990'
+                }]
+            }
+        }
+    });
+
+    var CBD_V2_SALUTATION = '@Helper.GetString("CBD_V2_SALUTATION", (string)ViewData["Website"])';
+    var CBD_V2_WELCOME = '@Helper.GetString("CBD_V2_WELCOME", (string)ViewData["Website"])';
+    var CBD_V2_WELCOME2 = '@Helper.GetString("CBD_V2_WELCOME2", (string)ViewData["Website"])';
+    var CBD_V2_EXAMPLE_IMAGES = '@Helper.GetString("CBD_V2_EXAMPLE_IMAGES", (string)ViewData["Website"])';
+    var CBD_V2_START_DESCRIPTION = '@Helper.GetString("CBD_V2_START_DESCRIPTION", (string)ViewData["Website"])';
+    var CBD_V2_START_STYLES_DESCRIPTION = '@Helper.GetString("CBD_V2_START_STYLES_DESCRIPTION", (string)ViewData["Website"])';
+    var CBD_V2_START_STYLES_DESCRIPTION_CHOOSE = '@Helper.GetString("CBD_V2_START_STYLES_DESCRIPTION_CHOOSE", (string)ViewData["Website"])';
+
+    var exampleImages = [
+        @foreach (var exampleImage in Model.ExampleImages)
+        {
+            <text>
+            {
+                src: '@Helper.GetJpgImage("/images/example-bracelets/" + exampleImage.Item1)',
+                title: '@exampleImage.Item2'
+            },
+            </text>
+        }
+    ];
+</script>
+<script type="text/javascript" src="/custom-bracelet-designer-v2.js" asp-append-version="true"></script>

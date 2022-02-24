@@ -1,0 +1,31 @@
+﻿<div class="guarantees-container">
+    <div>
+        <img src="~/images/handmade.svg" alt="Minőségi kézzel készített karkötők" />
+        <h2>Kézzel készített minőségi karkötők</h2>
+        <span>Minden karkötőt nagy odafigyeléssel kézzel készítünk. Csak minőségi, valódi ásványokkal dolgozunk.</span>
+    </div>
+    <div>
+        @if (Settings.IS_FREE_SHIPPING_MODE)
+        {
+            <img src="~/images/free-shepping.svg" alt="Ingyenes szállítás" />
+            <h2>Ingyenes szállítás</h2>
+            <span>Minden rendelésre ingyenes szállítást vállalunk. A készleten lévő karkötőket 1-3 munkanap alatt szállítjuk.</span>
+        }
+        else
+        {
+            <img src="~/images/free-shepping.svg" alt="Ingyenes szállítás 9 000 Ft felett" />
+            <h2>Ingyenes szállítás @Html.Raw(Helper.GetWithNonBreakingSpaces(Helper.GetFormattedMoney(Settings.FREE_SHIPPING_THRESHOLD))) Ft felett</h2>
+            <span>A @Html.Raw(Helper.GetWithNonBreakingSpaces(Helper.GetFormattedMoney(Settings.FREE_SHIPPING_THRESHOLD))) Ft feletti rendelésekre ingyenes szállítást vállalunk. A készleten lévő karkötőket 1-3 munkanap alatt szállítjuk.</span>
+        }
+    </div>
+    <div>
+        <img src="~/images/guarantee.svg" alt="30 napos méret és visszavásárlási garancia" />
+        <h2>30 napos visszafizetési garancia</h2>
+        <span>Ha nem jó a méret, vagy nem tetszik a karkötő, akkor kérdés nélkül visszaküldheted nekünk és visszautaljuk a pénzt.</span>
+    </div>
+    <div>
+        <img src="~/images/secure.svg" alt="Biztonságos bankkártyás fizetés" />
+        <h2>Biztonságos bankkártyás fizetés</h2>
+        <span>A bankkártyás fizetés a Barion rendszerén keresztül történik, így mi nem kezelünk bankkártya adatokat.</span>
+    </div>
+</div>

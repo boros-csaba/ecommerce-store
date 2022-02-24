@@ -1,0 +1,80 @@
+﻿@using elenora.ViewModels
+@{
+    Layout = null;
+}
+
+<script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '745047939582851',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v8.0'
+            });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<script async defer src="https://connect.facebook.net/hu_HU/sdk.js"></script>
+
+<div class="fb-messenger-checkbox"
+     origin="https://www.elenora.hu/egyedi-karkoto-keszito"
+     page_id="100940204799387"
+     messenger_app_id="745047939582851"
+     user_ref="@Guid.NewGuid().ToString()"
+     allow_login="true"
+     size="standard"
+     skin="light"
+     center_align="true">
+</div>
+
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '745047939582851',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v8.0'
+        });
+
+        FB.Event.subscribe('messenger_checkbox', function (e) {
+            console.log("messenger_checkbox event");
+            console.log(e);
+
+            if (e.event == 'rendered') {
+                console.log("Plugin was rendered");
+            } else if (e.event == 'checkbox') {
+                var checkboxState = e.state;
+                console.log("Checkbox state: " + checkboxState);
+            } else if (e.event == 'not_you') {
+                console.log("User clicked 'not you'");
+            } else if (e.event == 'hidden') {
+                console.log("Plugin was hidden");
+            }
+        });
+    };
+</script>
+
+<script>
+    function confirmOptIn() {
+        console.log({
+            'app_id': '{appId}',
+            'page_id': '{pageId}',
+            'user_ref': '{uid}',
+            'ref': document.getElementById('extra-data').value
+        })
+        FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {
+            'app_id': '{appId}',
+            'page_id': '{pageId}',
+            'user_ref': '{uid}',
+            'ref': document.getElementById('extra-data').value
+        });
+        window.location.reload()
+    }
+</script>

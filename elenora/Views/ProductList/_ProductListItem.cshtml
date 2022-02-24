@@ -1,0 +1,48 @@
+﻿@using elenora.Features.ProductList
+@model ProductListItem
+
+
+<div class="product-container">
+    <div class="product-container-inner @(Model.SoldOut ? "sold-out" : "")">
+        <a href="/karkoto/@Model.ProductIdString">
+            <div class="product-image">
+
+                <partial name="_ProductImage" model='new elenora.ViewModels.ProductImageViewModel(Model, "main-image", "", "(min-width: 600px) 200px, 43vw")' />
+
+                @if (Model.OriginalPrice != null)
+                {
+                    <div class="product-discount">
+                        -@(Model.DiscountPercentage)%
+                    </div>
+                }
+                <div class="hovering-buttons">
+                    <img src="~/images/cart.png" onclick="return addToCart(this, @Model.ProductId, '@Model.ProductIdString', '@Model.ProductName', '@Model.Category', '@Model.Price');" />
+                    @if (Model.InWishlist)
+                    {
+                        <img src="~/images/heart-filled.png" class="favourite-button" onclick="return toggleWishlisted(this, @Model.ProductId, '@Model.ProductIdString', false, false));" />
+                    }
+                    else
+                    {
+                        <img src="~/images/heart.png" class="favourite-button" onclick="return toggleWishlisted(this, @Model.ProductId, '@Model.ProductIdString', false, false));" />
+                    }
+                </div>
+            </div>
+            <h3>
+                <span class="primary-name">@Model.ProductName</span>
+            </h3>
+            @if (!Model.SoldOut)
+            {
+                <span class="product-list-item-in-stock">@Helper.GetString("Készleten", (string)ViewData["Website"])</span>
+            }
+            <span class="price">
+                @if (Model.OriginalPrice.HasValue)
+                {
+                    <span class="original-price">@Helper.GetFormattedMoney(Model.OriginalPrice.Value) Ft </span>
+                }
+                <span class="@(Model.OriginalPrice.HasValue ? "discounted" : "")">
+                    @Helper.GetFormattedMoney(Model.Price) Ft
+                </span>
+            </span>
+        </a>
+    </div>
+</div>

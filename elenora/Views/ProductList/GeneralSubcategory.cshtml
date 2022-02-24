@@ -1,0 +1,24 @@
+﻿@using elenora.Features.ProductList
+@model ProductList
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Description;
+}
+
+<div class="wide-page">
+    <div class="separator">
+        <div></div>
+        <h3>@Model.Title</h3>
+        <div></div>
+    </div>
+
+    <div class="products-list">
+        @foreach (var item in Model.Items)
+        {
+            <partial name="_ProductListItem" model="item" />
+        }
+    </div>
+
+    <partial name="_TryBraceletDesigner" model="true" />
+    <partial name="_CollectionsButtons" />
+</div>

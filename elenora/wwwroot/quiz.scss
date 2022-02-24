@@ -1,0 +1,167 @@
+﻿$accent-color: #bf818f;
+
+.quiz {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+
+    .quiz-status {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        background: white;
+        margin: 10px 0;
+
+        span {
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            text-align: center;
+            border-radius: 100%;
+            color: $accent-color;
+            line-height: 24px;
+        }
+
+        .question-status-active {
+            background: $accent-color;
+            color: white;
+        }
+    }
+
+    .quiz-inner {
+        width: 100%;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        background: #fafafa;
+
+        .quiz-title {
+            border-bottom: 1px solid #d9d9d9;
+            background: white;
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+            padding: 15px 0;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .quiz-question {
+            background: white;
+            width: 100%;
+            font-size: 1rem;
+            padding: 15px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .quiz-start {
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 30px auto;
+        }
+
+        .quiz-answers {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            background: white;
+            border-radius: 0 0 5px 5px;
+            flex-wrap: wrap;
+
+            span {
+                width: 100%;
+                padding: 15px;
+                cursor: pointer;
+                border-top: 1px solid #d9d9d9;
+                box-sizing: border-box;
+                text-align: left;
+
+                &:hover {
+                    background: #fafafa;
+                }
+
+                &:before {
+                    content: '○';
+                    margin: 0 10px 0 0;
+                }
+            }
+        }
+
+        .quiz-done {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 40px 20px 20px 20px;
+        }
+
+        .quiz-result-bead {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+
+            .quiz-result-title {
+                display: flex;
+                flex-direction: row;
+                align-content: center;
+                align-items: center;
+                justify-content: center;
+                justify-items: center;
+
+                .quiz-result-1 {
+                    text-align: center;
+                    color: #444;
+                    font-size: 5rem;
+                    padding: 0 10px;
+                }
+
+                .quiz-result-2 {
+                    text-align: center;
+                    color: #444;
+                    font-size: 4rem;
+                    padding: 0 10px;
+                }
+
+                .quiz-result-3 {
+                    text-align: center;
+                    color: #444;
+                    font-size: 3rem;
+                    padding: 0 10px;
+                }
+
+                .quiz-bead-header {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 10px;
+
+                    picture, img {
+                        width: 50px;
+                        height: 50px;
+                        margin: 0 auto;
+                    }
+
+                    .quiz-result-bead-name {
+                        width: 100%;
+                        text-align: center;
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .quiz-result-bead-description {
+                font-size: 0.9rem;
+                text-align: center;
+            }
+        }
+    }
+}

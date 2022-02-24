@@ -1,0 +1,149 @@
+﻿@using elenora.ViewModels
+@model CartDrawerViewModel
+
+<div class="cart-drawer-header">
+    <div class="cart-drawer-header-top">
+        <h1>@Helper.GetString("Kosár", (string)ViewData["Website"])</h1>
+        <img src="/images/close.svg" alt="Bezár" onclick="return hideCartDrawer();" />
+    </div>
+</div>
+
+<div class="cart-drawer-container">
+    @foreach (var cartItem in Model.Cart.CartItems)
+    {
+        <div class="cart-drawer-item cart-item-@cartItem.Id @(cartItem.ProductType == ProductTypeEnum.ExtraBracelet ? "cart-drawer-item-extra" : "")">
+            <div class="cart-drawer-item-inner">
+                @if (cartItem.IsCustomBracelet)
+                {
+                    <picture class="image-with-preview">
+                        <img class="product-image" src="/product-images/@(cartItem.Id)-@(Model.Cart.CustomerId).jpg?t=@cartItem.Timestamp&s=120" />
+                    </picture>
+                    <img src="/images/search-white.png" class="product-image-magnify" />
+                }
+                else if (cartItem.IsStringBracelet)
+                {
+                    cartItem.StringBracelet.CssClass = "product-image";
+                    <partial name="_StringBraceletImage" model="cartItem.StringBracelet" />
+                }
+                else if (cartItem.ProductType == ProductTypeEnum.ExtraBracelet)
+                {
+                    <picture>
+                        <source srcset="@Helper.GetWebPImage(cartItem.ProductImgageUrl)" type="image/webp">
+                        <source srcset="@Helper.GetJpgImage(cartItem.ProductImgageUrl)" type="image/jpeg">
+                        <img class="product-image" src="@Helper.GetJpgImage(cartItem.ProductImgageUrl)">
+                    </picture>
+                }
+                else
+                {
+                    <a href="/karkoto/@cartItem.ProductIdString">
+                        <partial name="_ProductImage" model='new ProductImageViewModel(cartItem, "", "product-image", "80px")' />
+                    </a>
+                }
+            <div class="cart-drawer-item-details">
+                @if (cartItem.IsCustomBracelet)
+                {
+                    <a href="/egyedi-karkoto-keszito?b=@cartItem.Id">
+                        <h3>
+                            @cartItem.ProductName
+                            <img src="/images/edit.svg" alt="Szerkesztés" />
+                        </h3>
+                    </a>
+                }
+                else if (cartItem.IsStringBracelet)
+                {
+                    <h3>@cartItem.ProductName</h3>
+                }
+                else if (cartItem.ProductType == ProductTypeEnum.ExtraBracelet)
+                {
+                    <h3>@cartItem.ProductName</h3>
+                }
+                else
+                {
+                    <a href="/karkoto/@cartItem.ProductIdString"><h3>@cartItem.ProductName</h3></a>
+                }
+                @if (cartItem.ProductType != ProductTypeEnum.SingleSizeBracelet)
+                {
+                    <partial name="_BraceletSizeSelector" model="new BraceletSizeSelectorModel { ProductType = cartItem.ProductType, Inline = true, Size = cartItem.BraceletSize, Size2 = cartItem.BraceletSize2, CartItemId = cartItem.Id }" />
+                }
+                <div class="price-container">
+                    <partial name="_QuantitySelector" model="new QuantitySelectorViewModel { CartItemId = cartItem.Id, Quantity = cartItem.Quantity, UnitPrice = cartItem.UnitPrice }" />
+                    <b class="multiplier-sign"> * </b>
+                    <span>
+                        @if (cartItem.OriginalUnitPrice != null)
+                        {
+                            <span class="product-original-price">@(Helper.GetFormattedMoney(cartItem.OriginalUnitPrice.Value)) Ft</span>
+                            <br />
+                        }
+                        <b>@(Helper.GetFormattedMoney(cartItem.UnitPrice)) Ft</b>
+                    </span>
+                </div>
+            </div>
+            </div>
+            @foreach (var complementaryProduct in cartItem.ComplementaryProducts)
+            {
+                <div class="cart-drawer-complementary-item">
+                    <div>
+                        <picture class="image-with-preview">
+                            <source srcset="@Helper.GetWebPImage(complementaryProduct.ImageUrl)" type="image/webp">
+                            <source srcset="@Helper.GetJpgImage(complementaryProduct.ImageUrl)" type="image/jpeg">
+                            <img class="complementary-product-image" src="@Helper.GetJpgImage(complementaryProduct.ImageUrl)">
+                        </picture>
+                        <img src="/images/search-white.png" class="product-image-magnify" />
+                    </div>
+                    <div>
+                        <h3>@complementaryProduct.Name</h3>
+                        <span>@Helper.GetFormattedMoney(complementaryProduct.Price) Ft</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="cart-drawer-item coupon">
+        <div class="cart-drawer-item-inner cart-drawer-item-inner-coupon">
+            <div>
+                <div class="coupon-image">KUPON</div>
+            </div>
+            <div class="cart-drawer-item-details">
+                <h3 class="coupon-name">@Model.Cart.CouponName</h3>
+                <span class="coupon-description">@Model.Cart.CouponDescription</span>
+            </div>
+            <h2 class="coupon-amount">@Helper.GetFormattedMoney(Model.Cart.CouponAmount) Ft</h2>
+            <a class="cart-drawer-remove-item" onclick="return removeCouponFromCart();">
+                <img src="/images/close.svg" alt="Törlés" />
+            </a>
+        </div>
+        @if (!Model.Cart.HasCoupon)
+        {
+            <script>
+                $(function () {
+                    $(".coupon").hide();
+                })
+            </script>
+        }
+    </div>
+    <h2 class="empty-cart-message">Üres a kosarad.</h2>
+
+    @if (Model.Promotions.Any(p => p.Type == PromotionEnum.GiftLavaBracelet))
+    {
+        <partial name="~/Views/Promotions/_FreeLavaBracelet_CartDrawer.cshtml" model="Model" />
+    }
+</div>
+
+<div class="cart-drawer-footer">
+    <div class="cart-drawer-shipping">
+        <h3>Szállítás</h3>
+        <h3 class="cart-shipping-total">@(Model.Cart.ShippingPrice > 0 ? $"{Helper.GetFormattedMoney(Model.Cart.ShippingPrice)} Ft" : "INGYENES")</h3>
+    </div>
+    <div class="cart-drawer-total">
+        <h1>Összesen</h1>
+        <h1 class="cart-total">@(Helper.GetFormattedMoney(Model.Cart.Total)) Ft</h1>
+    </div>
+    <a class="dark-button cart-checkout-button" href="/rendeles/kosar">@Helper.GetString("Pénztár", (string)ViewData["Website"])</a>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        updateCartItemsCount(@(Model.Cart.CartItems.Sum(ci => ci.Quantity)));
+    });
+</script>

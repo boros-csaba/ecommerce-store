@@ -1,0 +1,71 @@
+﻿@model elenora.ViewModels.TestimonialsViewModel
+
+<span class="section-title">Kiemelt értékelések</span>
+<div class="testimonials">
+    @foreach (var testimonial in Model.Testimonials)
+    {
+        <div class="testimonial">
+            <img src="/images/testimonials/@(testimonial.IdString.Replace("@", "")).jpg" alt="Vásárlói vélemény - @(testimonial.Name)" />
+            <div class="testimonial-inner">
+                <span class="testimonial-name">@(testimonial.Name)</span>
+                <span class="testimonial-social">@(testimonial.IdString)</span>
+                <span class="testimonial-content">
+                    <span class="testimonial-quote">"</span>
+                    @Html.Raw(testimonial.Content)
+                    <span class="testimonial-quote">"</span>
+                </span>
+            </div>
+        </div>
+    }
+
+    <div class="testimonials-load-button-container">
+        <a class="testimonials-load-button" onclick="loadMoreTestimonials()">További vélemények</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var skip = parseInt('@Model.Testimonials.Count');
+    var seed = '@Model.RandomSeed';
+    var totalCount = parseInt('@Model.TotalCount');
+
+    function loadMoreTestimonials() {
+        var buttonContent = 'További vélemények';
+        if ($(".testimonials-load-button").html() != buttonContent) return;
+
+        $(".testimonials-load-button").html('<img src="/images/loading.gif" />');
+        $.ajax({
+            url: "/velemenyek/" + skip + "-" + seed,
+            method: "GET",
+            success: function (data, _textStatus, _jqXHR) {
+                for (var i = 0; i < data.length; i++) {
+                    skip++;
+                    var testimonial = $('<div class="testimonial"></div>');
+                    testimonial.append('<img src="/images/testimonials/' + data[i].idString.replace("@@", "") + '.jpg" alt="Vásárlói vélemény - ' + data[i].name + '" />');
+                    var inner = $('<div class="testimonial-inner"></div>');
+                    inner.append('<span class="testimonial-name">' + data[i].name + '</span>');
+                    inner.append('<span class="testimonial-social">' + data[i].idString + '</span>');
+                    var content = $('<span class="testimonial-content"></div>');
+                    content.append('<span class="testimonial-quote">"</span>');
+                    content.append(data[i].content);
+                    content.append('<span class="testimonial-quote">"</span>');
+                    inner.append(content);
+                    testimonial.append(inner);
+                    testimonial.css("display", "flex");
+                    testimonial.hide();
+                    $(".testimonials-load-button-container").before(testimonial);
+                    testimonial.fadeIn("slow");
+                }
+                $(".testimonials-load-button").html(buttonContent);
+                if (skip >= totalCount) {
+                    $(".testimonials-load-button").hide();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error");
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+</script>

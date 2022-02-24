@@ -1,0 +1,49 @@
+﻿@model ProductTypeEnum
+
+@if (Model == ProductTypeEnum.CustomTextBracelet ||
+     Model == ProductTypeEnum.CustomLetterBracelet)
+{
+    <span class="label">
+        @if (Model == ProductTypeEnum.CustomTextBracelet)
+        {
+            <text>FELIRAT</text>
+        }
+        else
+        {
+            <text>BETŰ</text>
+        }
+    </span>
+    <div>
+        <input type="text" class="custom-text-bracelet-text" typeof="text" maxlength="10" />
+        <small class="custom-text-bracelet-text-description">
+            @if (Model == ProductTypeEnum.CustomTextBracelet)
+            {
+                <text>Ez a felirat fog megjelenni a karkötődben. Maximum 10 <b>ékezet nélküli</b> betűt lehet használni!</text>
+            }
+            else
+            {
+                <text>Ez az <b>ékezet nélküli</b> betű fog megjelenni a karkötődben. Kettős betűket is lehet használni (cs, gy, stb), de ezek két külön betűként lesznek a karkötőben!</text>
+            }
+        </small>
+    </div>
+
+    <script type="text/javascript">
+        $(".custom-text-bracelet-text").on('input', function () {
+            @if (Model == ProductTypeEnum.CustomTextBracelet)
+            {
+                <text>var maxLength = 10;</text>
+            }
+            else
+            {
+                <text>var maxLength = 2;</text>
+            }
+            $(".custom-text-bracelet-text").attr('maxlength', maxLength);
+            var text = $(".custom-text-bracelet-text").val();
+            text = text.replace(/[^a-zA-Z ]/g, "").toUpperCase();
+            if (text.length > 10) {
+                text = text.substr(0, 10);
+            }
+            $(".custom-text-bracelet-text").val(text);
+        });
+    </script>
+}

@@ -1,0 +1,137 @@
+.string-bracelet-designer-page {
+  display: flex;
+  align-items: center; }
+  .string-bracelet-designer-page .bracelet-types {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    justify-items: center;
+    align-content: center; }
+    .string-bracelet-designer-page .bracelet-types span {
+      font-size: 1.6rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      margin: 10px 10px 0 10px;
+      text-transform: uppercase; }
+      .string-bracelet-designer-page .bracelet-types span:hover {
+        text-decoration: underline; }
+      @media (max-width: 600px) {
+        .string-bracelet-designer-page .bracelet-types span {
+          font-size: 1.3rem; } }
+    .string-bracelet-designer-page .bracelet-types .selected-bracelet-type::after {
+      content: "";
+      display: block;
+      height: 10px;
+      width: 100%;
+      background: #d9eeda;
+      z-index: -1;
+      margin: -11px 0 0 0; }
+      @media (max-width: 600px) {
+        .string-bracelet-designer-page .bracelet-types .selected-bracelet-type::after h3 {
+          height: 8px;
+          margin: -9px 0 0 0; } }
+  .string-bracelet-designer-page .bracelet-designer-wrapper {
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper svg {
+      max-width: 100%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper object {
+      display: block;
+      width: 100%;
+      height: auto; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .marker-dot {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      border-width: 1px;
+      border-color: #333;
+      border-radius: 100%;
+      border-style: solid;
+      background-color: #999;
+      float: left;
+      margin-right: 5px;
+      background-image: url(/images/edit-pencil.svg);
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      box-shadow: 0 0 0 0 black;
+      animation: pulse-white 2s infinite; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .marker-dot-selected {
+      background-color: #81C784; }
+
+@keyframes pulse-white {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); } }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .many-strings-marker-flaps {
+      left: 30%;
+      top: 8%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .many-strings-marker-knot {
+      top: 13%;
+      left: 53%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .many-strings-marker-lines {
+      top: 36%;
+      left: 81%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .braided-marker-flaps {
+      left: 30%;
+      top: 7%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .braided-marker-knot {
+      top: 13%;
+      left: 53%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .braided-marker-lines {
+      top: 35%;
+      left: 81%; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .add-to-cart-button {
+      margin: 20px auto;
+      display: block; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .bracelet-designer-price {
+      margin: 0 auto 20px auto;
+      font-family: "Montserrat", sans-serif;
+      text-align: center; }
+    .string-bracelet-designer-page .bracelet-designer-wrapper .color-selectors-description {
+      margin: 5px 0 0 0;
+      text-align: center; }
+  .string-bracelet-designer-page .color-selectors-wrapper {
+    display: flex;
+    visibility: hidden;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    text-align: center; }
+    .string-bracelet-designer-page .color-selectors-wrapper .flex-wrap-new-row {
+      width: 100%; }
+    .string-bracelet-designer-page .color-selectors-wrapper .color-selector {
+      width: 23px;
+      height: 23px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #333;
+      border-radius: 100%;
+      margin: 5px; }
+    .string-bracelet-designer-page .color-selectors-wrapper .color-selector-selected:before {
+      content: '';
+      background: transparent;
+      width: 29px;
+      height: 29px;
+      display: block;
+      position: relative;
+      top: -4px;
+      left: -4px;
+      border-color: #333;
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 100%; }
+
