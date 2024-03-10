@@ -72,8 +72,8 @@ namespace elenora
 
             var barionSettings = new BarionSettings
             {
-                BaseUrl = new Uri(Configuration.GetValue<string>("Settings:BarionUrl")),
-                POSKey = Guid.Parse(Configuration.GetValue<string>("Settings:BarionKey")), 
+                //BaseUrl = new Uri(Configuration.GetValue<string>("Settings:BarionUrl")),
+                //POSKey = Guid.Parse(Configuration.GetValue<string>("Settings:BarionKey")), 
                 Payee = "info@elenora.hu",
             };
             services.AddSingleton(barionSettings);
