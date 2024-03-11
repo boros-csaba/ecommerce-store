@@ -27,5 +27,5 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: elenora
-          template: template.yml
+          template: infrastructure/template.yml
           no-fail-on-empty-changeset: "1"
