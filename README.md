@@ -25,3 +25,14 @@ The color of each string is customizable and the end result is immediately visib
 The website is designed and implemented using SCSS and jQuery. The cart events are handled using AJAX so the entire page is not reloaded when an item is added or removed from the cart.
 ![Desktop](examples/website.jpg)
 ![Mobile](examples/mobile.JPG)
+
+
+### TODO - write description
+ - infrastructure is provisioned using AWS CloudFormation
+ - 
+
+    - AWS Secrets Manager for storing github access token
+
+Secret name: GITHUB_ACCESS
+Key/value: GITHUB_ACCESS_TOKEN
+to use a IAM User for running CloudFormation 
