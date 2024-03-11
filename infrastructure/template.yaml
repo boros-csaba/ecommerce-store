@@ -1,0 +1,5 @@
+Resources:
+  ElenoraEcrRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: elenora-ecr-repository
