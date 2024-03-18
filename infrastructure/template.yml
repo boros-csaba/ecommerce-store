@@ -1,5 +1,14 @@
 Resources:
-  ElenoraEcrRepository:
+
+  EcrRepository:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: elenora-ecr-repository
+  
+  DatabaseCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      DatabaseName: elenora-database
+      DbClusterIdentifier: elenora-database-cluster
+      Engine: aurora-postgresql
+      EngineMode: serverless
