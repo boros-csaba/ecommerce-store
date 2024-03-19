@@ -22,4 +22,3 @@ Resources:
       EngineMode: serverless
       MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseSecrets, ':SecretString:username}}' ]]
       MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseSecrets, ':SecretString:password}}' ]]
-      BackupRetentionPeriod: 0
