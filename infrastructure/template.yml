@@ -21,5 +21,5 @@ Resources:
       Engine: aurora-postgresql
       EngineMode: serverless
       MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseSecrets, ':SecretString:username}}' ]]
-      MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref MyRDSSecrets, ':SecretString:password}}' ]]
+      MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseSecrets, ':SecretString:password}}' ]]
       BackupRetentionPeriod: 0
