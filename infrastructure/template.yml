@@ -11,4 +11,4 @@ Resources:
       DatabaseName: elenoradb
       Engine: aurora-postgresql
       EngineMode: serverless
-      MasterUsername: admin
+      MasterUsername: dbuser
