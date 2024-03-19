@@ -8,6 +8,6 @@ Resources:
   DatabaseCluster:
     Type: AWS::RDS::DBCluster
     Properties:
-      DatabaseName: elenora-database
+      DatabaseName: elenoradb
       Engine: aurora-postgresql
       EngineMode: serverless
