@@ -4,6 +4,15 @@ Resources:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: elenora-ecr-repository
+
+  DatabaseSecrets:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "dbuser"}'
+        GenerateStringKey: 'password'
+        PasswordLength: 20
+        ExcludeCharacters: '"@/\'
   
   DatabaseCluster:
     Type: AWS::RDS::DBCluster
@@ -11,4 +20,6 @@ Resources:
       DatabaseName: elenoradb
       Engine: aurora-postgresql
       EngineMode: serverless
-      MasterUsername: dbuser
+      MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseSecrets, ':SecretString:username}}' ]]
+      MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref MyRDSSecrets, ':SecretString:password}}' ]]
+      BackupRetentionPeriod: 0
