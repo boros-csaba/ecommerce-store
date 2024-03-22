@@ -40,35 +40,35 @@ namespace elenora
                 options.UseInMemoryDatabase("TestDb")
             );
 #else
-            services.AddDbContext<DataContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("Website"))
-            );
+            //services.AddDbContext<DataContext>(options =>
+            //    options.UseNpgsql(Configuration.GetConnectionString("Website"))
+            //);
 #endif
-
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<ICartService, CartService>();
-            services.AddScoped<IWishlistService, WishlistService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IActionLogService, ActionLogService>();
-            services.AddScoped<ICustomerService, CustomerService>();
-            services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IPromotionService, PromotionService>();
-            services.AddScoped<IArticleService, ArticleService>();
-            services.AddScoped<IPdfService, PdfService>();
-            services.AddScoped<IFaqService, FaqService>();
-            services.AddScoped<IQuizService, QuizService>();
-            services.AddScoped<ITestimonialService, TestimonialService>();
-            services.AddScoped<IProductImageService, ProductImageService>();
-            services.AddScoped<ISearchService, SearchService>();
-            services.AddScoped<ICartRepository, CartRepository>();
-            services.AddScoped<IRelatedProductsService, RelatedProductsService>();
-            services.AddScoped<IProductFeedService, ProductFeedService>();
-            services.AddScoped<IInventoryService, InventoryService>();
-            services.AddScoped<IProductPricingService, ProductPricingService>();
-            services.AddScoped<IProductListService, ProductListService>();
-            services.AddScoped<IQualityAuditingService, QualityAuditingService>();
-            services.AddScoped<IAnalyticsService, AnalyticsService>();
-            services.AddWkhtmltopdf();
+            // todo
+            //services.AddScoped<IProductService, ProductService>();
+            //services.AddScoped<ICartService, CartService>();
+            //services.AddScoped<IWishlistService, WishlistService>();
+            //services.AddScoped<IOrderService, OrderService>();
+            //services.AddScoped<IActionLogService, ActionLogService>();
+            //services.AddScoped<ICustomerService, CustomerService>();
+            //services.AddScoped<IEmailService, EmailService>();
+            //services.AddScoped<IPromotionService, PromotionService>();
+            //services.AddScoped<IArticleService, ArticleService>();
+            //services.AddScoped<IPdfService, PdfService>();
+            //services.AddScoped<IFaqService, FaqService>();
+            //services.AddScoped<IQuizService, QuizService>();
+            //services.AddScoped<ITestimonialService, TestimonialService>();
+            //services.AddScoped<IProductImageService, ProductImageService>();
+            //services.AddScoped<ISearchService, SearchService>();
+            //services.AddScoped<ICartRepository, CartRepository>();
+            //services.AddScoped<IRelatedProductsService, RelatedProductsService>();
+            //services.AddScoped<IProductFeedService, ProductFeedService>();
+            //services.AddScoped<IInventoryService, InventoryService>();
+            //services.AddScoped<IProductPricingService, ProductPricingService>();
+            //services.AddScoped<IProductListService, ProductListService>();
+            //services.AddScoped<IQualityAuditingService, QualityAuditingService>();
+            //services.AddScoped<IAnalyticsService, AnalyticsService>();
+            //services.AddWkhtmltopdf();
 
             var barionSettings = new BarionSettings
             {

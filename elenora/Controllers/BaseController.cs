@@ -22,6 +22,7 @@ namespace elenora.Controllers
         {
             get
             {
+                return 0; // todo
                 if (customerId <= 0)
                 {
                     var customerCookieId = Request.Cookies["Id"];
@@ -42,6 +43,14 @@ namespace elenora.Controllers
         }
 
         public string CookieId { get; private set; }
+        // todo
+        protected BaseController(/*IConfiguration configuration, ICustomerService customerService, IPromotionService promotionService*/)
+        {
+            /*this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
+            this.promotionService = promotionService ?? throw new ArgumentNullException(nameof(promotionService));*/
+        }
+
         protected BaseController(IConfiguration configuration, ICustomerService customerService, IPromotionService promotionService)
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -51,20 +60,21 @@ namespace elenora.Controllers
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
+            // todo
             base.OnActionExecuted(context);
-            ViewData["IsProd"] = configuration.GetValue<bool>("Settings:IsProd");
-            ViewData["Website"] = configuration.GetValue<string>("Settings:Website");
-            ViewData["AddFbPixel"] = configuration.GetValue<bool>("Settings:AddFbPixel");
-            ViewData["AddTagManager"] = configuration.GetValue<bool>("Settings:AddTagManager");
-            ViewData["IsChristmasMode"] = configuration.GetValue<bool>("Settings:IsChristmasMode");
-            ViewData["CustomerId"] = CustomerId;
-            ViewBag.FbExternalId = CookieId;
-            ViewData["IsFreeShippingPromotion"] = promotionService.IsPromotionActive(PromotionEnum.FreeShipping);
-            if ((bool)ViewData["IsFreeShippingPromotion"])
-            {
-                var promotion = promotionService.GetCurrentOrNextPromotion(PromotionEnum.FreeShipping);
-                ViewData["IsFreeShippingPromotionEndDate"] = promotion.EndDate;
-            }
+            //ViewData["IsProd"] = configuration.GetValue<bool>("Settings:IsProd");
+            //ViewData["Website"] = configuration.GetValue<string>("Settings:Website");
+            //ViewData["AddFbPixel"] = configuration.GetValue<bool>("Settings:AddFbPixel");
+            //ViewData["AddTagManager"] = configuration.GetValue<bool>("Settings:AddTagManager");
+            //ViewData["IsChristmasMode"] = configuration.GetValue<bool>("Settings:IsChristmasMode");
+            //ViewData["CustomerId"] = CustomerId;
+            //ViewBag.FbExternalId = CookieId;
+            //ViewData["IsFreeShippingPromotion"] = promotionService.IsPromotionActive(PromotionEnum.FreeShipping);
+            //if ((bool)ViewData["IsFreeShippingPromotion"])
+            //{
+            //    var promotion = promotionService.GetCurrentOrNextPromotion(PromotionEnum.FreeShipping);
+            //    ViewData["IsFreeShippingPromotionEndDate"] = promotion.EndDate;
+            //}
         }
     }
 }

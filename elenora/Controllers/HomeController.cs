@@ -38,10 +38,10 @@ namespace elenora.Controllers
         private readonly IProductImageService productImageService;
         private readonly IPromotionService promotionService;
         private readonly IAnalyticsService analyticsService;
-
-        public HomeController(IConfiguration configuration, ICustomerService customerService, IProductService productService, IWishlistService wishlistService, IActionLogService actionLogService, IEmailService emailService, IArticleService articleService, IPdfService pdfService, IFaqService faqService, IQuizService quizService, ITestimonialService testimonialService, IProductImageService productImageService, IPromotionService promotionService, IAnalyticsService analyticsService, IWebHostEnvironment environment) : base(configuration, customerService, promotionService)
+        // todo
+        public HomeController(/*IConfiguration configuration, ICustomerService customerService, IProductService productService, IWishlistService wishlistService, IActionLogService actionLogService, IEmailService emailService, IArticleService articleService, IPdfService pdfService, IFaqService faqService, IQuizService quizService, ITestimonialService testimonialService, IProductImageService productImageService, IPromotionService promotionService, IAnalyticsService analyticsService, IWebHostEnvironment environment*/) //: base(configuration, customerService, promotionService)
         {
-            this.productService = productService ?? throw new ArgumentNullException(nameof(productService));
+            /*this.productService = productService ?? throw new ArgumentNullException(nameof(productService));
             this.wishlistService = wishlistService ?? throw new ArgumentNullException(nameof(wishlistService));
             this.actionLogService = actionLogService ?? throw new ArgumentNullException(nameof(actionLogService));
             this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
@@ -55,12 +55,14 @@ namespace elenora.Controllers
             this.productImageService = productImageService ?? throw new ArgumentNullException(nameof(productImageService));
             this.promotionService = promotionService ?? throw new ArgumentNullException(nameof(promotionService));
             this.analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
-            this.environment = environment;
+            this.environment = environment;*/
         }
 
         [HttpGet]
         public IActionResult Index()
         {
+            // todo
+            return Ok("test");
             actionLogService.LogAction(CustomerId, UserHelper.GetActionLogInformation(Request), ActionEnum.ViewHomePage, null, null);
 
             var wishlist = wishlistService.GetWishlistProductIds(CustomerId);
