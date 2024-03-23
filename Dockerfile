@@ -6,12 +6,8 @@ RUN dotnet restore
 RUN apt-get update && apt-get install -y nodejs
 RUN dotnet publish -c Release -o publish
 
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-
-EXPOSE 80
-EXPOSE 5001
 
 RUN apt-get update \ 
     && apt-get install -y --no-install-recommends libgdiplus libc6-dev \
