@@ -12,5 +12,9 @@ const env = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
 }
 
-new InfrastructureStack(app, 'Elenora-Infrastructure', { env });
-new DemoStack(app, 'Elenora-Demo', { env });
+const infrastructureStack = new InfrastructureStack(app, 'Elenora-Infrastructure', { env });
+new DemoStack(app, 'Elenora-Demo', { env, repository: infrastructureStack.repository });
+
+export interface EcrProps extends cdk.StackProps {
+  repository: cdk.aws_ecr.Repository;
+}
