@@ -1,3 +1,11 @@
+A custom built e-commerce store with over 10,000 sales. The website features two bracelet designer tools allowing customers to customize beaded and string bracelets. It also has tooling for creating and uploading products automatically from a Google Spreadsheet with 3D rendered images and 360° videos.
+
+# Backstory
+My wife makes bracelets as a hobby and I built this website for her as a hobby project. This little hobby rapidly grew into a somewhat big family business where we needed the collaboration of multiple family members to be able to fulfill all the orders. The e-commerce store was also featured on the most popular hungarian TV station (RTL Klub).
+![Elenora on RTL Klub](examples/elenora-tv.jpg)
+![Elenora on RTL Klub](examples/elenora-tv2.jpg)
+The business was active for 3 years. After my wife got pregnant with our second baby we decided that running the store was too much work and decided to shut it down. The original was in hungarian but I translated it to english to be able to better showcase it in my portfolio. 
+
 # Custom Ecommerce Store
 This is a custom ASP.NET MVC Core ecommerce website built from scratch. The website is live and running under this address: https://www.elenora.hu (Shipping only to Hungary). The backend is build using ASP.NET MVC Core with a Postgres database. The website is hosted on Amazon AWS, it is containerized using Docker and Traefik. There is also an admin panel created with Angular. 
 
