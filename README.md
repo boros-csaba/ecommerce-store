@@ -4,9 +4,8 @@ A custom built e-commerce store with over 10,000 sales. The website features two
 
 # Backstory
 My wife makes bracelets as a hobby and I built this website for her as a hobby project. This little hobby rapidly grew into a somewhat big family business where we needed the collaboration of multiple family members to be able to fulfill all the orders. The e-commerce store was also featured on the most popular hungarian TV station (RTL Klub).
-<img src="examples/elenora-tv.jpg" width="50%">
-![Elenora on RTL Klub](examples/elenora-tv.jpg)
-![Elenora on RTL Klub](examples/elenora-tv2.jpg)
+<img src="examples/elenora-tv.jpg" width="50%" alt="Elenora on RTL Klub">
+<img src="examples/elenora-tv2.jpg" width="50%" alt="Elenora on RTL Klub">
 
 The business was active for 3 years. After my wife got pregnant with our second baby we decided that running the store was too much work and decided to shut it down. The original was in hungarian but I translated it to english to be able to better showcase it in my portfolio. 
 
