@@ -16,7 +16,8 @@ services:
     container_name: database
     restart: unless-stopped
     environment:
-      POSTGRES_USERNAME: elenora
+      POSTGRES_DB: elenora
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
     ports:
       - 5432:5432

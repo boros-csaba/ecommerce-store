@@ -60,8 +60,6 @@ namespace elenora.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // todo
-            return Ok("test");
             actionLogService.LogAction(CustomerId, UserHelper.GetActionLogInformation(Request), ActionEnum.ViewHomePage, null, null);
 
             var wishlist = wishlistService.GetWishlistProductIds(CustomerId);
@@ -92,13 +90,6 @@ namespace elenora.Controllers
                 DiscountedBracelets = discountedProducts
             };
             return View(viewModel);
-        }
-
-        [HttpGet]
-        [Route("/xxx")]
-        public IActionResult xxx()
-        {
-            return View();
         }
 
         [Route("/karkoto/{idString}")]
